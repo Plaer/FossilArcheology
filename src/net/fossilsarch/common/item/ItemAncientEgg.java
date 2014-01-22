@@ -7,6 +7,7 @@ import net.fossilsarch.common.entity.EntityDinoEgg;
 import net.fossilsarch.common.entity.EntityNautilus;
 import net.fossilsarch.common.io.EnumDinoType;
 import net.minecraft.block.Block;
+import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -17,14 +18,14 @@ import net.minecraft.util.EnumMovingObjectType;
 import net.minecraft.util.Icon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.StatCollector;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
 
 public class ItemAncientEgg extends Item{
 
-	private Icon dinoEgg;
-	private Icon ancientEgg;
+	private Icon[] dinoEgg = new Icon[ItemAncientEgg.TypeCount];
 	
 	public ItemAncientEgg(int i){
 		super(i);
@@ -33,38 +34,28 @@ public class ItemAncientEgg extends Item{
 		maxStackSize=1;
 	}
 
+	@Override
 	public Icon getIconFromDamage(int i)
     {
-        if (i<TypeCount) return dinoEgg;
-        else return ancientEgg;
+        if (i<TypeCount) return dinoEgg[i];
+        else return dinoEgg[2];	//Fall back on an awesome t-rex egg!
     }
-	public String getItemNameIS(ItemStack itemstack)
+	
+    @Override
+    public void registerIcons(IconRegister icon)
     {
-		switch(GetTypeFromInt(itemstack.getItemDamage())){
-			case Triceratops:
-				return "Eggtriceratops";
-			case Raptor:
-				return "EggRaptor";
-			case TRex:
-				return "EggTRex";
-			case Pterosaur:
-				return "EggPterosaur";
-			case Nautilus:
-				return "ShellNautilus";
-			case Plesiosaur:
-				return "EggPlesiosaur";
-			case Mosasaurus:
-				return "EggMosasaurus";
-			case Stegosaurus:
-				return "EggStegosaurus";
-			case dilphosaur:
-				return "EggUtahraptor";
-			case Brachiosaurus:
-				return "EggBrachiosaurus";
-			default:
-				return "Ancient egg";
-		}
+        for (int var4 = 0; var4 < EnumDinoType.values().length; ++var4)
+        {
+            dinoEgg[var4] = icon.registerIcon(EnumDinoType.values()[var4].getEggTexture());
+        }
     }
+	
+    @Override
+    public String getItemDisplayName(ItemStack par1ItemStack)
+    {
+    	return StatCollector.translateToLocal("EggName.Pre")+StatCollector.translateToLocal(GetTypeFromInt(par1ItemStack.getItemDamage()).getDinoName())+StatCollector.translateToLocal("EggName.Post");
+    }
+
 	public ItemStack onItemRightClick(ItemStack itemstack, World world,EntityPlayer entityplayer )
     {
         float var4 = 1.0F;
@@ -146,34 +137,6 @@ public class ItemAncientEgg extends Item{
 
 
 	}
-	/*public boolean tryPlaceIntoWorld(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, World par3World, int par4, int par5, int par6, int par7, float par8, float par9, float par10)
-	    {
-	        if (par3World.isRemote)
-	        {
-	            return true;
-	        }
-	        else
-	        {
-	        	
-	            int var11 = par3World.getBlockId(par4, par5, par6);
-	            par4 += Facing.offsetsXForSide[par7];
-	            par5 += Facing.offsetsYForSide[par7];
-	            par6 += Facing.offsetsZForSide[par7];
-	            double var12 = 0.0D;
-
-	            if (par7 == 1 && var11 == Block.fence.blockID || var11 == Block.netherFence.blockID)
-	            {
-	                var12 = 0.5D;
-	            }
-
-	            if (spawnCreature(par3World, GetTypeFromInt(par1ItemStack.getItemDamage()), (double)par4 + 0.5D, (double)par5 + var12, (double)par6 + 0.5D) && !par2EntityPlayer.capabilities.isCreativeMode)
-	            {
-	                --par1ItemStack.stackSize;
-	            }
-
-	            return true;
-	        }
-	    }*/
 
 	    /**
 	     * Spawns the creature specified by the egg's type in the location specified by the last three parameters.

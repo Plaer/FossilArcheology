@@ -1,5 +1,9 @@
 package net.fossilsarch.common.item;
 
+import java.util.List;
+
+import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Icon;
@@ -21,12 +25,27 @@ public class ItemChickenSoup extends ForgeItem {
 	@Override
 	public Icon getIconFromDamage(int i)
     {
-		return (i==0)?cookedIcon:rawIcon;
+		return (i==1)?cookedIcon:rawIcon;
     }
-	public String getItemNameIS(ItemStack itemstack)
+	
+    @Override
+    public void registerIcons(IconRegister icon)
     {
-		if (itemstack.getItemDamage()==1) return "CookedChickenSoup";
-		else return "RawChickenSoup";
+    	cookedIcon = icon.registerIcon("fossilsarch:CookedChickenSoup");
+    	rawIcon = icon.registerIcon("fossilsarch:RawChickenSoup");
+    }
+	
+	@Override
+	public String getUnlocalizedName(ItemStack itemstack)
+    {
+		if (itemstack.getItemDamage()==1) return "item.CookedChickenSoup";
+		else return "item.RawChickenSoup";
     }    
 
+	@Override
+    public void getSubItems(int par1, CreativeTabs par2CreativeTabs, List par3List)
+    {
+		par3List.add(new ItemStack(this.itemID, 1, 0));
+		par3List.add(new ItemStack(this.itemID, 1, 1));
+    }
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import net.fossilsarch.common.io.EnumDinoType;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.StatCollector;
 
 
 
@@ -16,33 +17,19 @@ public class ItemDinoMeat extends ForgeItemFood {
 		setMaxDamage(0);
 		maxStackSize=64;
 	}
-
-	public String getItemNameIS(ItemStack itemstack)
+	
+    @Override
+    public String getItemDisplayName(ItemStack par1ItemStack)
     {
-			switch(GetTypeFromInt(itemstack.getItemDamage())){
-			case Triceratops:
-				return "Meattriceratops";
-			case Raptor:
-				return "MeatRaptor";
-			case TRex:
-				return "MeatTRex";
-			case Pterosaur:
-				return "MeatPterosaur";
-			case Nautilus:
-				return "MeatNautilus";
-			case Plesiosaur:
-				return "MeatPlesiosaur";
-			case Mosasaurus:
-				return "MeatMosasaurus";
-			case Stegosaurus:
-				return "MeatStegosaurus";
-			case dilphosaur:
-				return "MeatUtahraptor";
-			case Brachiosaurus:
-				return "MeatBrachiosaurus";
-			default:
-				return "DinoMeat";
-		}
+    	return StatCollector.translateToLocal("MeatName.Pre")+StatCollector.translateToLocal(getDinosaur(par1ItemStack))+StatCollector.translateToLocal("MeatName.Post");
+    }
+
+	public String getDinosaur(ItemStack itemstack)
+    {
+		if (itemstack.getItemDamage() < EnumDinoType.values().length)
+			return GetTypeFromInt(itemstack.getItemDamage()).getDinoName();
+		else
+			return "entity.unknown.name";
     }
 	private EnumDinoType GetTypeFromInt(int data){
 		EnumDinoType[] resultArray=EnumDinoType.values();

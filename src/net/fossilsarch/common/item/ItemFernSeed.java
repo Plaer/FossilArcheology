@@ -4,6 +4,7 @@
 
 package net.fossilsarch.common.item;
 
+import net.fossilsarch.mod_Fossil;
 import net.fossilsarch.common.block.BlockFern;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
@@ -26,11 +27,9 @@ public class ItemFernSeed extends Item
         super(i);
         field_318_a = j;
     }
-    public String getTextureFile()
-    {
-       return "/skull/Fos_items.png";
-    }
-    public boolean onItemUse(ItemStack itemstack, EntityPlayer entityplayer, World world, int i, int j, int k, int l)
+    
+    @Override
+    public boolean onItemUse(ItemStack itemstack, EntityPlayer entityplayer, World world, int i, int j, int k, int l, float hitX, float hitY, float hitZ)
     {
         if(l != 1)
         {
@@ -39,8 +38,10 @@ public class ItemFernSeed extends Item
         int i1 = world.getBlockId(i, j, k);
         if(i1 == Block.grass.blockID && world.isAirBlock(i, j + 1, k) && BlockFern.CheckUnderTree(world,i,j,k))
         {
-            world.setBlock(i, j + 1, k, field_318_a);
-            itemstack.stackSize--;
+        	if (!world.isRemote) {
+	            world.setBlock(i, j + 1, k, mod_Fossil.Ferns.blockID, field_318_a, 3);
+	            itemstack.stackSize--;
+        	}
             return true;
         } else
         {

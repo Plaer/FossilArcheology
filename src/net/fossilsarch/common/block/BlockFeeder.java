@@ -25,13 +25,17 @@ import java.util.Random;
 
 
 
+
+
 import net.fossilsarch.mod_Fossil;
 import net.fossilsarch.common.handlers.FossilGuiHandler;
 import net.fossilsarch.common.tileentity.TileEntityFeeder;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -54,15 +58,23 @@ public class BlockFeeder extends BlockContainer
         furnaceRand = new Random();
         isActive = flag;
     }
-    public String getTextureFile()
+    
+    @Override
+    public void registerIcons(IconRegister register)
     {
-       return "/skull/Fos_terrian.png";
+    	this.feeder_front = register.registerIcon("fossilsarch:FeederFront");
+    	this.feeder_side = register.registerIcon("fossilsarch:FeederSide");
+    	this.feeder_top_on = register.registerIcon("fossilsarch:FeederOn");
+    	this.feeder_top_off = register.registerIcon("fossilsarch:FeederOff");
     }
+
+    @Override
     public int idDropped(int i, Random random, int j)
     {
         return mod_Fossil.FeederIdle.blockID;
     }
 
+    @Override
     public void onBlockAdded(World world, int i, int j, int k)
     {
         super.onBlockAdded(world, i, j, k);
@@ -99,9 +111,10 @@ public class BlockFeeder extends BlockContainer
         world.setBlockMetadataWithNotify(i, j, k, byte0, 3);
     }
 
-    public Icon getBlockTexture(IBlockAccess iblockaccess, int i, int j, int k, int l)
+    @Override
+    public Icon getIcon(int side, int metadata)
     {
-        if(l == 1 || l==0)
+        if(side == 1 || side==0)
         {
 			if(isActive)
 			{
@@ -112,14 +125,15 @@ public class BlockFeeder extends BlockContainer
 			}
 
         }
-        int i1 = iblockaccess.getBlockMetadata(i, j, k);
-        if(l != i1)
+
+        if(side != metadata)
         {
             return this.feeder_side;
         }
 		return this.feeder_front;
     }
 
+    @Override
     public void randomDisplayTick(World world, int i, int j, int k, Random random)
     {
         if(!isActive)
@@ -154,6 +168,7 @@ public class BlockFeeder extends BlockContainer
         }
     }
 
+    @Override
     public boolean onBlockActivated(World world, int i, int j, int k, EntityPlayer entityplayer,int par6, float par7, float par8, float par9)
     {
         if(world.isRemote)
@@ -189,7 +204,8 @@ public class BlockFeeder extends BlockContainer
         return new TileEntityFeeder();
     }
 
-    public void onBlockPlacedBy(World world, int i, int j, int k, EntityLiving entityliving)
+    @Override
+    public void onBlockPlacedBy(World world, int i, int j, int k, EntityLivingBase entityliving, ItemStack itemstack)
     {
         int l = MathHelper.floor_double((double)((entityliving.rotationYaw * 4F) / 360F) + 0.5D) & 3;
         if(l == 0)
@@ -210,6 +226,7 @@ public class BlockFeeder extends BlockContainer
         }
     }
 
+    @Override
     public void breakBlock(World world, int i, int j, int k, int par5, int par6)
     {
         if(!keepFurnaceInventory)

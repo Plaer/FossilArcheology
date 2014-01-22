@@ -9,7 +9,9 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -40,16 +42,23 @@ public class BlockAnalyzer extends BlockContainer{
         furnaceRand = new Random();
         isActive = flag;
 	}
-    public String getTextureFile()
+	
+    @Override
+    public void registerIcons(IconRegister register)
     {
-       return "/skull/Fos_terrian.png";
+    	analyzer_on = register.registerIcon("fossilsarch:AnalyzerOn");
+    	analyzer_off = register.registerIcon("fossilsarch:AnalyzerOff");
+    	analyzer_side = register.registerIcon("fossilsarch:AnalyzerSide");
+    	analyzer_top = register.registerIcon("fossilsarch:AnalyzerTop");
     }
+
+	@Override
 	public int idDropped(int i, Random random, int j)
     {
         return mod_Fossil.blockanalyzerIdle.blockID;
-
     }
 
+	@Override
 	public void onBlockAdded(World world, int i, int j, int k)
     {
         super.onBlockAdded(world, i, j, k);
@@ -86,20 +95,21 @@ public class BlockAnalyzer extends BlockContainer{
         world.setBlockMetadataWithNotify(i, j, k, byte0, 3);
     }
 
-    public Icon getBlockTexture(IBlockAccess iblockaccess, int i, int j, int k, int l)
+	@Override
+    public Icon getIcon(int side, int metadata)
     {
-        if(l == 1)
+        if(side == 1)
         {
             return this.analyzer_top;
 
         }
-        if(l == 0)
+        if(side == 0)
         {
             return this.analyzer_top;
 
         }
-        int i1 = iblockaccess.getBlockMetadata(i, j, k);
-        if(l != i1)
+
+        if(side != metadata)
         {
             return this.analyzer_side;
 
@@ -123,6 +133,7 @@ public class BlockAnalyzer extends BlockContainer{
 	   return;
     }
 
+	@Override
 	public boolean onBlockActivated(World par1World, int par2, int par3, int par4, EntityPlayer par5EntityPlayer, int par6, float par7, float par8, float par9)
     {
         if(par1World.isRemote)
@@ -156,9 +167,8 @@ public class BlockAnalyzer extends BlockContainer{
 			}
     }
 
-
-
-	public void onBlockPlacedBy(World world, int i, int j, int k, EntityLiving entityliving)
+	@Override
+	public void onBlockPlacedBy(World world, int i, int j, int k, EntityLivingBase entityliving, ItemStack itemstack)
     {
         int l = MathHelper.floor_double((double)((entityliving.rotationYaw * 4F) / 360F) + 0.5D) & 3;
         if(l == 0)

@@ -4,7 +4,10 @@ import java.util.Random;
 import net.fossilsarch.mod_Fossil;
 import net.minecraft.block.BlockDirectional;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.Icon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
@@ -21,11 +24,17 @@ public class BlockFossilSkull extends BlockDirectional{
         setTickRandomly(true);
         blockType = flag;
 	}
-    public String getTextureFile()
+	
+    @Override
+    public void registerIcons(IconRegister register)
     {
-       return "/skull/Fos_terrian.png";
+    	skull_face_on = register.registerIcon("fossilsarch:SkullLantern");
+    	skull_face_off = register.registerIcon("fossilsarch:Skull");
+    	skull_top = register.registerIcon("fossilsarch:SkullTop");
+    	skull_side = register.registerIcon("fossilsarch:SkullSide");
     }
     
+	@Override
 	public Icon getIcon(int i, int j)
     {
         if(i == 1)
@@ -62,19 +71,10 @@ public class BlockFossilSkull extends BlockDirectional{
         }
     }
 
-	public void onBlockAdded(World world, int i, int j, int k)
-    {
-        super.onBlockAdded(world, i, j, k);
-    }
-
-    public void onBlockPlacedBy(World world, int i, int j, int k, EntityLiving entityliving)
+	@Override
+    public void onBlockPlacedBy(World world, int i, int j, int k, EntityLivingBase entityliving, ItemStack par6ItemStack)
     {
         int l = MathHelper.floor_double((double)((entityliving.rotationYaw * 4F) / 360F) + 2.5D) & 3;
         world.setBlockMetadataWithNotify(i, j, k, l, 3);
     }
-	/*    public int idDropped(int i, Random random)
-    {
-        if (!blockType) return mod_Fossil.blockSkull.blockID;
-		else return mod_Fossil.SkullLantern.blockID;
-    }*/
 }

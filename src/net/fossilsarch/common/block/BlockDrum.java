@@ -9,8 +9,10 @@ import net.fossilsarch.common.tileentity.TileEntityDrum;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.Icon;
 import net.minecraft.world.World;
 
 // Referenced classes of package net.minecraft.src:
@@ -19,32 +21,44 @@ import net.minecraft.world.World;
 
 public class BlockDrum extends BlockContainer
 {
+	private Icon followDrumSymbol;
+	private Icon freeMoveDrumSymbol;
+	private Icon stayDrumSymbol;
+	private Icon drumSide;
+	
     public BlockDrum(int i)
     {
         super(i, Material.wood);
-		//world.setBlockMetadataWithNotify(i, j, k, OrderStay);
     }
-    public String getTextureFile()
+    
+    @Override
+    public void registerIcons(IconRegister register)
     {
-       return "/skull/Fos_terrian.png";
+    	this.followDrumSymbol = register.registerIcon("fossilsarch:DrumFollow");
+    	this.freeMoveDrumSymbol = register.registerIcon("fossilsarch:DrumFreeMove");
+    	this.stayDrumSymbol = register.registerIcon("fossilsarch:DrumStay");
+    	this.drumSide = register.registerIcon("fossilsarch:DrumSide");
     }
-	 public int getBlockTextureFromSideAndMetadata(int sidePar,int metaPar)
+
+    @Override
+	public Icon getIcon(int sidePar,int metaPar)
     {
         if(sidePar == 1 || sidePar == 0)
         {
         	switch(metaPar){
         	case 1:
-        		return mod_Fossil.dump_top_follow;
+        		return followDrumSymbol;
         	case 2:
-        		return mod_Fossil.dump_top_freemove;
+        		return freeMoveDrumSymbol;
         	case 0:
         	default:
-                return mod_Fossil.dump_top_stay;
+                return stayDrumSymbol;
         	}
         }
-        return mod_Fossil.dump_side;
+        return drumSide;
     }
 
+    @Override
     public void onNeighborBlockChange(World world, int i, int j, int k, int l)
     {
         if(l > 0 && Block.blocksList[l].canProvidePower())
@@ -62,6 +76,7 @@ public class BlockDrum extends BlockContainer
         }
     }
 
+    @Override
     public boolean onBlockActivated(World par1World, int par2, int par3, int par4, EntityPlayer par5EntityPlayer, int par6, float par7, float par8, float par9)
     {
         if(par1World.isRemote)
@@ -77,6 +92,7 @@ public class BlockDrum extends BlockContainer
         }
     }
 
+    @Override
     public void onBlockClicked(World world, int i, int j, int k, EntityPlayer entityplayer)
     {
         if(world.isRemote)
@@ -85,7 +101,6 @@ public class BlockDrum extends BlockContainer
         } else
         {
             TileEntityDrum tileentityDump = (TileEntityDrum)world.getBlockTileEntity(i, j, k);
-            //tileentityDump.triggerNote(world, i, j, k);
 			if (entityplayer.inventory.getCurrentItem()!=null)tileentityDump.SendOrder(entityplayer.inventory.getCurrentItem().itemID,entityplayer);
             return;
         }
@@ -95,28 +110,4 @@ public class BlockDrum extends BlockContainer
     {
         return new TileEntityDrum();
     }
-
-    /*public void playBlock(World world, int i, int j, int k, int l, int i1)
-    {
-        float f = (float)Math.pow(2D, (double)(i1 - 12) / 12D);
-        String s = "harp";
-        if(l == 1)
-        {
-            s = "bd";
-        }
-        if(l == 2)
-        {
-            s = "snare";
-        }
-        if(l == 3)
-        {
-            s = "hat";
-        }
-        if(l == 4)
-        {
-            s = "bassattack";
-        }
-        world.playSoundEffect((double)i + 0.5D, (double)j + 0.5D, (double)k + 0.5D, (new StringBuilder()).append("note.").append(s).toString(), 3F, f);
-        world.spawnParticle("note", (double)i + 0.5D, (double)j + 1.2D, (double)k + 0.5D, (double)i1 / 24D, 0.0D, 0.0D);
-    }*/
 }

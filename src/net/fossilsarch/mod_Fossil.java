@@ -178,21 +178,9 @@ public class mod_Fossil {
     //608 for ancient helmet
     //609 for ancient broken helmet
     //610 for skull stick
-    public static int[] FernPics = {38,
-        39,
-        40,
-        41,
-        42,
-        43,
-        26,
-        27,
-        71, 72, 73, 74, 58};
+
     public static final int MutiCount = EnumDinoType.values().length * 3 + EnumAnimalType.values().length * 2 - 1+2;
     public static final int BlockCount = BlockIDs.length - 5;
-    public static final int dump_side = 4;
-    public static final int dump_top_follow = 2;
-    public static final int dump_top_freemove = 3;
-    public static final int dump_top_stay = 1;
     public static Block blockFossil;
     public static Block blockSkull;
     public static Block SkullLantern;
@@ -424,7 +412,7 @@ public class mod_Fossil {
         Ancientegg = new ItemAncientEgg(ItemIDs[4]).setCreativeTab(CreativeTabs.tabMaterials);
         AncientSword = new ItemAncientsword(ItemIDs[5]).setUnlocalizedName("ancientsword").setCreativeTab(CreativeTabs.tabCombat).setTextureName("fossilsarch:AncientSword");
         BrokenSword = new ItemBrokenSword(ItemIDs[6]).setUnlocalizedName("Brokensword").setCreativeTab(CreativeTabs.tabMaterials).setTextureName("fossilsarch:BrokenSword");
-        FernSeed = new ItemSeeds(ItemIDs[7], Ferns.blockID,Block.grass.blockID).setUnlocalizedName("FernSeed").setCreativeTab(CreativeTabs.tabMaterials).setTextureName("fossilsarch:FernSeed");
+        FernSeed = new ItemFernSeed(ItemIDs[7], 0).setUnlocalizedName("FernSeed").setCreativeTab(CreativeTabs.tabMaterials).setTextureName("fossilsarch:FernSeed");
         if(FMLCommonHandler.instance().getSide().isClient()){
         	Ancienthelmet = new ForgeItemArmor(ItemIDs[8], EnumArmorMaterial.IRON, ModLoader.addArmor("Ancient"), 0).setUnlocalizedName("ancientHelmet").setCreativeTab(CreativeTabs.tabCombat).setTextureName("fossilsarch:AncientHelmet");
         }else{
@@ -459,7 +447,7 @@ public class mod_Fossil {
         AncientJavelin= ((ItemJavelin) new ItemJavelin(ItemIDs[35],EnumToolMaterial.IRON).setUnlocalizedName("AncientJavelin")).setAncient(true).setCreativeTab(CreativeTabs.tabCombat).setTextureName("fossilsarch:AncientJavelin");
         Whip=new ItemWhip(ItemIDs[36]).setUnlocalizedName("FossilWhip").setCreativeTab(CreativeTabs.tabTools).setTextureName("fossilsarch:Whip");
         blockPermafrost = new BlockPermafrost(BlockIDs[14], "fossilsarch:Permafrost").setHardness(0.5F).setLightOpacity(3).setStepSound(Block.soundGrassFootstep).setUnlocalizedName("Permafrost").setCreativeTab(CreativeTabs.tabBlock).setTextureName("fossilsarch:Permafrost");
-        blockIcedStone = new BlockIcedStone(BlockIDs[15]).setHardness(1.5F).setResistance(10F).setStepSound(Block.soundStoneFootstep).setUnlocalizedName("IcedStone");
+        blockIcedStone = new BlockIcedStone(BlockIDs[15]).setHardness(1.5F).setResistance(10F).setStepSound(Block.soundStoneFootstep).setUnlocalizedName("IcedStone").setCreativeTab(CreativeTabs.tabBlock);
     }
     @SideOnly(Side.CLIENT)
     private void forgeTextureSetUp(){

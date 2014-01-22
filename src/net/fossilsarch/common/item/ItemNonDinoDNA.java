@@ -3,15 +3,16 @@ package net.fossilsarch.common.item;
 import java.util.List;
 
 import net.fossilsarch.common.io.EnumAnimalType;
+import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Icon;
+import net.minecraft.util.StatCollector;
 
 
 public class ItemNonDinoDNA extends Item {
-	private Icon[] animalDnas = new Icon[6];
-	private Icon otherDna;
+	private Icon[] animalDnas = new Icon[TypeCount];
 	
 	public ItemNonDinoDNA(int i){
 		super(i);
@@ -19,31 +20,35 @@ public class ItemNonDinoDNA extends Item {
 		setMaxDamage(0);
 		maxStackSize=64;
 	}
+	
+	@Override
 	public Icon getIconFromDamage(int i)
     {
 		if (i<TypeCount) return animalDnas[i];
-        else return otherDna;
+        else return animalDnas[5];
     }
-    public String getTextureFile()
+	
+    @Override
+    public void registerIcons(IconRegister icon)
     {
-       return "/skull/Fos_items.png";
+        for (int var4 = 0; var4 < TypeCount; ++var4)
+        {
+        	animalDnas[var4] = icon.registerIcon(EnumAnimalType.values()[var4].getDNATexture());
+        }
     }
-	public String getItemNameIS(ItemStack itemstack)
+	
+    @Override
+    public String getItemDisplayName(ItemStack par1ItemStack)
     {
-		switch(GetTypeFromInt(itemstack.getItemDamage())){
-			case Pig:
-				return "DNAPig";
-			case Sheep:
-				return "DNASheep";
-			case Cow:
-				return "DNATCow";
-			case Chicken:
-				return "DNAChicken";
-			case SaberCat:
-				return "DNASaberCat";
-			default:
-				return "AnimalDNA";
-		}
+    	return StatCollector.translateToLocal("DNAName.Pre")+StatCollector.translateToLocal(getAnimalName(par1ItemStack))+StatCollector.translateToLocal("DNAName.Post");
+    }
+
+	public String getAnimalName(ItemStack itemstack)
+    {
+		if (itemstack.getItemDamage() >= TypeCount)
+			return "entity.unknown.name";
+		else
+			return GetTypeFromInt(itemstack.getItemDamage()).getAnimalName();
     }
 	private EnumAnimalType GetTypeFromInt(int data){
 		EnumAnimalType[] resultArray=EnumAnimalType.values();

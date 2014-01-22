@@ -31,8 +31,4 @@ public class ForgeItem extends Item
     {
     	super(i);
     }
-    public String getTextureFile()
-    {
-       return "/skull/Fos_items.png";
-    }
 }

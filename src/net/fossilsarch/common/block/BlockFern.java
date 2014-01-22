@@ -5,11 +5,24 @@ import net.fossilsarch.mod_Fossil;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFlower;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.util.Icon;
 import net.minecraft.world.World;
 
 public class BlockFern extends BlockFlower
 {
 	boolean lv2=false;
+	private Icon[] FernIcons = new Icon[13];
+		    public static int[] FernPics = {38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        26,
+        27,
+        71, 72, 73, 74, 58};
+			
     protected BlockFern(int i)
     {
         super(i, Material.plants);
@@ -22,14 +35,31 @@ public class BlockFern extends BlockFlower
        this(i);
 	   lv2=flag;
     }
-    public String getTextureFile()
+	
+    @Override
+    public void registerIcons(IconRegister register)
     {
-       return "/skull/Fos_terrian.png";
+    	FernIcons[0] = register.registerIcon("fossilsarch:Fern0");
+    	FernIcons[1] = register.registerIcon("fossilsarch:Fern1");
+    	FernIcons[2] = register.registerIcon("fossilsarch:Fern2");
+    	FernIcons[3] = register.registerIcon("fossilsarch:Fern3");
+    	FernIcons[4] = register.registerIcon("fossilsarch:Fern4");
+    	FernIcons[5] = register.registerIcon("fossilsarch:Fern5");
+    	FernIcons[6] = register.registerIcon("fossilsarch:TopFern0");
+    	FernIcons[7] = register.registerIcon("fossilsarch:TopFern1");
+    	FernIcons[8] = register.registerIcon("fossilsarch:TopFern2");
+    	FernIcons[9] = register.registerIcon("fossilsarch:TopFern3");
+    	FernIcons[10] = register.registerIcon("fossilsarch:TopFern4");
+    	FernIcons[11] = register.registerIcon("fossilsarch:TopFern5");
+    	FernIcons[12] = register.registerIcon("fossilsarch:TopFern6");
     }
+
+	@Override
     protected boolean canThisPlantGrowOnThisBlockID(int i)
     {
         return i == Block.grass.blockID;
     }
+	@Override
     public void updateTick(World world, int i, int j, int k, Random random)
     {
         super.updateTick(world, i, j, k, random);
@@ -129,65 +159,48 @@ public class BlockFern extends BlockFlower
         return f;
     }
 
-    public int getBlockTextureFromSideAndMetadata(int i, int j)
+    public Icon getIcon(int i, int j)
     {
         if(j < 0)
         {
 			j = 0;
         }
-        if (j%7==0) return mod_Fossil.FernPics[0];
+        if (j%7==0) return this.FernIcons[0];
         else{
         		if (!lv2) {
-        			return mod_Fossil.FernPics[j];
+        			return this.FernIcons[j];
         		}
-        		else return mod_Fossil.FernPics[j+2];
+        		else return this.FernIcons[j+2];
         }
 
     }
 
+    @Override
     public int getRenderType()
     {
         return 6;
     }
 
-    public void dropBlockAsItemWithChance(World world, int i, int j, int k, int l, float f,int i1)
-    {
-        super.dropBlockAsItemWithChance(world, i, j, k, l, f,i1);
-        /*if(world.multiplayerWorld)
-        {
-            return;
-        }
-        for(int i1 = 0; i1 < 3; i1++)
-        {
-            if(world.rand.nextInt(15) <= l)
-            {
-                float f1 = 0.7F;
-                float f2 = world.rand.nextFloat() * f1 + (1.0F - f1) * 0.5F;
-                float f3 = world.rand.nextFloat() * f1 + (1.0F - f1) * 0.5F;
-                float f4 = world.rand.nextFloat() * f1 + (1.0F - f1) * 0.5F;
-                EntityItem entityitem = new EntityItem(world, (float)i + f2, (float)j + f3, (float)k + f4, new ItemStack(mod_Fossil.FernSeed));
-                entityitem.delayBeforeCanPickup = 10;
-                world.spawnEntityInWorld(entityitem);
-            }
-        }*/
-
-    }
-
+    @Override
     public int idDropped(int i, Random random,int unused)
     {
             return -1;
     }
 
+    @Override
     public int quantityDropped(Random random)
     {
         return 1;
     }
+    
 	public static boolean CheckUnderTree(World wld,int x,int y,int z){
 		for (int i=y;i<=128;i++){
 			if (wld.getBlockId(x, i, z)==Block.leaves.blockID) return true;
 		}
 		return false;
 	}
+	
+	@Override
 	public boolean canBlockStay(World world, int i, int j, int k)
     {
 		boolean res=true;
@@ -199,17 +212,9 @@ public class BlockFern extends BlockFlower
 			return res;
 		}
     }
+	
 	public int CheckSubType(int metaData){
 		if (metaData>7) return 1;
 		else return 0;
 	}
-	/*public void onEntityCollidedWithBlock(World world, int i, int j, int k, Entity entity)
-    {
-        //if (entity instanceof EntityTriceratops){
-			world.setBlock(i,j,k,0);
-			//onBlockRemoval(world,i,j,k);
-			//((EntityTriceratops)entity).heal(3);
-		//}
-    }*/
-	
 }

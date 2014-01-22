@@ -3,17 +3,18 @@ package net.fossilsarch.common.item;
 import java.util.List;
 
 import net.fossilsarch.common.io.EnumDinoType;
+import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Icon;
+import net.minecraft.util.StatCollector;
 
 
 
 public class ItemDNA extends Item {
 	
-	private Icon genericDna;
-	private Icon dinoDna;
+	private Icon[] dinoDna = new Icon[TypeCount];
 	
 	public ItemDNA(int i){
 		super(i);
@@ -21,42 +22,37 @@ public class ItemDNA extends Item {
 		setMaxDamage(0);
 		maxStackSize=64;
 	}
+	
+	@Override
 	public Icon getIconFromDamage(int i)
     {
-		if (i<TypeCount) return dinoDna;
-        else return genericDna;
+		if (i<TypeCount) return dinoDna[i];
+        else return dinoDna[2];
     }
-    public String getTextureFile()
+	
+    @Override
+    public void registerIcons(IconRegister icon)
     {
-       return "/skull/Fos_items.png";
+        for (int var4 = 0; var4 < EnumDinoType.values().length; ++var4)
+        {
+        	dinoDna[var4] = icon.registerIcon(EnumDinoType.values()[var4].getDNATexture());
+        }
     }
-	public String getItemNameIS(ItemStack itemstack)
+
+    @Override
+    public String getItemDisplayName(ItemStack par1ItemStack)
     {
-			switch(GetTypeFromInt(itemstack.getItemDamage())){
-			case Triceratops:
-				return "DNAtriceratops";
-			case Raptor:
-				return "DNARaptor";
-			case TRex:
-				return "DNATRex";
-			case Pterosaur:
-				return "DNAPterosaur";
-			case Nautilus:
-				return "DNANautilus";
-			case Plesiosaur:
-				return "DNAPlesiosaur";
-			case Mosasaurus:
-				return "DNAMosasaurus";
-			case Stegosaurus:
-				return "DNAStegosaurus";
-			case dilphosaur:
-				return "DNAUtahraptor";
-			case Brachiosaurus:
-				return "DNABrachiosaurus";
-			default:
-				return "DNA";
-		}
+    	return StatCollector.translateToLocal("DNAName.Pre")+StatCollector.translateToLocal(getDinosaur(par1ItemStack))+StatCollector.translateToLocal("DNAName.Post");
     }
+
+	public String getDinosaur(ItemStack itemstack)
+    {
+		if (itemstack.getItemDamage() < TypeCount)
+			return GetTypeFromInt(itemstack.getItemDamage()).getDinoName();
+		else
+			return "entity.unknown.name";
+    }
+	
 	private EnumDinoType GetTypeFromInt(int data){
 		EnumDinoType[] resultArray=EnumDinoType.values();
 		return resultArray[data];

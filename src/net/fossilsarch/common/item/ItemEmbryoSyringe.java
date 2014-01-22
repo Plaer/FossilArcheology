@@ -7,6 +7,7 @@ import net.fossilsarch.common.entity.EntityPregnantCow;
 import net.fossilsarch.common.entity.EntityPregnantPig;
 import net.fossilsarch.common.entity.EntityPregnantSheep;
 import net.fossilsarch.common.io.EnumEmbyos;
+import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.passive.EntityAnimal;
@@ -15,14 +16,11 @@ import net.minecraft.entity.passive.EntityPig;
 import net.minecraft.entity.passive.EntitySheep;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Icon;
+import net.minecraft.util.StatCollector;
 
 
 
 public class ItemEmbryoSyringe extends ForgeItem {
-	private String[] ItemNames={
-			"EmbyoPig","EmbyoSheep","EmbyoCow","EmbyoSaberCat","EmbyoMammoth"
-	};
-	
 	Icon[] embryoTypes = new Icon[5];
 	
 	public ItemEmbryoSyringe(int i) {
@@ -30,25 +28,32 @@ public class ItemEmbryoSyringe extends ForgeItem {
 		setHasSubtypes(true);
 		setMaxDamage(0);
 		maxStackSize=64;
-		initItemNameVector();
 	}
-    private void initItemNameVector() {
-		
-		
-	}
-	public String getTextureFile()
-    {
-       return "/skull/needle.png";
-    }
+
+	@Override
 	public Icon getIconFromDamage(int i)
     {
 		return embryoTypes[i];
     }
-	public String getItemNameIS(ItemStack itemstack)
+	
+    @Override
+    public void registerIcons(IconRegister icon)
     {
-			int tmp=itemstack.getItemDamage();
-			if (tmp<this.ItemNames.length) return this.ItemNames[tmp];
-			return "EmbyoSyring";
+    	for (int i = 0; i < EnumEmbyos.values().length; i++) {
+    		embryoTypes[i] = icon.registerIcon(EnumEmbyos.values()[i].getTexture());
+    	}
+    }
+	
+    @Override
+    public String getItemDisplayName(ItemStack par1ItemStack)
+    {
+    	return StatCollector.translateToLocal("EmbryoName.Pre")+StatCollector.translateToLocal(getAnimalName(par1ItemStack.getItemDamage()))+StatCollector.translateToLocal("EmbryoName.Post");
+    }
+	
+	public String getAnimalName(int damage)
+    {
+			if (damage<EnumEmbyos.values().length) return GetEmbyo(damage).getAnimalName();
+			return "entity.unknown.name";
     }
 	public static EnumEmbyos GetEmbyo(int index){
 		return EnumEmbyos.values()[index];

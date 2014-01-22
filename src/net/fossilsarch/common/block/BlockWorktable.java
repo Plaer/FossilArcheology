@@ -8,7 +8,9 @@ import net.fossilsarch.common.tileentity.TileEntityWorktable;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -36,16 +38,24 @@ public class BlockWorktable extends BlockContainer
         furnaceRand = new Random();
         isActive = flag;
     }
+	
+    @Override
+    public void registerIcons(IconRegister register)
+    {
+    	this.worktable_top_on = register.registerIcon("fossilsarch:WorktableOn");
+    	this.worktable_top_off = register.registerIcon("fossilsarch:WorktableOff");
+    	this.worktable_bottom = register.registerIcon("fossilsarch:WorktableBottom");
+    	this.worktable_side1 = register.registerIcon("fossilsarch:WorktableSide1");
+    	this.worktable_side2 = register.registerIcon("fossilsarch:WorktableSide2");
+    }
 
+	@Override
 	public int idDropped(int i, Random random,int unusedj)
     {
         return mod_Fossil.blockworktableIdle.blockID;
+    }
 
-    }
-    public String getTextureFile()
-    {
-       return "/skull/Fos_terrian.png";
-    }
+	@Override
 	public void onBlockAdded(World world, int i, int j, int k)
     {
         super.onBlockAdded(world, i, j, k);
@@ -82,12 +92,7 @@ public class BlockWorktable extends BlockContainer
         world.setBlockMetadataWithNotify(i, j, k, byte0, 3);
     }
 
-	public void randomDisplayTick(World world, int i, int j, int k, Random random)
-    {
-
-    }
-
-
+	@Override
 	public Icon getIcon(int i, int j)
     {
         if(i == 1)
@@ -113,6 +118,7 @@ public class BlockWorktable extends BlockContainer
         }
     }
 
+	@Override
 	public boolean onBlockActivated(World par1World, int par2, int par3, int par4, EntityPlayer par5EntityPlayer, int par6, float par7, float par8, float par9)
     {
         if(par1World.isRemote)
@@ -152,7 +158,8 @@ public class BlockWorktable extends BlockContainer
 
     }
 
-	public void onBlockPlacedBy(World world, int i, int j, int k, EntityLiving entityliving)
+	@Override
+	public void onBlockPlacedBy(World world, int i, int j, int k, EntityLivingBase entityliving, ItemStack itemstack)
     {
         int l = MathHelper.floor_double((double)((entityliving.rotationYaw * 4F) / 360F) + 0.5D) & 3;
         if(l == 0)
@@ -173,6 +180,7 @@ public class BlockWorktable extends BlockContainer
         }
     }
 
+	@Override
 	public void breakBlock(World world, int i, int j, int k,int par5, int par6)
     {
         if(!keepFurnaceInventory)
@@ -214,9 +222,4 @@ label0:
         }
         super.breakBlock(world, i, j, k,par5, par6);
     }
-	
-
-
-
-
 }

@@ -4,10 +4,14 @@
 
 package net.fossilsarch.common.block;
 
+import java.util.List;
 import java.util.Random;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.Icon;
 import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.World;
@@ -27,14 +31,13 @@ public class BlockIcedStone extends Block
         super(i, Material.rock);
         //setTickOnLoad(true);
     }
-    public String getTextureFile()
-    {
-       return "/skull/Fos_terrian.png";
-    }
+
+    @Override
     public int idDropped(int i, Random random, int j)
     {
         return Block.cobblestone.blockID;
     }
+    
     public void updateTick(World world, int i, int j, int k, Random random)
     {
         if((world.getSavedLightValue(EnumSkyBlock.Block, i, j, k) > 11 - Block.lightOpacity[blockID])||
@@ -94,6 +97,7 @@ public class BlockIcedStone extends Block
         }
     }
     
+    @Override
     public Icon getIcon(int i, int j)
     {
         if(j == 1)
@@ -103,5 +107,19 @@ public class BlockIcedStone extends Block
         {
             return icedStone2;
         }
+    }
+    
+    @Override
+    public void registerIcons(IconRegister par1IconRegister)
+    {
+    	icedStone1 = par1IconRegister.registerIcon("fossilsarch:IcedStone1");
+    	icedStone2 = par1IconRegister.registerIcon("fossilsarch:IcedStone2");
+    }
+    
+    @Override
+    public void getSubBlocks(int par1, CreativeTabs par2CreativeTabs, List par3List)
+    {
+		par3List.add(new ItemStack(this.blockID, 1, 0));
+		par3List.add(new ItemStack(this.blockID, 1, 1));
     }
 }

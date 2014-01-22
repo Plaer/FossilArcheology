@@ -8,7 +8,9 @@ import net.fossilsarch.common.tileentity.TileEntityCultivate;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.entity.monster.EntityPigZombie;
@@ -40,21 +42,19 @@ public class BlockCultivate extends BlockContainer
         isActive = flag;
     }
 
- 
+	@Override
 	public int idDropped(int i, Random random,int unusedj)
     {
         return mod_Fossil.blockcultivateIdle.blockID;
     }
+	
+	@Override
 	public void onBlockAdded(World world, int i, int j, int k)
     {
         super.onBlockAdded(world, i, j, k);
         setDefaultDirection(world, i, j, k);
     }
-    /*public void updateTick(World world, int i, int j, int k, Random random)
-    {
-    	mod_Fossil.cultivate_side_on++;
-    	if (mod_Fossil.cultivate_side_on>=44)mod_Fossil.cultivate_side_on=38;
-    }*/
+
 	private void setDefaultDirection(World world, int i, int j, int k)
     {
         if(world.isRemote)
@@ -84,27 +84,15 @@ public class BlockCultivate extends BlockContainer
         }
         world.setBlockMetadataWithNotify(i, j, k, byte0, 3);
     }
-	public Icon getBlockTexture(IBlockAccess iblockaccess, int i, int j, int k, int l)
+	
+	@Override
+	public Icon getIcon(int side, int metadata)
     {
-        if(l == 1)
+        if(side == 1 || side == 0)
         {
             return this.cultivate_top;
         }
-        if(l == 0)
-        {
-            return this.cultivate_top;
-        }
-        int i1 = iblockaccess.getBlockMetadata(i, j, k);
-        if(l != i1)
-        {
-            if(isActive)
-			{
-				return this.cultivate_side_on;
-			} else
-			{
-				return this.cultivate_side_off;
-			}
-        }
+
         if(isActive)
         {
             return this.cultivate_side_on;
@@ -113,42 +101,16 @@ public class BlockCultivate extends BlockContainer
             return this.cultivate_side_off;
         }
     }
-	public void randomDisplayTick(World world, int i, int j, int k, Random random)
+	
+    @Override
+    public void registerIcons(IconRegister register)
     {
-        //if(!isActive)
-        //{
-            return;
-        //}
-		/*
-        int l = world.getBlockMetadata(i, j, k);
-        float f = (float)i + 0.5F;
-        float f1 = (float)j + 0.0F + (random.nextFloat() * 6F) / 16F;
-        float f2 = (float)k + 0.5F;
-        float f3 = 0.52F;
-        float f4 = random.nextFloat() * 0.6F - 0.3F;
-        if(l == 4)
-        {
-            world.spawnParticle("smoke", f - f3, f1, f2 + f4, 0.0D, 0.0D, 0.0D);
-            world.spawnParticle("flame", f - f3, f1, f2 + f4, 0.0D, 0.0D, 0.0D);
-        } else
-        if(l == 5)
-        {
-            world.spawnParticle("smoke", f + f3, f1, f2 + f4, 0.0D, 0.0D, 0.0D);
-            world.spawnParticle("flame", f + f3, f1, f2 + f4, 0.0D, 0.0D, 0.0D);
-        } else
-        if(l == 2)
-        {
-            world.spawnParticle("smoke", f + f4, f1, f2 - f3, 0.0D, 0.0D, 0.0D);
-            world.spawnParticle("flame", f + f4, f1, f2 - f3, 0.0D, 0.0D, 0.0D);
-        } else
-        if(l == 3)
-        {
-            world.spawnParticle("smoke", f + f4, f1, f2 + f3, 0.0D, 0.0D, 0.0D);
-            world.spawnParticle("flame", f + f4, f1, f2 + f3, 0.0D, 0.0D, 0.0D);
-        }
-		*/
+    	this.cultivate_top = register.registerIcon("fossilsarch:CultivatorTop");
+    	this.cultivate_side_on = register.registerIcon("fossilsarch:CultivatorOn");
+    	this.cultivate_side_off = register.registerIcon("fossilsarch:CultivatorOff");
     }
 
+	@Override
 	public boolean onBlockActivated(World par1World, int par2, int par3, int par4, EntityPlayer par5EntityPlayer, int par6, float par7, float par8, float par9)
     {
         if(par1World.isRemote)
@@ -183,7 +145,9 @@ public class BlockCultivate extends BlockContainer
         return new TileEntityCultivate();
 
     }
-	public void onBlockPlacedBy(World world, int i, int j, int k, EntityLiving entityliving)
+	
+	@Override
+	public void onBlockPlacedBy(World world, int i, int j, int k, EntityLivingBase entityliving, ItemStack itemstack)
     {
         int l = MathHelper.floor_double((double)((entityliving.rotationYaw * 4F) / 360F) + 0.5D) & 3;
         if(l == 0)
@@ -229,6 +193,7 @@ public class BlockCultivate extends BlockContainer
             world.spawnEntityInWorld(entityitem);
         } while(true);
 	}
+	
 	public void onBlockRemovalLost( World world, int i, int j, int k ,boolean flag)
     {
 		keepFurnaceInventory=false;
@@ -263,6 +228,8 @@ public class BlockCultivate extends BlockContainer
 			//}
 		}
 	}
+	
+	@Override
 	public void breakBlock(World par1World, int par2, int par3, int par4, int par5, int par6)
     {
         if(!keepFurnaceInventory)
@@ -308,11 +275,4 @@ label0:
         super.breakBlock(par1World, par2, par3, par4, par5, par6);
 
     }
-    public String getTextureFile()
-    {
-       return "/skull/Fos_terrian.png";
-    }
-
-
-
 }
