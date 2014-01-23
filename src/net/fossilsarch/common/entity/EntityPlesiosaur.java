@@ -361,7 +361,9 @@ public class EntityPlesiosaur extends EntityDinosaurce implements IWaterDino{
     {
         return isSelfSitting() || field_25052_g;
     }
-	public boolean attackEntityFrom(DamageSource damagesource, int i)
+	
+	@Override
+	public boolean attackEntityFrom(DamageSource damagesource, float i)
     {
 		if (this.modelizedDrop()) return true;
 		Entity entity = damagesource.getEntity();

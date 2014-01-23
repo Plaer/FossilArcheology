@@ -41,6 +41,7 @@ public class RenderPterosaur extends RenderLiving
 		 //super.doRenderLiving(entityPterosaur, d, d1, d2, f, f1);
 		GL11.glPushMatrix();
         GL11.glDisable(2884 /*GL_CULL_FACE*/);
+        this.bindTexture(this.getEntityTexture(entityPterosaur));
         mainModel.onGround = renderSwingProgress(entityPterosaur, f1);
         if(renderPassModel != null)
         {
@@ -58,7 +59,7 @@ public class RenderPterosaur extends RenderLiving
             float f4 = entityPterosaur.prevRotationPitch + (entityPterosaur.rotationPitch - entityPterosaur.prevRotationPitch) * f1;
             renderLivingAt(entityPterosaur, d, d1, d2);
             float f5 = handleRotationFloat(entityPterosaur, f1);
-            rotateCorpse(entityPterosaur, f5, f2, f1);
+            rotateCorpse(entityPterosaur, f5, (entityPterosaur.isModelized())?f3:f2, f1);
             float f6 = 0.0625F;
             GL11.glEnable(32826 /*GL_RESCALE_NORMAL_EXT*/);
             GL11.glScalef(entityPterosaur.getGLX(), -entityPterosaur.getGLY(), entityPterosaur.getGLZ());
@@ -214,6 +215,10 @@ public class RenderPterosaur extends RenderLiving
 	
 	@Override
 	protected ResourceLocation getEntityTexture(Entity entity) {
-		return new ResourceLocation("/skull/Pterosaur.png");
+		EntityPterosaur pterosaur = (EntityPterosaur)entity;
+		if (pterosaur.isModelized())
+			return new ResourceLocation(pterosaur.getModelTexture());
+		
+		return new ResourceLocation("fossilsarch:entity/Pterosaur.png");
 	}
 }

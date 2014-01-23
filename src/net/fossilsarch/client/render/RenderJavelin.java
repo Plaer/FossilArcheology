@@ -23,22 +23,22 @@ public class RenderJavelin extends Render
     {
     	switch (entityjavelin.SelfMaterial){
     	case STONE:
-            this.bindTexture(new ResourceLocation("/skull/StoneJavelin.png"));
+            this.bindTexture(new ResourceLocation("fossilsarch:entity/StoneJavelin.png"));
     		break;
     	case IRON:
-    		this.bindTexture(new ResourceLocation("/skull/IronJavelin.png"));
+    		this.bindTexture(new ResourceLocation("fossilsarch:entity/IronJavelin.png"));
     		break;
     	case GOLD:
-    		this.bindTexture(new ResourceLocation("/skull/GoldJavelin.png"));
+    		this.bindTexture(new ResourceLocation("fossilsarch:entity/GoldJavelin.png"));
     		break;
     	case EMERALD:
-    		this.bindTexture(new ResourceLocation("/skull/DiamondJavelin.png"));
+    		this.bindTexture(new ResourceLocation("fossilsarch:entity/DiamondJavelin.png"));
     		break;
     	case WOOD:
     	default:
-    		this.bindTexture(new ResourceLocation("/skull/WoodenJavelin.png"));
+    		this.bindTexture(new ResourceLocation("fossilsarch:entity/WoodenJavelin.png"));
     	}
-    	if (entityjavelin instanceof EntityAncientJavelin) this.bindTexture(new ResourceLocation("/skull/AncientJavelin.png"));
+    	if (entityjavelin instanceof EntityAncientJavelin) this.bindTexture(new ResourceLocation("fossilsarch:entity/AncientJavelin.png"));
         GL11.glPushMatrix();
         GL11.glTranslatef((float)d, (float)d1, (float)d2);
         GL11.glRotatef((entityjavelin.prevRotationYaw + (entityjavelin.rotationYaw - entityjavelin.prevRotationYaw) * f1) - 90F, 0.0F, 1.0F, 0.0F);

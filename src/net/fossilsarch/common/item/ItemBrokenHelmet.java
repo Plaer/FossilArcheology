@@ -9,8 +9,4 @@ public class ItemBrokenHelmet extends Item {
 		super(i);
 		maxStackSize=1;
 	}
-    public String getTextureFile()
-    {
-       return "/skull/Fos_items.png";
-    }
 }

@@ -27,11 +27,7 @@ public class ForgeItemFood extends ItemFood
         super(i,j,f,flag);
 
     }
-    public String getTextureFile()
-    {
-       return "/skull/Fos_items.png";
-    }
-    
+
     @Override
     public void onFoodEaten(ItemStack itemstack, World world, EntityPlayer entityplayer)
     {

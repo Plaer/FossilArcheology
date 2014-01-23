@@ -238,12 +238,12 @@ public class RenderMammoth extends RenderLiving
 		EntityMammoth mammoth = (EntityMammoth)entity;
 		
 		if (mammoth.isChild())
-			return new ResourceLocation("/skull/MammothYoung.png");
+			return new ResourceLocation("fossilsarch:entity/MammothYoung.png");
 		else {
 			if (!mammoth.getSheared()) {
-				return new ResourceLocation("/skull/MammothAdult.png");
+				return new ResourceLocation("fossilsarch:entity/MammothAdult.png");
 			} else {
-				return new ResourceLocation("/skull/MammothFurless.png");
+				return new ResourceLocation("fossilsarch:entity/MammothFurless.png");
 			}
 		}
 	}

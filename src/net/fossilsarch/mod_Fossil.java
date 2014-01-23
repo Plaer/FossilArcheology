@@ -67,6 +67,7 @@ import net.minecraft.client.model.ModelPig;
 import net.minecraft.client.model.ModelZombie;
 import net.minecraft.client.renderer.entity.RenderBiped;
 import net.minecraft.client.renderer.entity.RenderPig;
+import net.minecraft.client.renderer.entity.RenderSkeleton;
 import net.minecraft.client.resources.LanguageManager;
 import net.minecraft.client.resources.Locale;
 import net.minecraft.creativetab.CreativeTabs;
@@ -306,7 +307,7 @@ public class mod_Fossil {
         RenderingRegistry.registerEntityRenderingHandler(EntitySaberCat.class, new RenderSaberCat(new ModelSaberCat(), 0.5F));
         RenderingRegistry.registerEntityRenderingHandler(EntityJavelin.class, new RenderJavelin());
         RenderingRegistry.registerEntityRenderingHandler(EntityAncientJavelin.class, new RenderJavelin());
-        RenderingRegistry.registerEntityRenderingHandler(EntityBones.class, new RenderBiped(new ModelBiped(),0.5F));
+        RenderingRegistry.registerEntityRenderingHandler(EntityBones.class, new RenderBones());
         RenderingRegistry.registerEntityRenderingHandler(EntityBrachiosaurus.class, new RenderBrachiosaurus(0.5F));
         RenderingRegistry.registerEntityRenderingHandler(EntityMammoth.class, new RenderMammoth(new ModelMammoth(), 0.5F));
     }
@@ -737,10 +738,6 @@ GameRegistry.addRecipe(new ItemStack(ChickenEss, 8), new Object[]{
           initBlockAndItems();
           registBlocks();       
           /*
-           * MutiLanguage:Set names
-           */
-          UpdateName(true);
-          /*
            * creative function
            */
           fillCreativeList();
@@ -767,161 +764,6 @@ GameRegistry.addRecipe(new ItemStack(ChickenEss, 8), new Object[]{
     private void GUIHandlerSetup() {
     	NetworkRegistry.instance().registerGuiHandler(this,GH);
 	}
-
-    public static String GetEmbyoName(EnumEmbyos target) {
-        String result = "";
-        switch(target){
-        case Cow:
-        case Sheep:
-        case Pig:
-            result=" "+StatCollector.translateToLocal("entity."+target.toString());
-            break;
-        default:
-        	result=GetLangTextByKey("AnimalType."+target.toString());
-        }
-
-        return result;
-    }
-
-    public void UpdateName() {
-        UpdateName(false);
-    }
-    public static String GetLangTextByKey(String key){
-    	String result=LangProps.getProperty(key, " ");
-    	return result;
-    }
-    public void UpdateName(boolean Init) {
-    	if(FMLCommonHandler.instance().getSide().isServer()) return;
-    	final String BLOCK="block.";
-    	final String NAME=".Name";
-    	final String ITEM="Item.";
-    	final String HEAD="Head";
-    	final String TAIL="Tail";
-    	final String ORDER="Order.";
-    	final String DNANAME="DNAName.";
-    	final String DEGGNAME="DEggName.";
-    	final String ACHIEVE="Achieve.";
-    	final String PIGBOSSONEARTH="PigBossOnEarth";
-    	final String DESC=".Desc";
-    	String HeadTmp;
-    	String TailTmp;
-        if (Init) {
-            this.LastLangSetting = ModLoader.getMinecraftInstance().gameSettings.language;
-        } else {
-            if (this.LastLangSetting.equals(ModLoader.getMinecraftInstance().gameSettings.language)) {
-                return;
-            } else {
-                this.LastLangSetting = ModLoader.getMinecraftInstance().gameSettings.language;
-            }
-        }
-        
-        try {
-        	UpdateLangProp();
-        }
-        catch (Throwable throwable){
-        	return;
-        }
-        
-        LanguageRegistry.addName(blockFossil, GetLangTextByKey(BLOCK+"Fossil"+NAME));
-        LanguageRegistry.addName(blockSkull, GetLangTextByKey(BLOCK+"Skull"+NAME));
-        LanguageRegistry.addName(SkullLantern, GetLangTextByKey(BLOCK+"SkullLantern"+NAME));
-        //3.0 Contents
-        LanguageRegistry.addName(biofossil, GetLangTextByKey(ITEM+"BioFossil"+NAME));
-        LanguageRegistry.addName(relic, GetLangTextByKey(ITEM+"Relic"+NAME));
-        LanguageRegistry.addName(stoneboard, GetLangTextByKey(ITEM+"Tablet"+NAME));
-        LanguageRegistry.addName(blockanalyzerIdle, GetLangTextByKey(BLOCK+"Analyzer"+NAME));
-        LanguageRegistry.addName(blockcultivateIdle, GetLangTextByKey(BLOCK+"CultureVat"+NAME));
-        LanguageRegistry.addName(blockworktableIdle, GetLangTextByKey(BLOCK+"workbench"+NAME));
-        LanguageRegistry.addName(BrokenSword, GetLangTextByKey(ITEM+"BrokenSword"+NAME));
-        LanguageRegistry.addName(AncientSword, GetLangTextByKey(ITEM+"AncientSword"+NAME));
-        LanguageRegistry.addName(FernSeed, GetLangTextByKey(ITEM+"FernSeeds"+NAME));
-        LanguageRegistry.addName(Brokenhelmet, GetLangTextByKey(ITEM+"BrokenHelmet"+NAME));
-        LanguageRegistry.addName(Ancienthelmet, GetLangTextByKey(ITEM+"AncientHelmet"+NAME));
-        LanguageRegistry.addName(SkullStick, GetLangTextByKey(ITEM+"SkullStick"+NAME));
-        short i=0;
-        HeadTmp=GetLangTextByKey(DNANAME+HEAD);
-        TailTmp=GetLangTextByKey(DNANAME+TAIL);
-        for (i=0;i<EnumDinoType.values().length;i++){
-        	String NameTmp=EntityDinosaurce.GetNameByEnum(EnumDinoType.values()[i],false);
-            LanguageRegistry.addName(new ItemStack(DNA, 1, i), HeadTmp+NameTmp+TailTmp);
-        }
-        HeadTmp=GetLangTextByKey(DEGGNAME+HEAD);
-        TailTmp=GetLangTextByKey(DEGGNAME+TAIL);
-        for (i=0;i<EnumDinoType.values().length;i++){
-        	String NameTmp;
-        	if (i==4){
-        		NameTmp=GetLangTextByKey("Item.LivingNautilus.Name");
-        		LanguageRegistry.addName(new ItemStack(Ancientegg, 1, i), NameTmp);
-        	}else{
-	        	NameTmp=EntityDinosaurce.GetNameByEnum(EnumDinoType.values()[i],false);
-	            LanguageRegistry.addName(new ItemStack(Ancientegg, 1, i), HeadTmp+NameTmp+TailTmp);
-        	}
-        }
-        //4.0 Contents
-        LanguageRegistry.addName(Dump, GetLangTextByKey(BLOCK+"Drum"+NAME));
-        LanguageRegistry.addName(FeederIdle, GetLangTextByKey(BLOCK+"Feeder"+NAME));
-        LanguageRegistry.addName(Gen, GetLangTextByKey(ITEM+"Gem"+NAME));
-        LanguageRegistry.addName(GenAxe, GetLangTextByKey(ITEM+"ScarabAxe"+NAME));
-        LanguageRegistry.addName(GenPickaxe, GetLangTextByKey(ITEM+"ScarabPickAxe"+NAME));
-        LanguageRegistry.addName(GenSword, GetLangTextByKey(ITEM+"ScarabSword"+NAME));
-        LanguageRegistry.addName(GenHoe, GetLangTextByKey(ITEM+"ScarabHoe"+NAME));
-        LanguageRegistry.addName(GenShovel, GetLangTextByKey(ITEM+"ScarabShovel"+NAME));
-        LanguageRegistry.addName(DinoPedia, GetLangTextByKey(ITEM+"DinoPedia"+NAME));
-        //5.0 contents
-        LanguageRegistry.addName(new ItemStack(ChickenSoup,1,0), GetLangTextByKey(ITEM+"RawChickenSoup"+NAME));
-        LanguageRegistry.addName(new ItemStack(ChickenSoup,1,1), GetLangTextByKey(ITEM+"CookedChickenSoup"+NAME));
-        LanguageRegistry.addName(ChickenEss, GetLangTextByKey(ITEM+"EOC"+NAME));
-        LanguageRegistry.addName(EmptyShell, GetLangTextByKey(ITEM+"Shell"+NAME));
-        LanguageRegistry.addName(SJL, GetLangTextByKey(ITEM+"SJL"+NAME));
-        
-        HeadTmp=GetLangTextByKey("MGCName."+HEAD);
-        TailTmp=GetLangTextByKey("MGCName."+TAIL);
-        for (i=0;i<EnumOrderType.values().length;i++){
-        	String NameTmp=GetLangTextByKey("Order."+EnumOrderType.values()[i].toString());
-            LanguageRegistry.addName(new ItemStack(MagicConch, 1, i), HeadTmp+NameTmp+TailTmp);
-        }
-
-        HeadTmp=GetLangTextByKey("MeatName."+HEAD);
-        TailTmp=GetLangTextByKey("MeatName."+TAIL);
-        for (i=0;i<EnumDinoType.values().length;i++){
-        	String NameTmp=EntityDinosaurce.GetNameByEnum(EnumDinoType.values()[i],false);
-            LanguageRegistry.addName(new ItemStack(RawDinoMeat, 1, i), HeadTmp+NameTmp+TailTmp);
-        }
-        
-        LanguageRegistry.addName(CookedDinoMeat, GetLangTextByKey(ITEM+"DinoSteak"+NAME));
-        
-        HeadTmp=GetLangTextByKey("EmbyoName."+HEAD);
-        TailTmp=GetLangTextByKey("EmbyoName."+TAIL);
-        for (i=0;i<EnumEmbyos.values().length;i++){
-        	String NameTmp=this.GetEmbyoName(EnumEmbyos.values()[i]);
-            LanguageRegistry.addName(new ItemStack(EmbyoSyringe, 1, i), HeadTmp+NameTmp+TailTmp);
-        }
-        HeadTmp=GetLangTextByKey(DNANAME+HEAD);
-        TailTmp=GetLangTextByKey(DNANAME+TAIL);
-        for (i=0;i<EnumEmbyos.values().length+1/*chicken*/;i++){
-        	String NameTmp;
-        	if (i!=3){
-	        	NameTmp=this.GetEmbyoName(EnumEmbyos.values()[i>3?i-1:i]);
-        	}else{
-        		NameTmp=StatCollector.translateToLocal("entity.Chicken");
-        	}
-            LanguageRegistry.addName(new ItemStack(AnimalDNA, 1, i), HeadTmp+NameTmp+TailTmp);
-        }
-        
-        LanguageRegistry.addName(blockPermafrost, GetLangTextByKey(BLOCK+"Permafrost"+NAME));
-        LanguageRegistry.addName(blockIcedStone, GetLangTextByKey(BLOCK+"IcedStone"+NAME));
-        LanguageRegistry.addName(IcedMeat, GetLangTextByKey(ITEM+"IcedMeat"+NAME));
-        LanguageRegistry.addName(Woodjavelin, GetLangTextByKey(ITEM+"WoodJavelin"+NAME));
-        LanguageRegistry.addName(Stonejavelin, GetLangTextByKey(ITEM+"StoneJavelin"+NAME));
-        LanguageRegistry.addName(Ironjavelin, GetLangTextByKey(ITEM+"IronJavelin"+NAME));
-        LanguageRegistry.addName(Diamondjavelin, GetLangTextByKey(ITEM+"DiamondJavelin"+NAME));
-        LanguageRegistry.addName(Goldjavelin, GetLangTextByKey(ITEM+"GoldJavelin"+NAME));
-        LanguageRegistry.addName(AncientJavelin, GetLangTextByKey(ITEM+"AncientJavelin"+NAME));
-        HeadTmp=GetLangTextByKey(ACHIEVE+PIGBOSSONEARTH+NAME);
-        TailTmp=GetLangTextByKey(ACHIEVE+PIGBOSSONEARTH+DESC);
-        ModLoader.addAchievementDesc(PigbossOnEarth, HeadTmp, TailTmp);
-    }
-    
     
     public static void UpdateLangProp()
     	throws IOException{

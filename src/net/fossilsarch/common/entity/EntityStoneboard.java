@@ -8,6 +8,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.Direction;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.item.ItemStack;
@@ -88,10 +89,13 @@ public class EntityStoneboard extends Entity implements IEntityAdditionalSpawnDa
         } while(true);
         setDirection(l);
     }
+    
+    @Override
 	protected void entityInit()
     {
     }
-	 public void setDirection(int i)
+	
+	public void setDirection(int i)
     {
         direction = i;
         prevRotationYaw = rotationYaw = i * 90;
@@ -101,6 +105,7 @@ public class EntityStoneboard extends Entity implements IEntityAdditionalSpawnDa
         if(i == 0 || i == 2)
         {
             f2 = 0.5F;
+            this.rotationYaw = this.prevRotationYaw = (float)(Direction.rotateOpposite[i] * 90);
         } else
         {
             f = 0.5F;
@@ -157,6 +162,8 @@ public class EntityStoneboard extends Entity implements IEntityAdditionalSpawnDa
         }
         return i != 64 ? 0.0F : 0.5F;
     }
+	
+	@Override
 	public void onUpdate()
     {
         if(tickCounter1++ == 100 && !worldObj.isRemote)
@@ -228,12 +235,15 @@ public class EntityStoneboard extends Entity implements IEntityAdditionalSpawnDa
 
         return true;
     }
-	    public boolean canBeCollidedWith()
+	
+	@Override
+	public boolean canBeCollidedWith()
     {
         return true;
     }
 
-    public boolean attackEntityFrom(DamageSource damagesource, int i)
+	@Override
+    public boolean attackEntityFrom(DamageSource damagesource, float i)
     {
         if(!isDead && !worldObj.isRemote)
         {
@@ -243,6 +253,8 @@ public class EntityStoneboard extends Entity implements IEntityAdditionalSpawnDa
         }
         return true;
     }
+	
+	@Override
 	public void writeEntityToNBT(NBTTagCompound nbttagcompound)
     {
         nbttagcompound.setByte("Dir", (byte)direction);
@@ -251,6 +263,8 @@ public class EntityStoneboard extends Entity implements IEntityAdditionalSpawnDa
         nbttagcompound.setInteger("TileY", yPosition);
         nbttagcompound.setInteger("TileZ", zPosition);
     }
+	
+	@Override
 	public void readEntityFromNBT(NBTTagCompound nbttagcompound)
     {
         direction = nbttagcompound.getByte("Dir");
@@ -275,6 +289,8 @@ public class EntityStoneboard extends Entity implements IEntityAdditionalSpawnDa
         }
         setDirection(direction);
     }
+	
+	@Override
 	public void moveEntity(double d, double d1, double d2)
     {
         if(!worldObj.isRemote && d * d + d1 * d1 + d2 * d2 > 0.0D)
@@ -284,6 +300,7 @@ public class EntityStoneboard extends Entity implements IEntityAdditionalSpawnDa
         }
     }
 
+	@Override
     public void addVelocity(double d, double d1, double d2)
     {
         if(!worldObj.isRemote && d * d + d1 * d1 + d2 * d2 > 0.0D)
@@ -292,6 +309,7 @@ public class EntityStoneboard extends Entity implements IEntityAdditionalSpawnDa
             worldObj.spawnEntityInWorld(new EntityItem(worldObj, posX, posY, posZ, new ItemStack(mod_Fossil.stoneboard)));
         }
     }
+	
 	@Override
 	public void writeSpawnData(ByteArrayDataOutput data) {
 		EnumStoneboard[] artList=EnumStoneboard.values();
@@ -303,6 +321,7 @@ public class EntityStoneboard extends Entity implements IEntityAdditionalSpawnDa
 		}
 		data.writeInt(0);
 	}
+	
 	@Override
 	public void readSpawnData(ByteArrayDataInput data) {
 		int artIndex=data.readInt();

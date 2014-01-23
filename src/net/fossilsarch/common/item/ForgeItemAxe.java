@@ -20,9 +20,5 @@ public class ForgeItemAxe extends ItemAxe
     {
         super(i, enumtoolmaterial);
     }
-    public String getTextureFile()
-    {
-       return "/skull/Fos_items.png";
-    }
     
 }

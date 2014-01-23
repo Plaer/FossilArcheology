@@ -7,6 +7,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
@@ -30,12 +31,15 @@ public class GuiFeeder extends GuiContainer
         super(new ContainerFeeder(inventoryplayer, tileentityfeeder));
         FeederInventory = (TileEntityFeeder) tileentityfeeder;
     }
-	protected void drawGuiContainerForegroundLayer()
+	
+	@Override
+	protected void drawGuiContainerForegroundLayer(int x, int y)
     {
-        fontRenderer.drawString(mod_Fossil.GetLangTextByKey("block.Feeder.Name"), 8, 6, 0x404040);
+        fontRenderer.drawString(StatCollector.translateToLocal("tile.Feeder.name"), 8, 6, 0x404040);
         fontRenderer.drawString(StatCollector.translateToLocal("container.inventory"), 8, (ySize - 96) + 2, 0x404040);
-
     }
+	
+	@Override
 	public void drawScreen(int par1, int par2, float par3){
 		this.drawDefaultBackground();
         int var4 = this.guiLeft;
@@ -75,7 +79,7 @@ public class GuiFeeder extends GuiContainer
             }
         }
 
-        this.drawGuiContainerForegroundLayer();
+        this.drawGuiContainerForegroundLayer(par1, par2);
         InventoryPlayer var12 = this.mc.thePlayer.inventory;
 
         if (var12.getItemStack() != null)
@@ -102,12 +106,15 @@ public class GuiFeeder extends GuiContainer
         GL11.glEnable(GL11.GL_DEPTH_TEST);
         RenderHelper.enableStandardItemLighting();
 	}
+	
     private boolean isMouseOverSlot(Slot par1Slot, int par2, int par3)
     {
         return this.isPointInRegion(par1Slot.xDisplayPosition, par1Slot.yDisplayPosition, 16, 16, par2, par3);
     }
-	 protected void drawSlotInventory(Slot par1Slot)
-	    {
+    
+    @Override
+	protected void drawSlotInventory(Slot par1Slot)
+    {
 	        int var2 = par1Slot.xDisplayPosition;
 	        int var3 = par1Slot.yDisplayPosition;
 	        ItemStack var4 = par1Slot.getStack();
@@ -122,7 +129,7 @@ public class GuiFeeder extends GuiContainer
 	            if (var6 != null)
 	            {
 	                GL11.glDisable(GL11.GL_LIGHTING);
-	                this.mc.renderEngine.bindTexture(new ResourceLocation("/gui/items.png"));
+	                this.mc.getTextureManager().bindTexture(TextureMap.locationItemsTexture);
 	                this.drawTexturedModelRectFromIcon(var2, var3, var6, 16, 16);
 	                GL11.glEnable(GL11.GL_LIGHTING);
 	                var5 = true;
@@ -132,17 +139,19 @@ public class GuiFeeder extends GuiContainer
 	        if (!var5)
 	        {
 	            GL11.glEnable(GL11.GL_DEPTH_TEST);
-	            itemRenderer.renderItemIntoGUI(this.fontRenderer, this.mc.renderEngine, var4, var2, var3);
-	            itemRenderer.renderItemOverlayIntoGUI(this.fontRenderer, this.mc.renderEngine, var4, var2, var3);
+	            itemRenderer.renderItemAndEffectIntoGUI(this.fontRenderer, this.mc.getTextureManager(), var4, var2, var3);
+	            itemRenderer.renderItemOverlayIntoGUI(this.fontRenderer, this.mc.getTextureManager(), var4, var2, var3, null);
 	        }
 
 	        itemRenderer.zLevel = 0.0F;
 	        this.zLevel = 0.0F;
 	    }
+    
+    @Override
 	protected void drawGuiContainerBackgroundLayer(float f,int unusedi, int unusedj)
     {
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        mc.renderEngine.bindTexture(new ResourceLocation("/skull/UIFeeder.png"));
+        mc.renderEngine.bindTexture(new ResourceLocation("fossilsarch:gui/UIFeeder.png"));
         int j = (width - xSize) / 2;
         int k = (height - ySize) / 2;
         drawTexturedModalRect(j, k, 0, 0, xSize, ySize);

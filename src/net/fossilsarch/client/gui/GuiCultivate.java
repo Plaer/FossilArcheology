@@ -19,15 +19,19 @@ public class GuiCultivate extends GuiContainer
         super(new ContainerCultivate(inventoryplayer, tileentityfurnace));
         furnaceInventory = (TileEntityCultivate) tileentityfurnace;
     }
-	protected void drawGuiContainerForegroundLayer()
+	
+	@Override
+	protected void drawGuiContainerForegroundLayer(int x, int y)
     {
-        fontRenderer.drawString(mod_Fossil.GetLangTextByKey("block.CultureVat.Name"), 60, 6, 0x404040);
+        fontRenderer.drawString(StatCollector.translateToLocal("tile.cultivateIdle.name"), 60, 6, 0x404040);
         fontRenderer.drawString(StatCollector.translateToLocal("container.inventory"), 8, (ySize - 96) + 2, 0x404040);
     }
+	
+	@Override
 	protected void drawGuiContainerBackgroundLayer(float f,int unusedi, int unusedj)
     {
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        mc.renderEngine.bindTexture(new ResourceLocation("/skull/UICultivate.png"));
+        mc.renderEngine.bindTexture(new ResourceLocation("fossilsarch:gui/UICultivate.png"));
         int j = (width - xSize) / 2;
         int k = (height - ySize) / 2;
         drawTexturedModalRect(j, k, 0, 0, xSize, ySize);

@@ -8,8 +8,4 @@ public class ItemGen extends Item{
 		super(i);
 		maxStackSize=64;
 	}
-    public String getTextureFile()
-    {
-       return "/skull/Fos_items.png";
-    }
 }

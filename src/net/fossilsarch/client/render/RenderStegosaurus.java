@@ -154,9 +154,9 @@ public class RenderStegosaurus extends RenderLiving
 	protected ResourceLocation getEntityTexture(Entity entity) {
 		EntityStegosaurus steg = (EntityStegosaurus)entity;
 		if (steg.isBaby){
-			return new ResourceLocation("/skull/Stegosaurus_Baby.png");		
+			return new ResourceLocation("fossilsarch:entity/Stegosaurus_Baby.png");		
 		}else{
-			return new ResourceLocation("/skull/Stegosaurus_Adult.png");		
+			return new ResourceLocation("fossilsarch:entity/Stegosaurus_Adult.png");		
 		}
 	}
 }

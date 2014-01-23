@@ -22,8 +22,4 @@ public class ForgeItemSword extends ItemSword
     {
         super(i,enumtoolmaterial);
     }
-    public String getTextureFile()
-    {
-       return "/skull/Fos_items.png";
-    }
 } 

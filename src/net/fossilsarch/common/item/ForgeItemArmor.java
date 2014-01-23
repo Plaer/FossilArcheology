@@ -21,9 +21,4 @@ public class ForgeItemArmor extends ItemArmor
         super(i,enumarmormaterial,j,k);
 
     }
-    public String getTextureFile()
-    {
-       return "/skull/Fos_items.png";
-    }
-
 }

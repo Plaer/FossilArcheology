@@ -19,15 +19,19 @@ public class GuiAnalyzer extends GuiContainer{
 		super(new ContainerAnalyzer(inventoryplayer, tileentityanalyzer));
 		analyzerInventory = (TileEntityAnalyzer) tileentityanalyzer;
 	}
-	protected void drawGuiContainerForegroundLayer()
+	
+	@Override
+	protected void drawGuiContainerForegroundLayer(int x, int y)
     {
-        fontRenderer.drawString(mod_Fossil.GetLangTextByKey("block.Analyzer.Name"), 19, 6, 0x404040);
+        fontRenderer.drawString(StatCollector.translateToLocal("tile.analyzerIdle.name"), 19, 6, 0x404040);
         fontRenderer.drawString(StatCollector.translateToLocal("container.inventory"), 8, (ySize - 96) + 2, 0x404040);
     }
+	
+	@Override
 	protected void drawGuiContainerBackgroundLayer(float f,int i, int j)
     {
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        mc.renderEngine.bindTexture(new ResourceLocation("/skull/UIAnalyzer.png"));
+        mc.renderEngine.bindTexture(new ResourceLocation("fossilsarch:gui/UIAnalyzer.png"));
         int l = (width - xSize) / 2;
         int i1 = (height - ySize) / 2;
         drawTexturedModalRect(l, i1, 0, 0, xSize, ySize);

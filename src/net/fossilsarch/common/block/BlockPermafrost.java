@@ -18,10 +18,7 @@ public class BlockPermafrost extends BlockBreakable{
 		super(i,icon,Material.ice, false);
 		setTickRandomly(true);
 	}
-    public String getTextureFile()
-    {
-       return "/skull/Fos_terrian.png";
-    }
+
     public int getRenderBlockPass()
     {
         return 1;

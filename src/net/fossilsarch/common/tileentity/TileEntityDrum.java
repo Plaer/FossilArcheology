@@ -20,6 +20,7 @@ import net.minecraft.item.Item;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 
 
@@ -97,12 +98,12 @@ public class TileEntityDrum extends TileEntity
         }
     }
     private String GetOrderString(){
-    	return mod_Fossil.GetLangTextByKey(ORDER+Order.toString());
+    	return StatCollector.translateToLocal(ORDER+Order.toString());
     }
 	public void TriggerOrder(EntityPlayer checker){
 		Order=Order.Next();
 		worldObj.playSoundEffect(xCoord,yCoord,zCoord,"drum_single",8.0F, (float)Math.pow(2D, (double)(Order.ToInt()-1)));
-		String msgHead=mod_Fossil.GetLangTextByKey(DRUM+ORDER+HEAD);
+		String msgHead=StatCollector.translateToLocal(DRUM+ORDER+HEAD);
 		String OrderName=GetOrderString();
 		mod_Fossil.ShowMessage(new StringBuilder().append(msgHead).append(OrderName).toString(),checker);
         this.onInventoryChanged();
@@ -111,9 +112,9 @@ public class TileEntityDrum extends TileEntity
 	public boolean SendOrder(int UsingID,EntityPlayer player){
 		String Type="";
 		String OrderString="";
-		final String MSGHEAD=mod_Fossil.GetLangTextByKey(DRUM+MSG+HEAD);
-		final String MSGMIDDLE=mod_Fossil.GetLangTextByKey(DRUM+MSG+MIDDLE);
-		final String MSGTAIL=mod_Fossil.GetLangTextByKey(DRUM+MSG+TAIL);
+		final String MSGHEAD=StatCollector.translateToLocal(DRUM+MSG+HEAD);
+		final String MSGMIDDLE=StatCollector.translateToLocal(DRUM+MSG+MIDDLE);
+		final String MSGTAIL=StatCollector.translateToLocal(DRUM+MSG+TAIL);
 		worldObj.playSoundEffect(xCoord,yCoord,zCoord,"drum_triple",8.0F, (float)Math.pow(2D, (double)(Order.ToInt()-1)));
 		if (UsingID!=Item.stick.itemID && UsingID!=Item.bone.itemID && UsingID!=mod_Fossil.SkullStick.itemID && UsingID!=Item.arrow.itemID) return false;
 		if(UsingID == Item.stick.itemID){
@@ -139,7 +140,7 @@ public class TileEntityDrum extends TileEntity
 
 			return true;
 		}else{
-			String TmpMsg=mod_Fossil.GetLangTextByKey(DRUM+TREXMSG+String.valueOf(Order.ToInt()+1));
+			String TmpMsg=StatCollector.translateToLocal(DRUM+TREXMSG+String.valueOf(Order.ToInt()+1));
 			mod_Fossil.ShowMessage(TmpMsg,player);
 			return true;
 		}

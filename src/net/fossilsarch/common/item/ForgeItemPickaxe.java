@@ -20,9 +20,5 @@ public class ForgeItemPickaxe extends ItemPickaxe
     {
         super(i,enumtoolmaterial);
     }
-    public String getTextureFile()
-    {
-       return "/skull/Fos_items.png";
-    }
-   
+
 }

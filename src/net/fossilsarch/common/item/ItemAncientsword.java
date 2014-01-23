@@ -29,11 +29,7 @@ public class ItemAncientsword extends ItemSword{
 	public ItemAncientsword(int i){
 		this(i,EnumToolMaterial.IRON);
 	}
-    public String getTextureFile()
-    {
-       return "/skull/Fos_items.png";
-    }
-    
+
     /**
      * Gets a map of item attribute modifiers, used by ItemSword to increase hit damage.
      */

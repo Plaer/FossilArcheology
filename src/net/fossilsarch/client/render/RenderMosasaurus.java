@@ -36,7 +36,7 @@ public class RenderMosasaurus extends RenderLiving
         {
             return -1;
         }
-    	this.bindTexture(new ResourceLocation("/skull/RenderPassMosasaurus.png"));
+    	this.bindTexture(new ResourceLocation("fossilsarch:entity/RenderPassMosasaurus.png"));
     	float f1 = 300.0F;
         GL11.glEnable(3042 /*GL_BLEND*/);
         GL11.glDisable(3008 /*GL_ALPHA_TEST*/);
@@ -213,6 +213,6 @@ public class RenderMosasaurus extends RenderLiving
     
 	@Override
 	protected ResourceLocation getEntityTexture(Entity entity) {
-		return new ResourceLocation( "/skull/Mosasaurus.png");
+		return new ResourceLocation( "fossilsarch:entity/Mosasaurus.png");
 	}
 }

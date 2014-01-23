@@ -36,7 +36,6 @@ public class RenderDinoEgg extends Render
             {
                 f3 = 0.0F;
             }
-            this.bindTexture(new ResourceLocation("/terrain.png"));
             float f4 = 0.75F;
             GL11.glScalef(f4, f4, f4);
             GL11.glScalef(1.0F / f4, 1.0F / f4, 1.0F / f4);
@@ -63,8 +62,8 @@ public class RenderDinoEgg extends Render
 	@Override
 	protected ResourceLocation getEntityTexture(Entity entity) {
 		int IntType = ((EntityDinoEgg)entity).DinoInside.ordinal();
-		if (IntType<4) return new ResourceLocation(new StringBuilder().append("/skull/eggTexture").append(IntType + 1).append(".png").toString());
-		else return new ResourceLocation(new StringBuilder().append("/skull/eggTexture").append(IntType).append(".png").toString());
+		if (IntType<4) return new ResourceLocation(new StringBuilder().append("fossilsarch:entity/eggTexture").append(IntType + 1).append(".png").toString());
+		else return new ResourceLocation(new StringBuilder().append("fossilsarch:entity/eggTexture").append(IntType).append(".png").toString());
 
 	}
 }

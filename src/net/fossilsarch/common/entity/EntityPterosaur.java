@@ -325,7 +325,9 @@ public class EntityPterosaur extends EntityDinosaurce{
             return null;
         }
     }
-	public boolean attackEntityFrom(DamageSource damagesource, int i)
+	
+	@Override
+	public boolean attackEntityFrom(DamageSource damagesource, float i)
     {
 		if (this.modelizedDrop()) return true;
 		return super.attackEntityFrom(damagesource, i);

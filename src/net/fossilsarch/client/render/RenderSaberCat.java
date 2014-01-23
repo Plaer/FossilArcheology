@@ -57,11 +57,11 @@ public class RenderSaberCat extends RenderLiving
 		
         if (cat.isChild())
         {
-            return new ResourceLocation("/skull/SaberCat_Young.png");
+            return new ResourceLocation("fossilsarch:entity/SaberCat_Young.png");
         }
         else
         {
-            return new ResourceLocation("/skull/SaberCat_Adult.png");
+            return new ResourceLocation("fossilsarch:entity/SaberCat_Adult.png");
         }
 	}
 }

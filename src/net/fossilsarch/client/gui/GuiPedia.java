@@ -33,6 +33,7 @@ public class GuiPedia extends GuiContainer
     /**
      * Adds the buttons (and other controls) to the screen in question.
      */
+    @Override
     public void initGui()
     {
         super.initGui();
@@ -43,6 +44,7 @@ public class GuiPedia extends GuiContainer
     /**
      * Draw the foreground layer for the GuiContainer (everything in front of the items)
      */
+    @Override
     protected void drawGuiContainerForegroundLayer(int par1, int par2)
     {
         this.fontRenderer.drawString(new StringBuilder().append(this.dino.getDinoAge()).append("days").toString(), 110, 31, 4210752);
@@ -56,22 +58,13 @@ public class GuiPedia extends GuiContainer
     }
 
     /**
-     * Called from the main game loop to update the screen.
-     */
-    public void updateScreen()
-    {
-        super.updateScreen();
-    }
-
-
-
-    /**
      * Draw the background layer for the GuiContainer (everything behind the items)
      */
+    @Override
     protected void drawGuiContainerBackgroundLayer(float par1, int par2, int par3)
     {
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        this.mc.renderEngine.bindTexture(new ResourceLocation("/skull/UIPedia.png"));
+        this.mc.renderEngine.bindTexture(new ResourceLocation("fossilsarch:gui/UIPedia.png"));
         int var5 = (this.width - this.xSize) / 2;
         int var6 = (this.height - this.ySize) / 2;
         this.drawTexturedModalRect(var5, var6, 0, 0, this.xSize, this.ySize);
@@ -80,6 +73,7 @@ public class GuiPedia extends GuiContainer
     /**
      * Draws the screen and all the components in it.
      */
+    @Override
     public void drawScreen(int par1, int par2, float par3)
     {
         super.drawScreen(par1, par2, par3);
@@ -97,6 +91,8 @@ public class GuiPedia extends GuiContainer
             GL11.glEnable(GL11.GL_DEPTH_TEST);
             RenderHelper.enableStandardItemLighting();
     }
+    
+    @Override
     public void onGuiClosed()
     {
     	super.onGuiClosed();

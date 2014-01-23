@@ -20,6 +20,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Icon;
 import net.minecraft.util.MathHelper;
+import net.minecraft.util.StatCollector;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 public class BlockCultivate extends BlockContainer 
@@ -198,7 +199,7 @@ public class BlockCultivate extends BlockContainer
     {
 		keepFurnaceInventory=false;
 		//onBlockRemoval(world,i,j,k);
-		String MsgTmp=mod_Fossil.GetLangTextByKey(VAT+ERR_OUTBREAK);
+		String MsgTmp=StatCollector.translateToLocal(VAT+ERR_OUTBREAK);
 		for (int i1=0;i1<world.playerEntities.size();i1++){
 			mod_Fossil.ShowMessage(MsgTmp,(EntityPlayer) world.playerEntities.get(i1));
 		}

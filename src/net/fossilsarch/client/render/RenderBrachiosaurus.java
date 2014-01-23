@@ -64,7 +64,7 @@ public class RenderBrachiosaurus extends RenderLiving
              float var12 = Entitybrachiosaurus.prevRotationPitch + (Entitybrachiosaurus.rotationPitch - Entitybrachiosaurus.prevRotationPitch) * f1;
              this.renderLivingAt(Entitybrachiosaurus, d, d1, d2);
              float var13 = this.handleRotationFloat(Entitybrachiosaurus, f1);
-             this.rotateCorpse(Entitybrachiosaurus, var13, var10, f1);
+             this.rotateCorpse(Entitybrachiosaurus, var13, (Entitybrachiosaurus.isModelized())?var11:var10, f1);
              float var14 = 0.0625F;
              GL11.glEnable(GL12.GL_RESCALE_NORMAL);
              GL11.glScalef(((EntityDinosaurce)Entitybrachiosaurus).getGLX(), -((EntityDinosaurce)Entitybrachiosaurus).getGLY(), ((EntityDinosaurce)Entitybrachiosaurus).getGLZ());
@@ -226,6 +226,11 @@ public class RenderBrachiosaurus extends RenderLiving
     
 	@Override
 	protected ResourceLocation getEntityTexture(Entity entity) {
-		return new ResourceLocation("/skull/Brachiosaurus.png");
+		EntityBrachiosaurus brach = (EntityBrachiosaurus)entity;
+		
+		if (brach.isModelized())
+			return new ResourceLocation(brach.getModelTexture());
+		
+		return new ResourceLocation("fossilsarch:entity/Brachiosaurus.png");
 	}
 }

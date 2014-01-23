@@ -20,6 +20,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.biome.BiomeGenForest;
@@ -62,21 +63,26 @@ public class EntityDinoEgg extends Entity implements IEntityAdditionalSpawnData{
 		this.ParentOwner = parent.getOwnerName();
 	}
 
+	@Override
 	protected boolean canTriggerWalking() {
 		return false;
 	}
 
+	@Override
 	protected void entityInit() {
 	}
 
+	@Override
 	public AxisAlignedBB getCollisionBox(Entity entity) {
 		return entity.boundingBox;
 	}
 
+	@Override
 	public AxisAlignedBB getBoundingBox() {
 		return boundingBox;
 	}
 
+	@Override
 	public boolean canBePushed() {
 		return true;
 	}
@@ -92,11 +98,13 @@ public class EntityDinoEgg extends Entity implements IEntityAdditionalSpawnData{
 		prevPosZ = d2;
 	}
 
+	@Override
 	public double getMountedYOffset() {
 		return (double) height * 0.0D - 0.30000001192092896D;
 	}
 
-	public boolean attackEntityFrom(DamageSource damagesource, int i) {
+	@Override
+	public boolean attackEntityFrom(DamageSource damagesource, float i) {
 		if (worldObj.isRemote || isDead) {
 			return true;
 		}
@@ -123,15 +131,18 @@ public class EntityDinoEgg extends Entity implements IEntityAdditionalSpawnData{
 		return true;
 	}
 
+	@Override
 	public void performHurtAnimation() {
 		timeSinceHit = 10;
 		damageTaken += damageTaken * 10;
 	}
 
+	@Override
 	public boolean canBeCollidedWith() {
 		return !isDead;
 	}
 
+	@Override
 	public void onUpdate() {
 		super.onUpdate();
 		HandleHatching();
@@ -258,6 +269,7 @@ public class EntityDinoEgg extends Entity implements IEntityAdditionalSpawnData{
 		}
 	}
 
+	@Override
 	public void updateRiderPosition() {
 		if (riddenByEntity == null) {
 			return;
@@ -297,11 +309,11 @@ public class EntityDinoEgg extends Entity implements IEntityAdditionalSpawnData{
 		if (this.BirthTick <= -HatchingNeedTime) {
 			String TailTmp;
 			if (this.DinoInside == EnumDinoType.Mosasaurus) {
-				TailTmp=mod_Fossil.GetLangTextByKey(HEAD+DRY+MSGTAIL);
+				TailTmp=StatCollector.translateToLocal(HEAD+DRY+MSGTAIL);
 			} else {
-				TailTmp=mod_Fossil.GetLangTextByKey(HEAD+COLD+MSGTAIL);
+				TailTmp=StatCollector.translateToLocal(HEAD+COLD+MSGTAIL);
 			}
-			MsgHeadTmp=mod_Fossil.GetLangTextByKey(MSGHEAD);
+			MsgHeadTmp=StatCollector.translateToLocal(MSGHEAD);
 			mod_Fossil.ShowMessage(MsgHeadTmp+EntityDinosaurce.GetNameByEnum(DinoInside,false)+TailTmp,PlayerNearby);				
 
 			this.setDead();
@@ -386,16 +398,17 @@ public class EntityDinoEgg extends Entity implements IEntityAdditionalSpawnData{
 			if (worldObj.checkNoEntityCollision(entityliving.boundingBox) && worldObj.getCollidingBoundingBoxes(entityliving, entityliving.boundingBox).size() == 0 && (!worldObj.isAnyLiquid(entityliving.boundingBox) ^ (DinoInside == EnumDinoType.Mosasaurus))) {
 				if (!worldObj.isRemote)worldObj.spawnEntityInWorld(entityliving);
 				if (PlayerNearby != null) {
-					mod_Fossil.ShowMessage(mod_Fossil.GetLangTextByKey(HEAD+"Hatched"),PlayerNearby);
+					mod_Fossil.ShowMessage(StatCollector.translateToLocal(HEAD+"Hatched"),PlayerNearby);
 				}
 				this.setDead();
 			} else {
-				mod_Fossil.ShowMessage(mod_Fossil.GetLangTextByKey(HEAD+"NoSpace"),PlayerNearby);
+				mod_Fossil.ShowMessage(StatCollector.translateToLocal(HEAD+"NoSpace"),PlayerNearby);
 				this.BirthTick -= 500;
 			}
 		}
 	}
 
+	@Override
 	protected void writeEntityToNBT(NBTTagCompound nbttagcompound) {
 		//super.writeToNBT(nbttagcompound);
 		nbttagcompound.setInteger("BirthTick", this.BirthTick);
@@ -403,6 +416,7 @@ public class EntityDinoEgg extends Entity implements IEntityAdditionalSpawnData{
 		nbttagcompound.setString("ParentOwner", this.ParentOwner);
 	}
 
+	@Override
 	protected void readEntityFromNBT(NBTTagCompound nbttagcompound) {
 		//super.readFromNBT(nbttagcompound);
 		EnumDinoType[] DinoChart = EnumDinoType.values();
@@ -411,20 +425,23 @@ public class EntityDinoEgg extends Entity implements IEntityAdditionalSpawnData{
 		this.ParentOwner = nbttagcompound.getString("ParentOwner");
 	}
 
-	public boolean interact(EntityPlayer entityplayer) {
+	@Override
+	public boolean interactFirst(EntityPlayer entityplayer) {
 		ItemStack itemstack = entityplayer.inventory.getCurrentItem();
 		if (itemstack == null) {
-			ItemStack shell = new ItemStack(mod_Fossil.Ancientegg, 1, EnumToInt(this.DinoInside));
-			if (entityplayer.inventory.addItemStackToInventory(shell)) {
-				ModLoader.onItemPickup(entityplayer, shell);
-				worldObj.playSoundAtEntity(entityplayer, "random.pop", 0.2F, ((rand.nextFloat() - rand.nextFloat()) * 0.7F + 1.0F) * 2.0F);
-				this.setDead();
-			} else {
-				return false;
+			if (!this.worldObj.isRemote) {
+				ItemStack shell = new ItemStack(mod_Fossil.Ancientegg, 1, EnumToInt(this.DinoInside));
+				if (entityplayer.inventory.addItemStackToInventory(shell)) {
+					ModLoader.onItemPickup(entityplayer, shell);
+					worldObj.playSoundAtEntity(entityplayer, "random.pop", 0.2F, ((rand.nextFloat() - rand.nextFloat()) * 0.7F + 1.0F) * 2.0F);
+					this.setDead();
+				} else {
+					return false;
+				}
 			}
 			return false;
 		}
-		if (FMLCommonHandler.instance().getSide().isClient()){
+		if (!this.worldObj.isRemote){
 			if (itemstack.getItem().itemID == mod_Fossil.DinoPedia.itemID) {
 				this.showpedia(entityplayer);
 				return true;
@@ -439,7 +456,7 @@ public class EntityDinoEgg extends Entity implements IEntityAdditionalSpawnData{
 	private void showpedia(EntityPlayer checker) {
 		//if (worldObj.isRemote) return;
 		String TempStatus = "";
-		String self=mod_Fossil.GetLangTextByKey(PEDIA+"selfHead")+EntityDinosaurce.GetNameByEnum(DinoInside,false)+mod_Fossil.GetLangTextByKey(PEDIA+"selfTail");
+		String self=StatCollector.translateToLocal(PEDIA+"selfHead")+StatCollector.translateToLocal(DinoInside.getDinoName())+StatCollector.translateToLocal(PEDIA+"selfTail");
 		int Progress = (int) Math.floor(((float)this.BirthTick / HatchingNeedTime) * 100);
 		/*if (Progress < 0) {
 			Progress = 0;
@@ -447,19 +464,19 @@ public class EntityDinoEgg extends Entity implements IEntityAdditionalSpawnData{
 		mod_Fossil.ShowMessage(self,checker);
 		if (this.DinoInside == EnumDinoType.Mosasaurus) {
 			if (this.BirthTick >= 0) {
-				TempStatus = mod_Fossil.GetLangTextByKey(PEDIA+"wet");
+				TempStatus = StatCollector.translateToLocal(PEDIA+"wet");
 			} else {
-				TempStatus = mod_Fossil.GetLangTextByKey(PEDIA+"dry");
+				TempStatus = StatCollector.translateToLocal(PEDIA+"dry");
 			}
 		} else {
 			if (this.BirthTick >= 0) {
-				TempStatus = mod_Fossil.GetLangTextByKey(PEDIA+"warm");
+				TempStatus = StatCollector.translateToLocal(PEDIA+"warm");
 			} else {
-				TempStatus = mod_Fossil.GetLangTextByKey(PEDIA+"cold");
+				TempStatus = StatCollector.translateToLocal(PEDIA+"cold");
 			}
 		}
-		String StatusText = mod_Fossil.GetLangTextByKey(PEDIA+"Status");
-		String HatchingText = mod_Fossil.GetLangTextByKey(PEDIA+"Progress");
+		String StatusText = StatCollector.translateToLocal(PEDIA+"Status");
+		String HatchingText = StatCollector.translateToLocal(PEDIA+"Progress");
 		mod_Fossil.ShowMessage(new StringBuilder().append(StatusText).append(TempStatus).toString(),checker);			
 		mod_Fossil.ShowMessage(new StringBuilder().append(HatchingText).append(Progress).append("/100").toString(),checker);
 

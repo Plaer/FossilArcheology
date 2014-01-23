@@ -61,7 +61,7 @@ public class RenderTriceratops extends RenderLiving
              float var12 = entityTriceratops.prevRotationPitch + (entityTriceratops.rotationPitch - entityTriceratops.prevRotationPitch) * f1;
              this.renderLivingAt(entityTriceratops, d, d1, d2);
              float var13 = this.handleRotationFloat(entityTriceratops, f1);
-             this.rotateCorpse(entityTriceratops, var13, var10, f1);
+             this.rotateCorpse(entityTriceratops, var13, (entityTriceratops.isModelized())?var11:var10, f1);
              float var14 = 0.0625F;
              GL11.glEnable(GL12.GL_RESCALE_NORMAL);
              GL11.glScalef(((EntityDinosaurce)entityTriceratops).getGLX(), -((EntityDinosaurce)entityTriceratops).getGLY(), ((EntityDinosaurce)entityTriceratops).getGLZ());
@@ -319,7 +319,7 @@ public class RenderTriceratops extends RenderLiving
     {
 		EntityDinosaurce triceratops=(EntityDinosaurce)entityliving;
         if (triceratops.getHealth()<(8+triceratops.getDinoAge()) && triceratops.getHealth()>20){
-			this.bindTexture(new ResourceLocation("/skull/Tri_Hurt.png"));
+			this.bindTexture(new ResourceLocation("fossilsarch:entity/Tri_Hurt.png"));
 			return 1;
 		}
 		return -1;
@@ -332,24 +332,24 @@ public class RenderTriceratops extends RenderLiving
 		if (trike.isBaby()) {
 			switch (trike.getSubSpecies()) {
 			case 1:
-				return new ResourceLocation("/skull/Triceratops_Baby_1.png");
+				return new ResourceLocation("fossilsarch:entity/Triceratops_Baby_1.png");
 			case 2:
-				return new ResourceLocation("/skull/Triceratops_Baby_2.png");
+				return new ResourceLocation("fossilsarch:entity/Triceratops_Baby_2.png");
 			case 3:
-				return new ResourceLocation("/skull/Triceratops_Baby_3.png");
+				return new ResourceLocation("fossilsarch:entity/Triceratops_Baby_3.png");
 			default:
-				return new ResourceLocation("/skull/Triceratops_Baby_1.png");
+				return new ResourceLocation("fossilsarch:entity/Triceratops_Baby_1.png");
 			}
 		} else {
 			switch (trike.getSubSpecies()) {
 			case 1:
-				return new ResourceLocation("/skull/Triceratops_Adult_1.png");
+				return new ResourceLocation("fossilsarch:entity/Triceratops_Adult_1.png");
 			case 2:
-				return new ResourceLocation("/skull/Triceratops_Adult_2.png");
+				return new ResourceLocation("fossilsarch:entity/Triceratops_Adult_2.png");
 			case 3:
-				return new ResourceLocation("/skull/Triceratops_Adult_3.png");
+				return new ResourceLocation("fossilsarch:entity/Triceratops_Adult_3.png");
 			default:
-				return new ResourceLocation("/skull/Triceratops_Adult_1.png");
+				return new ResourceLocation("fossilsarch:entity/Triceratops_Adult_1.png");
 			}
 		}
 	}

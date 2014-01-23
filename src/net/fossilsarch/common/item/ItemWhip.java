@@ -13,10 +13,6 @@ public class ItemWhip extends ItemCarrotOnAStick {
 		super(par1);
 		// TODO Auto-generated constructor stub
 	}
-    public String getTextureFile()
-    {
-       return "/skull/Fos_items.png";
-    }
     /**
      * Called whenever this item is equipped and the right mouse button is pressed. Args: itemStack, world, entityPlayer
      */

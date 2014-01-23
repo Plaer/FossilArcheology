@@ -18,6 +18,8 @@ import net.minecraft.pathfinding.PathEntity;
 import net.minecraft.potion.Potion;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.MathHelper;
+import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 
 import com.google.common.io.ByteArrayDataInput;
@@ -71,6 +73,8 @@ public abstract class EntityDinosaurce extends EntityTameable implements IEntity
 	public int getHungerLimit(){
 		return 100;
 	}
+	
+	@Override
     protected void entityInit()
     {
         super.entityInit();
@@ -134,7 +138,7 @@ public abstract class EntityDinosaurce extends EntityTameable implements IEntity
 		this.dataWatcher.updateObject(HUNGER_TICK_DATA_INDEX,Integer.valueOf(value));
 	}
 	public String getModelTexture(){
-		return "/skull/DinoModel"+this.SelfType.toString()+".png";
+		return "fossilsarch:entity/DinoModel"+this.SelfType.toString()+".png";
 	}
 
     /**
@@ -223,8 +227,8 @@ public abstract class EntityDinosaurce extends EntityTameable implements IEntity
 	public void SendOrderMessage(EnumOrderType Order) {
 		String result = "";	
 		final String ORDERHEAD="Order.";
-		result = mod_Fossil.GetLangTextByKey(ORDERHEAD+"Head");
-		result += mod_Fossil.GetLangTextByKey(ORDERHEAD+Order.toString());
+		result = StatCollector.translateToLocal(ORDERHEAD+"Head");
+		result += StatCollector.translateToLocal(ORDERHEAD+Order.toString());
 		mod_Fossil.ShowMessage(result,(EntityPlayer) this.getOwner());
 	}
 
@@ -246,15 +250,15 @@ public abstract class EntityDinosaurce extends EntityTameable implements IEntity
 			case Bytreate:
 			case NoSpace:
 			case StarveEsc:
-				MsgHead=mod_Fossil.GetLangTextByKey(STATUS+HEAD+"SomeOf");
+				MsgHead=StatCollector.translateToLocal(STATUS+HEAD+"SomeOf");
 				break;
 			case SJLBite:
 			case GemErrorYoung:
-				MsgHead=mod_Fossil.GetLangTextByKey(STATUS+HEAD+"This");
+				MsgHead=StatCollector.translateToLocal(STATUS+HEAD+"This");
 				DinoName = GetNameByEnum(target,false);
 				break;
 			case Nervous:
-				MsgHead=mod_Fossil.GetLangTextByKey(STATUS+HEAD+"Nervous");
+				MsgHead=StatCollector.translateToLocal(STATUS+HEAD+"Nervous");
 				DinoName = GetNameByEnum(target,false);
 				break;
 			case ChewTime:
@@ -263,7 +267,7 @@ public abstract class EntityDinosaurce extends EntityTameable implements IEntity
 				DinoName="";				
 		}
 
-			result=MsgHead + DinoName + mod_Fossil.GetLangTextByKey(STATUS+ST.toString());			
+			result=MsgHead + DinoName + StatCollector.translateToLocal(STATUS+ST.toString());			
 
 
 		mod_Fossil.ShowMessage(result,(EntityPlayer) this.getOwner());
@@ -287,8 +291,8 @@ public abstract class EntityDinosaurce extends EntityTameable implements IEntity
 	public static String GetNameByEnum(EnumDinoType target,boolean plural) {
 		final String DINO="Dino.";
 		final String PLURAL=".Plural";
-		String resultSingle=mod_Fossil.GetLangTextByKey(DINO+target.toString());
-		String resultPul=mod_Fossil.GetLangTextByKey(DINO+target.toString()+PLURAL);
+		String resultSingle=StatCollector.translateToLocal(DINO+target.toString());
+		String resultPul=StatCollector.translateToLocal(DINO+target.toString()+PLURAL);
 		if (resultPul.equals(" "))resultPul=resultSingle;
 		if (plural) return resultPul;
 		else return resultSingle;
@@ -298,16 +302,16 @@ public abstract class EntityDinosaurce extends EntityTameable implements IEntity
 		SelfName = GetNameByEnum(Caller,false);
 		final String PEDIA="PediaText.";
 		mod_Fossil.ShowMessage(SelfName,checker);
-		OwnerText = mod_Fossil.GetLangTextByKey(PEDIA+"owner");
-		UntamedText = mod_Fossil.GetLangTextByKey(PEDIA+"Untamed");
-		EnableChestText = mod_Fossil.GetLangTextByKey(PEDIA+"EnableChest");
-		AgeText = mod_Fossil.GetLangTextByKey(PEDIA+"Age");
-		HelthText = mod_Fossil.GetLangTextByKey(PEDIA+"Health");
-		HungerText = mod_Fossil.GetLangTextByKey(PEDIA+"Hunger");
-		CautionText = mod_Fossil.GetLangTextByKey(PEDIA+"Caution");
-		RidiableText = mod_Fossil.GetLangTextByKey(PEDIA+"Ridiable");
-		WeakText = mod_Fossil.GetLangTextByKey(PEDIA+"Weak");
-		FlyText = mod_Fossil.GetLangTextByKey(PEDIA+"Fly");
+		OwnerText = StatCollector.translateToLocal(PEDIA+"owner");
+		UntamedText = StatCollector.translateToLocal(PEDIA+"Untamed");
+		EnableChestText = StatCollector.translateToLocal(PEDIA+"EnableChest");
+		AgeText = StatCollector.translateToLocal(PEDIA+"Age");
+		HelthText = StatCollector.translateToLocal(PEDIA+"Health");
+		HungerText = StatCollector.translateToLocal(PEDIA+"Hunger");
+		CautionText = StatCollector.translateToLocal(PEDIA+"Caution");
+		RidiableText = StatCollector.translateToLocal(PEDIA+"Ridiable");
+		WeakText = StatCollector.translateToLocal(PEDIA+"Weak");
+		FlyText = StatCollector.translateToLocal(PEDIA+"Fly");
 		
 	}
 
@@ -359,11 +363,13 @@ public abstract class EntityDinosaurce extends EntityTameable implements IEntity
 		return (float)(Math.sqrt(Math.pow((double)(posX-target.posX),2)+Math.pow((double)(posY-target.posY),2)+Math.pow((double)(posZ-target.posZ),2)));
 	}
 
+	@Override
 	protected int getDropItemId() {
 		if (this.isModelized()) return Item.bone.itemID;
 		return mod_Fossil.RawDinoMeat.itemID;
 	}
 
+	@Override
 	protected void dropFewItems(boolean flag, int unusedi) {
 	    int i = getDropItemId();
 	    int meta=(this.isModelized())?0:this.SelfType.ordinal();
@@ -414,6 +420,8 @@ public abstract class EntityDinosaurce extends EntityTameable implements IEntity
 		if (this.isModelized()) return 0.0F;
 	    return 0.5F+0.1F*this.getDinoAge();
 	}
+	
+	@Override
 	public void writeEntityToNBT(NBTTagCompound nbttagcompound)
     {
         super.writeEntityToNBT(nbttagcompound);
@@ -432,6 +440,8 @@ public abstract class EntityDinosaurce extends EntityTameable implements IEntity
 			nbttagcompound.setString("Owner", getOwnerName());
 		}
     }
+	
+	@Override
 	public void readEntityFromNBT(NBTTagCompound nbttagcompound)
     {
         super.readEntityFromNBT(nbttagcompound);
@@ -526,4 +536,33 @@ public abstract class EntityDinosaurce extends EntityTameable implements IEntity
 	public String[] additionalPediaMessage(){
 		return null;
 	}
+	
+    /**
+     * Returns true if other Entities should be prevented from moving through this Entity.
+     */
+	@Override
+    public boolean canBeCollidedWith()
+    {
+		if (this.isModelized())
+			return true;
+		return super.canBeCollidedWith();
+    }
+	
+	@Override
+    public boolean canBePushed()
+    {
+		if (this.isModelized())
+			return false;
+		
+		return super.canBePushed();
+    }
+
+	@Override
+    protected void collideWithEntity(Entity par1Entity)
+    {
+		if (!this.isModelized()) {
+			super.collideWithEntity(par1Entity);
+			return;
+		}
+    }
 }

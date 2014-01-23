@@ -31,31 +31,39 @@ public class EntityBones extends EntityMob
         this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setAttribute(20.0D);
     }
 
+    @Override
     public boolean isAIEnabled()
     {
         return true;
     }
+    
+    @Override
     protected String getHurtSound()
     {
         return "mob.skeletonhurt";
     }
 
+    @Override
     protected String getDeathSound()
     {
         return "mob.skeletonhurt";
     }
 
-    public boolean attackEntityFrom(DamageSource damagesource, int i)
+    @Override
+    public boolean attackEntityFrom(DamageSource damagesource, float i)
     {
         boolean result=super.attackEntityFrom(damagesource, i);
         entityToAttack=null;
         return result;
     }
 
+    @Override
     public boolean canBreatheUnderwater()
     {
         return true;
     }
+    
+    @Override
     public void onLivingUpdate()
     {
         if (worldObj.isDaytime() && !worldObj.isRemote)
@@ -68,42 +76,56 @@ public class EntityBones extends EntityMob
         }
         super.onLivingUpdate();
     }
+    
+    @Override
     protected void updateEntityActionState()
     {
     	return;
     }
+    
+    @Override
     protected boolean canDespawn()
     {
         return false;
     }
+    
+    @Override
     protected void jump()
     {
     	return;
     }
+    
+    @Override
     protected Entity findPlayerToAttack()
     {
     	return null;
     }
+    
+    @Override
     protected void attackEntity(Entity entity, float f)
     {
     	return;
     }
 
+    @Override
     public void writeEntityToNBT(NBTTagCompound nbttagcompound)
     {
         super.writeEntityToNBT(nbttagcompound);
     }
 
+    @Override
     public void readEntityFromNBT(NBTTagCompound nbttagcompound)
     {
         super.readEntityFromNBT(nbttagcompound);
     }
 
+    @Override
     protected int getDropItemId()
     {
         return mod_Fossil.blockSkull.blockID;
     }
 
+    @Override
     protected void dropFewItems(boolean flag, int i)
     {
         int j = 1;
@@ -119,11 +141,13 @@ public class EntityBones extends EntityMob
         }
     }
 
+    @Override
     public ItemStack getHeldItem()
     {
         return defaultHeldItem;
     }
 
+    @Override
     public EnumCreatureAttribute getCreatureAttribute()
     {
         return EnumCreatureAttribute.UNDEAD;

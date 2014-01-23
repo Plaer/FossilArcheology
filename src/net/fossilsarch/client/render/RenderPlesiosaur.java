@@ -88,7 +88,7 @@ public class RenderPlesiosaur extends RenderLiving
               float var12 = entityPlesiosaur.prevRotationPitch + (entityPlesiosaur.rotationPitch - entityPlesiosaur.prevRotationPitch) * f1;
               this.renderLivingAt(entityPlesiosaur, d, d1, d2);
               float var13 = this.handleRotationFloat(entityPlesiosaur, f1);
-              this.rotateCorpse(entityPlesiosaur, var13, var10, f1);
+              this.rotateCorpse(entityPlesiosaur, var13, (entityPlesiosaur.isModelized())?var11: var10, f1);
               float var14 = 0.0625F;
               GL11.glEnable(GL12.GL_RESCALE_NORMAL);
               GL11.glScalef(((EntityDinosaurce)entityPlesiosaur).getGLX(), -((EntityDinosaurce)entityPlesiosaur).getGLY(), ((EntityDinosaurce)entityPlesiosaur).getGLZ());
@@ -238,6 +238,11 @@ public class RenderPlesiosaur extends RenderLiving
 
 	@Override
 	protected ResourceLocation getEntityTexture(Entity entity) {
-		return new ResourceLocation("/skull/Plesiosaur_adult.png");
+		EntityPlesiosaur ples = (EntityPlesiosaur)entity;
+		
+		if (ples.isModelized())
+			return new ResourceLocation(ples.getModelTexture());
+		
+		return new ResourceLocation("fossilsarch:entity/Plesiosaur_adult.png");
 	}
 }

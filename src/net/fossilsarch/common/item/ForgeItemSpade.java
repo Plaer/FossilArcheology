@@ -20,9 +20,5 @@ public class ForgeItemSpade extends ItemSpade
     {
         super(i, enumtoolmaterial);
     }
-    public String getTextureFile()
-    {
-       return "/skull/Fos_items.png";
-    }
-    
+
 }

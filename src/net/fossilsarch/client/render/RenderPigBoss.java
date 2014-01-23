@@ -43,9 +43,9 @@ public class RenderPigBoss extends RenderBiped
             return -1;
         }
     	if (entitypigboss.FireballCount>=50){
-    		this.bindTexture(new ResourceLocation("/skull/PigBossCharged_r.png"));
+    		this.bindTexture(new ResourceLocation("fossilsarch:entity/PigBossCharged_r.png"));
     	}else{
-    		this.bindTexture(new ResourceLocation("/skull/PigBoss_r.png"));
+    		this.bindTexture(new ResourceLocation("fossilsarch:entity/PigBoss_r.png"));
     	}
     	float f1 = (1.0F - entitypigboss.getBrightness(1.0F)) * 0.5F;
         GL11.glEnable(3042 /*GL_BLEND*/);

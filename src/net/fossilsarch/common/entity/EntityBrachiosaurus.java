@@ -80,26 +80,34 @@ public class EntityBrachiosaurus extends EntityDinosaurce  {
     {
         return (!this.isModelized());
     }
-	public boolean attackEntityFrom(DamageSource damagesource, int i)
+    
+    @Override
+	public boolean attackEntityFrom(DamageSource damagesource, float i)
     {
 		if (this.modelizedDrop()) return true;
 		return super.attackEntityFrom(damagesource, i);
     }
-	 protected String getLivingSound()
-	    {
-			if (worldObj.getClosestPlayerToEntity(this, 16D)!=null) return "Brach_living";
-			else return null;
+    
+    @Override
+	protected String getLivingSound()
+    {
+		if (worldObj.getClosestPlayerToEntity(this, 16D)!=null) return "Brach_living";
+		else return null;
 
-	    }
-		protected String getHurtSound()
-	    {
-	        return "mob.cowhurt";
-	    }
+    }
+    
+    @Override
+	protected String getHurtSound()
+    {
+        return "mob.cowhurt";
+    }
 
-	    protected String getDeathSound()
-	    {
-	        return "Brach_death";
-	    }
+    @Override
+    protected String getDeathSound()
+    {
+        return "Brach_death";
+    }
+    
 	@Override
 	public String getOwnerName() {
 		return this.OwnerName;
@@ -184,36 +192,6 @@ public class EntityBrachiosaurus extends EntityDinosaurce  {
 		return result;
 	}
 	
-
-
-
-	
-
-	/*@Override
-	protected void GrowUp() {
-		if (age<=AGE_LIMIT && this.riddenByEntity==null){
-		AgeTick++;
-			if(AgeTick>=GROW_TIME_COUNT){
-				//mod_Fossil.ShowMessage((new StringBuilder()).append((int)Math.round(1.0+age*0.3)).toString());
-
-					AgeTick=0;
-					age++;
-					if (health<20) health+=1;
-					updateSize(false);
-					setPosition(posX,posY,posZ);
-				if (!CheckSpace()){	
-					age--;
-					if (health>1) health-=1;
-					updateSize(false);
-					setPosition(posX,posY,posZ);
-					if (isTamed()) SendStatusMessage(EnumSituation.NoSpace,this.SelfType); 
-				}
-				this.moveSpeed=0.3F+this.age*0.05f;
-				this.heal(this.getMaxHealth()/AGE_LIMIT);
-			}
-		}
-
-	}*/
 	public boolean interact(EntityPlayer entityplayer)
     {
 		if (this.isModelized()) return modelizedInteract(entityplayer);

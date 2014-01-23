@@ -270,20 +270,20 @@ public class RenderRaptor extends RenderLiving
 		if (raptor.getAge() > 3) {
 			switch (raptor.getSubSpecies()) {
 			case 1:
-				return new ResourceLocation("/skull/raptor_blue_adult.png");
+				return new ResourceLocation("fossilsarch:entity/raptor_blue_adult.png");
 			case 2:
-				return new ResourceLocation("/skull/raptor_green_adult.png");
+				return new ResourceLocation("fossilsarch:entity/raptor_green_adult.png");
 			default:
-				return new ResourceLocation("/skull/Raptor_Adult.png");
+				return new ResourceLocation("fossilsarch:entity/Raptor_Adult.png");
 			}
 		} else {
 			switch (raptor.getSubSpecies()) {
 			case 1:
-				return new ResourceLocation("/skull/raptor_blue_Baby.png");
+				return new ResourceLocation("fossilsarch:entity/raptor_blue_Baby.png");
 			case 2:
-				return new ResourceLocation("/skull/raptor_green_Baby.png");
+				return new ResourceLocation("fossilsarch:entity/raptor_green_Baby.png");
 			default:
-				return new ResourceLocation("/skull/Raptor_Baby.png");
+				return new ResourceLocation("fossilsarch:entity/Raptor_Baby.png");
 			}
 		}
 	}

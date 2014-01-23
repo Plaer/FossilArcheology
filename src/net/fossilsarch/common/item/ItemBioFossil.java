@@ -19,32 +19,9 @@ public class ItemBioFossil extends Item {
 		super(i);
 		maxStackSize=64;
 	}
-    public String getTextureFile()
-    {
-       return "/skull/Fos_items.png";
-    }
-    /*public ItemStack onItemRightClick(ItemStack itemstack, World world, EntityPlayer entityplayer)
-    {
-			Class choose=getRandomModel().getDinoClass();
-			EntityDinosaurce entityModel;
-			try {
-				entityModel = (EntityDinosaurce)choose.getConstructor(new Class[] {World.class}).newInstance(new Object[] {world});
-			} catch (Throwable e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				return false;
-			} 
-			entityModel.setModelized(true);
-			entityModel.setLocationAndAngles(i, j + 1, k, world.rand.nextFloat() * 360F, 0.0F);
-			entityModel.faceEntity(entityplayer, 360F, 360F);
-			if (world.checkIfAABBIsClear(entityModel.boundingBox) && world.getCollidingBoundingBoxes(entityModel, entityModel.boundingBox).size() == 0 ) {
-				world.spawnEntityInWorld(entityModel);
-				itemstack.stackSize--;
-				return true;
-			}
-			return false;
-	}*/
-    public boolean tryPlaceIntoWorld(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, World par3World, int par4, int par5, int par6, int par7, float par8, float par9, float par10)
+
+	@Override
+    public boolean onItemUse(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, World par3World, int par4, int par5, int par6, int par7, float par8, float par9, float par10)
     {
         if (par3World.isRemote)
         {

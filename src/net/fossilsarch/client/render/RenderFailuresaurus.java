@@ -31,7 +31,7 @@ public class RenderFailuresaurus extends RenderLiving{
     
 	@Override
 	protected ResourceLocation getEntityTexture(Entity entity) {
-		return new ResourceLocation("/skull/Failuresaurus.png");
+		return new ResourceLocation("fossilsarch:entity/Failuresaurus.png");
 	}
 }
 

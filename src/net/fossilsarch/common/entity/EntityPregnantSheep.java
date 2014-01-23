@@ -15,6 +15,7 @@ import net.minecraft.entity.passive.EntitySheep;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 
 import com.google.common.io.ByteArrayDataInput;
@@ -126,7 +127,7 @@ public class EntityPregnantSheep extends EntitySheep implements IViviparous,IEnt
     	UpdatePediaText();
 		int Progress = (int) Math.floor(((float)this.EmbyoProgress / 3000) * 100);
 
-			mod_Fossil.ShowMessage(new StringBuilder().append(InsideText).append(mod_Fossil.GetEmbyoName(Embyos)).toString(),checker);
+			mod_Fossil.ShowMessage(new StringBuilder().append(InsideText).append(StatCollector.translateToLocal(Embyos.getAnimalName())).toString(),checker);
 			mod_Fossil.ShowMessage(new StringBuilder().append(GrowingText).append(Progress).append("%").toString(),checker);
 		
 	}
@@ -139,8 +140,8 @@ public class EntityPregnantSheep extends EntitySheep implements IViviparous,IEnt
     
     public void UpdatePediaText(){
     	final String PEDIA="PediaText.vivi.";
- 		InsideText=mod_Fossil.GetLangTextByKey(PEDIA+"inside");
- 		GrowingText=mod_Fossil.GetLangTextByKey(PEDIA+"growing");
+ 		InsideText=StatCollector.translateToLocal(PEDIA+"inside");
+ 		GrowingText=StatCollector.translateToLocal(PEDIA+"growing");
     }
 	@Override
 	public void writeSpawnData(ByteArrayDataOutput data) {

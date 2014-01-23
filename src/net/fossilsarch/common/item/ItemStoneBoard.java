@@ -15,11 +15,9 @@ public class ItemStoneBoard extends Item{
 		super(i);
         this.setCreativeTab(CreativeTabs.tabDecorations);
 	}
-    public String getTextureFile()
-    {
-       return "/skull/Fos_items.png";
-    }
-    public boolean tryPlaceIntoWorld(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, World par3World, int par4, int par5, int par6, int par7, float par8, float par9, float par10)
+    
+    @Override
+    public boolean onItemUse(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, World par3World, int par4, int par5, int par6, int par7, float par8, float par9, float par10)
     {
     	if (par7 == 0)
         {
@@ -31,7 +29,7 @@ public class ItemStoneBoard extends Item{
         }
         else
         {
-            int var11 = Direction.rotateOpposite[par7];
+            int var11 = Direction.facingToDirection[par7];
             EntityStoneboard var12 = new EntityStoneboard(par3World, par4, par5, par6, var11);
             
             if (!par2EntityPlayer.canPlayerEdit(par4, par5, par6, par7, par1ItemStack))

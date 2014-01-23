@@ -174,7 +174,8 @@ public class EntityTriceratops extends EntityDinosaurce {
 		return isSelfSitting() || field_25052_g;
 	}
 
-	public boolean attackEntityFrom(DamageSource damagesource, int i) {
+	@Override
+	public boolean attackEntityFrom(DamageSource damagesource, float i) {
 		if (this.modelizedDrop())
 			return true;
 		Entity entity = damagesource.getEntity();
@@ -216,20 +217,6 @@ public class EntityTriceratops extends EntityDinosaurce {
 		}
 	}
 
-	/*
-	 * protected void attackEntity(Entity entity, float f) { if
-	 * (this.getEntityToAttack()==this){ this.setTarget(null); return; } if(f >
-	 * GLsizeX && f < GLsizeX*3 && rand.nextInt(10) == 0) { if(onGround) {
-	 * double d = entity.posX - posX; double d1 = entity.posZ - posZ; float f1 =
-	 * MathHelper.sqrt_double(d * d + d1 * d1); motionX = (d / (double)f1) *
-	 * 0.5D * 0.80000001192092896D + motionX * 0.20000000298023224D; motionZ =
-	 * (d1 / (double)f1) * 0.5D * 0.80000001192092896D + motionZ *
-	 * 0.20000000298023224D; //motionY = 0.40000000596046448D; } } else
-	 * if((double)f < GLsizeX && entity.boundingBox.maxY > boundingBox.minY &&
-	 * entity.boundingBox.minY < boundingBox.maxY) { attackTime = 20;
-	 * entity.attackEntityFrom(DamageSource.causeMobDamage(this),
-	 * 3+this.getDinoAge()); } }
-	 */
 	public boolean interact(EntityPlayer entityplayer) {
 		if (this.isModelized())
 			return modelizedInteract(entityplayer);
@@ -245,9 +232,7 @@ public class EntityTriceratops extends EntityDinosaurce {
 				heal(3);
 
 			}
-			/*
-			 * }else{ SendStatusMessage(EnumSituation.ChewTime,this.SelfType); }
-			 */
+
 			return true;
 		}
 		if (FMLCommonHandler.instance().getSide().isClient()) {
