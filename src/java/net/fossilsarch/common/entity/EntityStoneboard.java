@@ -10,6 +10,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Direction;
 import net.minecraft.util.MathHelper;
+import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraft.item.ItemStack;
 
@@ -63,6 +64,11 @@ public class EntityStoneboard extends Entity implements IEntityAdditionalSpawnDa
         }
         setDirection(l);
     }
+	
+	@Override
+	public String getEntityName() {
+		return StatCollector.translateToLocal("item.stoneboard.name");
+	}
     
     @Override
 	protected void entityInit()
@@ -232,7 +238,7 @@ public class EntityStoneboard extends Entity implements IEntityAdditionalSpawnDa
 	public void writeEntityToNBT(NBTTagCompound nbttagcompound)
     {
         nbttagcompound.setByte("Dir", (byte)direction);
-        nbttagcompound.setString("Motive", art.title);
+        nbttagcompound.setInteger("Art", art.ordinal());
         nbttagcompound.setInteger("TileX", xPosition);
         nbttagcompound.setInteger("TileY", yPosition);
         nbttagcompound.setInteger("TileZ", zPosition);
@@ -241,27 +247,14 @@ public class EntityStoneboard extends Entity implements IEntityAdditionalSpawnDa
 	@Override
 	public void readEntityFromNBT(NBTTagCompound nbttagcompound)
     {
-        direction = nbttagcompound.getByte("Dir");
+        int dir = nbttagcompound.getByte("Dir");
+        int art = nbttagcompound.getInteger("Art"); 
         xPosition = nbttagcompound.getInteger("TileX");
         yPosition = nbttagcompound.getInteger("TileY");
         zPosition = nbttagcompound.getInteger("TileZ");
-        String s = nbttagcompound.getString("Motive");
-        EnumStoneboard aenumart[] = EnumStoneboard.values();
-        int i = aenumart.length;
-        for(int j = 0; j < i; j++)
-        {
-            EnumStoneboard enumart = aenumart[j];
-            if(enumart.title.equals(s))
-            {
-                art = enumart;
-            }
-        }
-
-        if(art == null)
-        {
-            art = EnumStoneboard.Portol;
-        }
-        setDirection(direction);
+        
+        this.art = EnumStoneboard.values()[art];
+        setDirection(dir);
     }
 	
 	@Override
@@ -303,5 +296,10 @@ public class EntityStoneboard extends Entity implements IEntityAdditionalSpawnDa
 		this.art=EnumStoneboard.values()[artIndex];
 		
         setDirection(dir);
+	}
+	
+	@Override
+	protected boolean shouldSetPosAfterLoading() {
+		return false;
 	}
 }
