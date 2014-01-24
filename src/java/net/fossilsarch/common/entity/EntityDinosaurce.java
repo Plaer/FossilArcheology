@@ -89,6 +89,7 @@ public abstract class EntityDinosaurce extends EntityTameable implements IEntity
         this.dataWatcher.addObject(this.HUNGER_TICK_DATA_INDEX, new Integer(HungerTickLimit));
         this.dataWatcher.addObject(this.SUBSPECIES_INDEX, new Integer(1));
         this.dataWatcher.addObject(this.MODELIZED_INDEX, new Byte((byte) -1));
+        this.ignoreFrustumCheck = true;
 
     }
     public int getSubSpecies(){
