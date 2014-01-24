@@ -61,6 +61,11 @@ public abstract class EntityDinosaurce extends EntityTameable implements IEntity
 	public DinoAIControlledByPlayer getRidingHandler() {
 		return ridingHandler;
 	}
+	
+	@Override
+	public String getEntityName() {
+		return SelfType.getDinoName();
+	}
 
 	public boolean isModelized() {
 		return this.dataWatcher.getWatchableObjectByte(MODELIZED_INDEX)>=0;

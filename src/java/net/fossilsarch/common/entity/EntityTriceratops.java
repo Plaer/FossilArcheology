@@ -111,7 +111,10 @@ public class EntityTriceratops extends EntityDinosaurce {
 		super.readEntityFromNBT(nbttagcompound);
 		this.setSubSpecies(nbttagcompound.getInteger("SubSpecies"));
 		CheckSkin();
-		setSelfAngry(nbttagcompound.getBoolean("Angry"));
+		
+		boolean angry = nbttagcompound.getBoolean("Angry");
+		if (!this.isModelized())
+			setSelfAngry(angry);
 		InitSize();
 	}
 
