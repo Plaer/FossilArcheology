@@ -91,7 +91,7 @@ public class EntityStoneboard extends Entity implements IEntityAdditionalSpawnDa
         float f4 = (float)yPosition + 0.5F;
         float f5 = (float)zPosition + 0.5F;
         float f6 = 0.5625F;
-        if(i == 0)
+        if(i == 2)
         {
             f5 -= f6;
         }
@@ -99,7 +99,7 @@ public class EntityStoneboard extends Entity implements IEntityAdditionalSpawnDa
         {
             f3 -= f6;
         }
-        if(i == 2)
+        if(i == 0)
         {
             f5 += f6;
         }
@@ -107,7 +107,7 @@ public class EntityStoneboard extends Entity implements IEntityAdditionalSpawnDa
         {
             f3 += f6;
         }
-        if(i == 0)
+        if(i == 2)
         {
             f3 -= func_411_c(art.sizeX);
         }
@@ -115,7 +115,7 @@ public class EntityStoneboard extends Entity implements IEntityAdditionalSpawnDa
         {
             f5 += func_411_c(art.sizeX);
         }
-        if(i == 2)
+        if(i == 0)
         {
             f3 += func_411_c(art.sizeX);
         }

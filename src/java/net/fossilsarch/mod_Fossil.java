@@ -472,7 +472,7 @@ public class mod_Fossil {
     }
     private void registEntitys(){
     	int modEntityID=1;
-    	EntityRegistry.registerModEntity(EntityStoneboard.class, "StoneBoard", modEntityID++,this,250,5,false);
+    	EntityRegistry.registerModEntity(EntityStoneboard.class, "StoneBoard", modEntityID++,this,250,Integer.MAX_VALUE,false);
     	EntityRegistry.registerModEntity(EntityJavelin.class, "Javelin", modEntityID++,this,250,5,true);
         EntityRegistry.registerModEntity(EntityAncientJavelin.class, "AncientJavelin", modEntityID++,this,250,5,true);
         EntityRegistry.registerModEntity(EntityMLighting.class, "FriendlyLighting", modEntityID++,this,250,5,true);

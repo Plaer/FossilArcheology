@@ -30,26 +30,23 @@ public class ItemStoneBoard extends Item{
         else
         {
             int var11 = Direction.facingToDirection[par7];
-            EntityStoneboard var12 = new EntityStoneboard(par3World, par4, par5, par6, var11);
             
             if (!par2EntityPlayer.canPlayerEdit(par4, par5, par6, par7, par1ItemStack))
             {
                 return false;
             }
-            else
+            else if (!par3World.isRemote)
             {
+                EntityStoneboard var12 = new EntityStoneboard(par3World, par4, par5, par6, var11);
                 if (var12 != null && var12.onValidSurface())
                 {
-                    if (!par3World.isRemote)
-                    {
-                        par3World.spawnEntityInWorld(var12);
-                    }
+                    par3World.spawnEntityInWorld(var12);
 
                     --par1ItemStack.stackSize;
                 }
 
-                return true;
             }
+            return true;
         }
     }
 }
