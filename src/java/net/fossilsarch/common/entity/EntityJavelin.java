@@ -19,6 +19,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.StatCollector;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
@@ -65,6 +66,11 @@ public class EntityJavelin extends EntityArrow implements IEntityAdditionalSpawn
     {
         super(world,entityliving,f);
     }
+    
+	@Override
+	public String getEntityName() {
+		return this.getJavelinItem().getDisplayName();
+	}
 
     protected void entityInit()
     {
@@ -360,8 +366,8 @@ public class EntityJavelin extends EntityArrow implements IEntityAdditionalSpawn
             }
         }
     }
-
-    protected boolean addJavelinToPlayer(EntityPlayer player) {
+    
+    protected ItemStack getJavelinItem() {
     	ItemStack javelin;
 		switch (this.SelfMaterial){
 		default:
@@ -381,7 +387,11 @@ public class EntityJavelin extends EntityArrow implements IEntityAdditionalSpawn
 			javelin=new ItemStack(mod_Fossil.Goldjavelin,1);
 			break;
 		}
-		return player.inventory.addItemStackToInventory(javelin);
+		return javelin;
+    }
+
+    protected boolean addJavelinToPlayer(EntityPlayer player) {
+		return player.inventory.addItemStackToInventory(getJavelinItem());
 	}
 
 	public float getShadowSize()

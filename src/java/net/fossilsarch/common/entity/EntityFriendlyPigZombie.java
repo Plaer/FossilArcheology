@@ -26,6 +26,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import cpw.mods.fml.common.FMLCommonHandler;
 
@@ -171,6 +172,11 @@ public class EntityFriendlyPigZombie extends EntityMob
     {
     	return;
     }
+    
+	@Override
+	public String getEntityName() {
+		return StatCollector.translateToLocal("entity.PigZombie.name");
+	}
 
 	public boolean isTamed() {
 		return (this.LeaderName!=null && !this.LeaderName.isEmpty());

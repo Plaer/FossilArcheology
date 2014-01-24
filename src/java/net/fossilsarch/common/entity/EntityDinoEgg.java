@@ -62,6 +62,12 @@ public class EntityDinoEgg extends Entity implements IEntityAdditionalSpawnData{
 		this(world, Inside);
 		this.ParentOwner = parent.getOwnerName();
 	}
+	
+	@Override
+	public String getEntityName() {
+		ItemStack shell = new ItemStack(mod_Fossil.Ancientegg, 1, EnumToInt(this.DinoInside));
+		return shell.getDisplayName();
+	}
 
 	@Override
 	protected boolean canTriggerWalking() {

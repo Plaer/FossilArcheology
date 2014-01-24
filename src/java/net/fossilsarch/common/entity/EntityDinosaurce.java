@@ -64,7 +64,7 @@ public abstract class EntityDinosaurce extends EntityTameable implements IEntity
 	
 	@Override
 	public String getEntityName() {
-		return SelfType.getDinoName();
+		return StatCollector.translateToLocal(SelfType.getDinoName());
 	}
 
 	public boolean isModelized() {

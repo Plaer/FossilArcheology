@@ -63,32 +63,6 @@ public class EntityStoneboard extends Entity implements IEntityAdditionalSpawnDa
         }
         setDirection(l);
     }
-    @SideOnly(Side.CLIENT)
-	public EntityStoneboard(World world, int i, int j, int k, int l, String s)
-    {
-        this(world);
-        xPosition = i;
-        yPosition = j;
-        zPosition = k;
-        EnumStoneboard aenumart[] = EnumStoneboard.values();
-        int i1 = aenumart.length;
-        int j1 = 0;
-        do
-        {
-            if(j1 >= i1)
-            {
-                break;
-            }
-            EnumStoneboard enumart = aenumart[j1];
-            if(enumart.title.equals(s))
-            {
-                art = enumart;
-                break;
-            }
-            j1++;
-        } while(true);
-        setDirection(l);
-    }
     
     @Override
 	protected void entityInit()
@@ -312,20 +286,22 @@ public class EntityStoneboard extends Entity implements IEntityAdditionalSpawnDa
 	
 	@Override
 	public void writeSpawnData(ByteArrayDataOutput data) {
-		EnumStoneboard[] artList=EnumStoneboard.values();
-		for (int i=0;i<artList.length;i++){
-			if (artList[i]==this.art){
-				data.writeInt(i);
-				return;
-			}
-		}
-		data.writeInt(0);
+		data.writeInt(this.xPosition);
+		data.writeInt(this.yPosition);
+		data.writeInt(this.zPosition);
+		data.writeInt(this.direction);
+		data.writeInt(this.art.ordinal());
 	}
 	
 	@Override
 	public void readSpawnData(ByteArrayDataInput data) {
-		int artIndex=data.readInt();
+		this.xPosition = data.readInt();
+		this.yPosition = data.readInt();
+		this.zPosition = data.readInt();
+		int dir = data.readInt();
+		int artIndex = data.readInt();
 		this.art=EnumStoneboard.values()[artIndex];
 		
+        setDirection(dir);
 	}
 }

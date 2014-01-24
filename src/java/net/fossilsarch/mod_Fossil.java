@@ -28,7 +28,6 @@ import cpw.mods.fml.common.network.FMLNetworkHandler;
 import cpw.mods.fml.common.network.IChatListener;
 import cpw.mods.fml.common.network.IConnectionHandler;
 import cpw.mods.fml.common.network.IGuiHandler;
-import cpw.mods.fml.common.network.IPacketHandler;
 import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.network.Player;

@@ -13,6 +13,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
+import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 
 public class EntityBones extends EntityMob
@@ -30,6 +31,11 @@ public class EntityBones extends EntityMob
         super.applyEntityAttributes();
         this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setAttribute(20.0D);
     }
+    
+	@Override
+	public String getEntityName() {
+		return StatCollector.translateToLocal("entity.deadbones.name");
+	}
 
     @Override
     public boolean isAIEnabled()

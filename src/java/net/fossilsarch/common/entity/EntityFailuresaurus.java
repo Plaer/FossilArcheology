@@ -2,6 +2,7 @@ package net.fossilsarch.common.entity;
 
 import net.fossilsarch.mod_Fossil;
 import net.minecraft.entity.monster.EntityZombie;
+import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 
 public class EntityFailuresaurus extends EntityZombie{
@@ -17,4 +18,8 @@ public class EntityFailuresaurus extends EntityZombie{
         return;
     }
     
+	@Override
+	public String getEntityName() {
+		return StatCollector.translateToLocal("entity.failuresaurus.name");
+	}
 }
