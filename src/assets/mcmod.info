@@ -1,0 +1,25 @@
+{
+"modinfoversion":2,
+"modlist":
+[
+{
+  "modid": "633",
+  "name": "Fossil/Archeology: Reported",
+  "description": "Rebuild & hatch dinosaurs, plus a ton of other crazy things.  Based on Fossils & Archaeology by Team July",
+  "version": "1.0",
+  "url": "https://github.com/CannibalVox/FossilArcheology/",
+  "updateUrl": "https://github.com/CannibalVox/FossilArcheology/",
+  "authorList": [
+    "Flammarilva",
+    "Team July",
+    "CannibalVox"
+  ],
+  "credits": "By Flammarilva & Team July, re-ported by CannibalVox",
+  "screenshots": [
+  ],
+  "parent":"",
+  "dependencies": [
+  ]
+}
+]
+}
