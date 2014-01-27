@@ -277,7 +277,8 @@ public class EntityMosasaurus extends EntityDinosaurce implements IWaterDino{
 				this.motionY=this.SINK_SPEED;
 		}
         this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setAttribute(0.15D + 0.12D*this.getDinoAge());
-        this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setAttribute(4.0D + 2.0D*this.getDinoAge());
+        
+        this.attackStrength =  4.0f + 2.0f*this.getDinoAge();
 		
         super.onLivingUpdate();
     }
