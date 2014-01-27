@@ -132,7 +132,6 @@ public class EntityRaptor extends EntityDinosaurce implements IHighIntellegent {
     protected void applyEntityAttributes() {
         super.applyEntityAttributes();
         this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setAttribute(0.3D);
-        this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setAttribute(2.0D + this.getDinoAge());
         this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setAttribute(20.0D);
     }
 
@@ -268,7 +267,7 @@ public class EntityRaptor extends EntityDinosaurce implements IHighIntellegent {
 			numTicksToChaseTarget = 10;
 		}
 		
-		this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setAttribute(2.0D + this.getDinoAge());
+		attackStrength = 2.0f + this.getDinoAge();
 	}
 
 	public boolean getSelfShaking() {

@@ -41,7 +41,7 @@ public abstract class EntityDinosaurce extends EntityTameable implements IEntity
 	public static final int MODELIZED_INDEX=23;
 	public static final int GROW_TIME_COUNT = 12000;
 	
-	public int attackStrength=0;
+	public float attackStrength=0;
 	public static String SelfName = "";
 	public static String OwnerText = "Owner:";
 	public static String UntamedText = "Untamed";
@@ -179,7 +179,7 @@ public abstract class EntityDinosaurce extends EntityTameable implements IEntity
     @Override
     public boolean attackEntityAsMob(Entity par1Entity)
     {
-        int var2 = this.attackStrength;
+        float var2 = this.attackStrength;
 
         if (this.isPotionActive(Potion.damageBoost))
         {

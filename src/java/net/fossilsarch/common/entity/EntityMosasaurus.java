@@ -53,6 +53,7 @@ public class EntityMosasaurus extends EntityDinosaurce implements IWaterDino{
         super(world);
         SelfType=EnumDinoType.Mosasaurus;
         looksWithInterest = false;
+        attackStrength = 4.0f + 2.0f*this.getDinoAge();
         setSize(0.5F, 0.5F);
 		this.getNavigator().setCanSwim(true);
 		this.tasks.addTask(0, new DinoAIGrowup(this, 8));
@@ -74,7 +75,6 @@ public class EntityMosasaurus extends EntityDinosaurce implements IWaterDino{
         super.applyEntityAttributes();
         this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setAttribute(0.15D + 0.12D*this.getDinoAge());
         this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setAttribute(200.0D);
-        this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setAttribute(4.0D + 2.0D*this.getDinoAge());
     }
 	
 	public int getHungerLimit(){
