@@ -332,7 +332,7 @@ public class EntityDinoEgg extends Entity implements IEntityAdditionalSpawnData{
 			EntityLiving entityliving = null;
 			switch (DinoInside) {
 				case Triceratops:
-					entityliving = (EntityAnimal) new EntityTriceratops(worldObj);
+					entityliving = (EntityAnimal) new EntityTriceratops(worldObj,0);
 					((EntityTriceratops)entityliving).setSubSpecies(worldObj.rand.nextInt(3)+1);
 					if (PlayerNearby != null) {
 						((EntityDinosaurce) entityliving).setOwner(PlayerNearby.username);
@@ -340,7 +340,7 @@ public class EntityDinoEgg extends Entity implements IEntityAdditionalSpawnData{
 					}else ((EntityDinosaurce) entityliving).OrderStatus=EnumOrderType.FreeMove;
 					break;
 				case Raptor:
-					entityliving = (EntityAnimal) new EntityRaptor(worldObj);
+					entityliving = (EntityAnimal) new EntityRaptor(worldObj,0);
 					if (LocationBiome instanceof BiomeGenForest) {
 						((EntityRaptor) entityliving).ChangeSubType(2);
 					}
@@ -353,43 +353,43 @@ public class EntityDinoEgg extends Entity implements IEntityAdditionalSpawnData{
 					}else ((EntityDinosaurce) entityliving).OrderStatus=EnumOrderType.FreeMove;
 					break;
 				case TRex:
-					entityliving = (EntityAnimal) new EntityTRex(worldObj);
+					entityliving = (EntityAnimal) new EntityTRex(worldObj,0);
 					((EntityDinosaurce) entityliving).OrderStatus=EnumOrderType.FreeMove;
 					//((EntityTRex)entityliving).setSelfOwner(entityplayer.username);
 					//((EntityTRex)entityliving).setSelfTamed(true);
 					break;
 				case Pterosaur:
 					//mod_Fossil.ShowMessage("Pterosaur not ready yet.");
-					entityliving = (EntityAnimal) new EntityPterosaur(worldObj);
+					entityliving = (EntityAnimal) new EntityPterosaur(worldObj,0);
 					if (PlayerNearby != null) {
 						((EntityDinosaurce) entityliving).setOwner(PlayerNearby.username);
 						((EntityDinosaurce) entityliving).setTamed(true);
 					}else ((EntityDinosaurce) entityliving).OrderStatus=EnumOrderType.FreeMove;
 					break;
 				case Plesiosaur:
-					entityliving = (EntityAnimal) new EntityPlesiosaur(worldObj);
+					entityliving = (EntityAnimal) new EntityPlesiosaur(worldObj,0);
 					if (PlayerNearby != null) {
 						((EntityDinosaurce) entityliving).setOwner(PlayerNearby.username);
 						((EntityDinosaurce) entityliving).setTamed(true);
 					}
 					break;
 				case Mosasaurus:
-					entityliving = (EntityAnimal) new EntityMosasaurus(worldObj);
+					entityliving = (EntityAnimal) new EntityMosasaurus(worldObj,0);
 					((EntityDinosaurce) entityliving).OrderStatus=EnumOrderType.FreeMove;
 					break;
 				case Stegosaurus:
-					entityliving=(EntityAnimal) new EntityStegosaurus(worldObj);
+					entityliving=(EntityAnimal) new EntityStegosaurus(worldObj,0);
 					if (PlayerNearby != null) {
 						((EntityDinosaurce) entityliving).setOwner(PlayerNearby.username);
 						((EntityDinosaurce) entityliving).setTamed(true);
 					}else ((EntityDinosaurce) entityliving).OrderStatus=EnumOrderType.FreeMove;
 					break;
 				case dilphosaur:
-					entityliving = (EntityAnimal) new Entitydil(worldObj);
+					entityliving = (EntityAnimal) new Entitydil(worldObj,0);
 					((EntityDinosaurce) entityliving).OrderStatus=EnumOrderType.FreeMove;
 					break;
 				case Brachiosaurus:
-					entityliving=(EntityAnimal) new EntityBrachiosaurus(worldObj);
+					entityliving=(EntityAnimal) new EntityBrachiosaurus(worldObj,0);
 					if (PlayerNearby != null) {
 						((EntityDinosaurce) entityliving).setOwner(PlayerNearby.username);
 						((EntityDinosaurce) entityliving).setTamed(true);

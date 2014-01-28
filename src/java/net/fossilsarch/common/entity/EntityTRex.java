@@ -56,9 +56,15 @@ public class EntityTRex extends EntityDinosaurce{
 	public boolean SneakScream=false;
 	private final BlockBreakingRule blockBreakingBehavior=new BlockBreakingRule(worldObj,this,3,5.0f);
 	
-	public EntityTRex(World world)
+	public EntityTRex(World world) {
+		this(world, randomSpawnAge(world.rand));
+	}
+	
+	public EntityTRex(World world, int age)
     {
         super(world);
+        
+        this.setDinoAge(age);
         SelfType=EnumDinoType.TRex;
         looksWithInterest = false;
         setSize(0.5F, 0.5F);
@@ -88,6 +94,10 @@ public class EntityTRex extends EntityDinosaurce{
         this.targetTasks.addTask(2, new DinoAITargetNonTamedExceptSelfClass(this, EntityLiving.class, 50, false));
     }
 	
+	
+	private static int randomSpawnAge(Random random) {
+		return random.nextInt(8) + 16;
+	}
 	
     @Override
     protected void applyEntityAttributes() {

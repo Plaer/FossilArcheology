@@ -50,7 +50,14 @@ public class EntityTriceratops extends EntityDinosaurce {
 	public boolean Running = false;
 
 	public EntityTriceratops(World world) {
+		this(world, randomSpawnAge(world.rand));
+	}
+	
+	public EntityTriceratops(World world, int age) {
 		super(world);
+		
+		this.setDinoAge(age);
+		
 		this.OrderStatus = EnumOrderType.FreeMove;
 		SelfType = EnumDinoType.Triceratops;
 		looksWithInterest = false;
@@ -80,6 +87,15 @@ public class EntityTriceratops extends EntityDinosaurce {
 		this.tasks.addTask(9, new EntityAIWatchClosest(this,
 				EntityPlayer.class, 8.0F));
 		this.tasks.addTask(10, new EntityAILookIdle(this));
+	}
+	
+	private static int randomSpawnAge(Random random) {
+		boolean isChild = random.nextInt(4) == 0;
+		if (isChild) {
+			return random.nextInt(4);
+		} else {
+			return random.nextInt(9) + 4;
+		}
 	}
 	
 	@Override

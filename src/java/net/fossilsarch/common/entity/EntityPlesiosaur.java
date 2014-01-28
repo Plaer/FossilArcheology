@@ -53,11 +53,15 @@ public class EntityPlesiosaur extends EntityDinosaurce implements IWaterDino{
 	private float randomMotionVecX=0.0F;
 	private float randomMotionVecY=0.0F;
 	private float randomMotionVecZ=0.0F;
-	protected final int AGE_LIMIT=18;
+	
+	public EntityPlesiosaur(World world) {
+		this(world, randomSpawnAge(world.rand));
+	}
 
-	public EntityPlesiosaur(World world)
+	public EntityPlesiosaur(World world, int age)
     {
         super(world);
+        this.setDinoAge(age);
         SelfType=EnumDinoType.Plesiosaur;
         looksWithInterest = false;
 		SubSpecies=new Random().nextInt(3)+1;
@@ -79,6 +83,14 @@ public class EntityPlesiosaur extends EntityDinosaurce implements IWaterDino{
         //this.targetTasks.addTask(1, new WaterDinoAINearestAttackableTarget(this, EntityNautilus.class, 16.0F, 0, true));
         this.setHealth(8);
     }
+	
+	private static int randomSpawnAge(Random random) {
+		boolean isChild = random.nextInt(4) == 0;
+		if (isChild)
+			return random.nextInt(4);
+		else
+			return random.nextInt(9) + 4;
+	}
 	
     @Override
     protected void applyEntityAttributes() {
@@ -939,7 +951,7 @@ public class EntityPlesiosaur extends EntityDinosaurce implements IWaterDino{
 
 		@Override
 		public void updateSize(boolean shouldAddAge) {
-			if (shouldAddAge && this.getDinoAge()<this.AGE_LIMIT) this.increaseDinoAge();
+			if (shouldAddAge && this.getDinoAge()<12) this.increaseDinoAge();
 			setSize((float)(1.0F+0.3*(float)this.getDinoAge()),(float)(1.0F+0.3*(float)this.getDinoAge()));
 			
 		}

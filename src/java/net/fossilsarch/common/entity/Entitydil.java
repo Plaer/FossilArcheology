@@ -68,9 +68,14 @@ public class Entitydil extends EntityDinosaurce{
 	
 	private static Method fallInvoke = null; 
 	
-	public Entitydil(World world)
+	public Entitydil(World world) {
+		this(world, randomSpawnAge(world.rand));
+	}
+	
+	public Entitydil(World world, int spawnAge)
     {
         super(world);
+        this.setDinoAge(spawnAge);
         SelfType=EnumDinoType.dilphosaur;
         this.SelfType=EnumDinoType.dilphosaur;
         looksWithInterest = false;
@@ -106,6 +111,15 @@ public class Entitydil extends EntityDinosaurce{
 			}
 		}
     }
+	
+	private static int randomSpawnAge(Random rand) {
+		boolean isChild = rand.nextInt(4) == 0;
+		
+		if (isChild)
+			return rand.nextInt(4);
+		else
+			return rand.nextInt(5)+4;
+	}
 	
     @Override
     protected void applyEntityAttributes() {

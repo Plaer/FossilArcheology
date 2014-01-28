@@ -51,9 +51,15 @@ public class EntityStegosaurus extends EntityDinosaurce{
 	public int RushTick=0;
 	public int BreedTick=3000;
 	public boolean Running=false;
-	public EntityStegosaurus(World world)
+	
+	public EntityStegosaurus(World world) {
+		this(world, randomSpawnAge(world.rand));
+	}
+	
+	public EntityStegosaurus(World world, int age)
     {
         super(world);
+        this.setDinoAge(age);
         SelfType=EnumDinoType.Stegosaurus;
         looksWithInterest = false;
 		SubSpecies=new Random().nextInt(3)+1;
@@ -74,6 +80,15 @@ public class EntityStegosaurus extends EntityDinosaurce{
         this.tasks.addTask(8, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
         this.tasks.addTask(9, new EntityAILookIdle(this));
     }
+	
+	private static int randomSpawnAge(Random random) {
+		boolean isChild = random.nextInt(4) == 0;
+		
+		if (isChild)
+			return random.nextInt(4);
+		else
+			return random.nextInt(9) + 4;
+	}
 	
     @Override
     protected void applyEntityAttributes() {

@@ -61,9 +61,14 @@ public class EntityPterosaur extends EntityDinosaurce{
 	
 	private static Method fallInvoke = null; 
 	
-	public EntityPterosaur(World world) 
+	public EntityPterosaur(World world) {
+		this(world, randomSpawnAge(world.rand));
+	}
+	
+	public EntityPterosaur(World world, int age) 
     {
         super(world);
+        this.setDinoAge(age);
         SelfType=EnumDinoType.Pterosaur;
         looksWithInterest = false;
         this.CheckSkin();
@@ -105,6 +110,14 @@ public class EntityPterosaur extends EntityDinosaurce{
 			}
 		}
     }
+	
+	private static int randomSpawnAge(Random random) {
+		boolean isChild = random.nextInt(4) == 0;
+		if (isChild)
+			return random.nextInt(4);
+		else
+			return random.nextInt(5) + 4;
+	}
 	
     @Override
     protected void applyEntityAttributes() {

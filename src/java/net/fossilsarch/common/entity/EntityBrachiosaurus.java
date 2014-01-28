@@ -45,8 +45,14 @@ public class EntityBrachiosaurus extends EntityDinosaurce  {
 	public String OwnerName;
 	final float PUSHDOWN_HARDNESS=5.0F;
 	protected final int AGE_LIMIT=36;
+	
 	public EntityBrachiosaurus(World world) {
+		this(world, randomSpawnAge(world.rand));
+	}
+	
+	public EntityBrachiosaurus(World world, int dinoAge) {
 		super(world);
+        this.setDinoAge(dinoAge);
 		this.SelfType=EnumDinoType.Brachiosaurus;
 		this.setSize(1.5F, 1.5F);
 		this.setHunger(getHungerLimit());
@@ -64,6 +70,14 @@ public class EntityBrachiosaurus extends EntityDinosaurce  {
         this.tasks.addTask(7, new DinoAIWander(this, 1.0f));
         this.tasks.addTask(8, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
         this.tasks.addTask(9, new EntityAILookIdle(this));	
+	}
+	
+	private static int randomSpawnAge(Random rand) {
+		boolean isChild = rand.nextInt(4) == 0;
+		if (isChild)
+			return rand.nextInt(4);
+		else
+			return rand.nextInt(33)+4;
 	}
 	
     @Override

@@ -48,9 +48,15 @@ public class EntityMosasaurus extends EntityDinosaurce implements IWaterDino{
     private float field_25054_c;
     private boolean field_25052_g;
 	public float TargetY=0;
-	public EntityMosasaurus(World world)
+	
+	public EntityMosasaurus(World world) {
+		this(world, randomSpawnAge(world.rand));
+	}
+	
+	public EntityMosasaurus(World world, int age)
     {
         super(world);
+        this.setDinoAge(age);
         SelfType=EnumDinoType.Mosasaurus;
         looksWithInterest = false;
         attackStrength = 4.0f + 2.0f*this.getDinoAge();
@@ -69,6 +75,10 @@ public class EntityMosasaurus extends EntityDinosaurce implements IWaterDino{
         this.targetTasks.addTask(4, new WaterDinoAINearestAttackableTarget(this, EntityAnimal.class, 0, true));
         this.targetTasks.addTask(5, new WaterDinoAINearestAttackableTarget(this, EntityPlayer.class, 0, false));
     }
+	
+	private static int randomSpawnAge(Random random) {
+		return random.nextInt(2) + 7;
+	}
 	
     @Override
     protected void applyEntityAttributes() {

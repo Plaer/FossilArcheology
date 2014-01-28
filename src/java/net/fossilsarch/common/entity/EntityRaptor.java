@@ -74,7 +74,12 @@ public class EntityRaptor extends EntityDinosaurce implements IHighIntellegent {
 	private static Method fallInvoke = null; 
 
 	public EntityRaptor(World world) {
+		this(world, randomSpawnAge(world.rand));
+	}
+	
+	public EntityRaptor(World world, int age) {
 		super(world);
+		this.setDinoAge(age);
 		SelfType = EnumDinoType.Raptor;
 		looksWithInterest = false;
 		this.CheckSkin();
@@ -126,6 +131,15 @@ public class EntityRaptor extends EntityDinosaurce implements IHighIntellegent {
 				//at compile time.
 			}
 		}
+	}
+	
+	private static int randomSpawnAge(Random random) {
+		boolean isChild = random.nextInt(4) == 0;
+		
+		if (isChild)
+			return random.nextInt(4);
+		else
+			return random.nextInt(5) + 4;
 	}
 	
     @Override
