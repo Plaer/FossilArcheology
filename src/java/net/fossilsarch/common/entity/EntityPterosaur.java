@@ -725,7 +725,7 @@ public class EntityPterosaur extends EntityDinosaurce{
 
 	@Override
 	public EntityAgeable createChild(EntityAgeable entityanimal) {
-		return new EntityPterosaur(worldObj);
+		return new EntityPterosaur(worldObj, 0);
 	}
 
 	public void HandleLanding(){

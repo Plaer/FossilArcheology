@@ -723,7 +723,7 @@ public class Entitydil extends EntityDinosaurce{
 
 	@Override
 	public EntityAgeable createChild(EntityAgeable entityanimal) {
-		return new Entitydil(worldObj);
+		return new Entitydil(worldObj, 0);
 	}
 
 	public boolean IsIdle(){

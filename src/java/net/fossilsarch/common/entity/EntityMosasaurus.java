@@ -696,7 +696,7 @@ public class EntityMosasaurus extends EntityDinosaurce implements IWaterDino{
 		}
 		@Override
 		public EntityAgeable createChild(EntityAgeable entityanimal) {
-			return new EntityMosasaurus(worldObj);
+			return new EntityMosasaurus(worldObj, 0);
 		}
 
 		@Override

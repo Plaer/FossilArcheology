@@ -714,7 +714,7 @@ public class EntityRaptor extends EntityDinosaurce implements IHighIntellegent {
 
 	@Override
 	public EntityAgeable createChild(EntityAgeable entityanimal) {
-		return new EntityRaptor(worldObj);
+		return new EntityRaptor(worldObj, 0);
 	}
 
 	public boolean IsIdle() {

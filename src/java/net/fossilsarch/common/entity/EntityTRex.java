@@ -593,7 +593,7 @@ public class EntityTRex extends EntityDinosaurce{
 		}
 		@Override
 		public EntityAgeable createChild(EntityAgeable entityanimal) {
-			return new EntityTRex(worldObj);
+			return new EntityTRex(worldObj, 0);
 		}
 
 		@Override

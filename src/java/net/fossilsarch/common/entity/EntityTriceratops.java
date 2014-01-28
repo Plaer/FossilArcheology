@@ -631,7 +631,7 @@ public class EntityTriceratops extends EntityDinosaurce {
 	@Override
 	public EntityAgeable createChild(EntityAgeable entityanimal) {
 
-		return new EntityTriceratops(worldObj);
+		return new EntityTriceratops(worldObj, 0);
 	}
 	
 	/*

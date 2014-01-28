@@ -837,7 +837,7 @@ public class EntityStegosaurus extends EntityDinosaurce{
 		@Override
 		public EntityAgeable createChild(EntityAgeable entityanimal) {
 			
-			return new EntityStegosaurus(worldObj);
+			return new EntityStegosaurus(worldObj, 0);
 		}
 
 		@Override
