@@ -30,6 +30,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.common.IShearable;
@@ -83,6 +84,11 @@ public class EntityMammoth extends EntityTameable implements IShearable {
         super.applyEntityAttributes();
         this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setAttribute(24.0D);
     }
+    
+	@Override
+	public String getEntityName() {
+		return StatCollector.translateToLocal("entity.mammoth.name");
+	}
 
 	/**
 	 * Returns true if the newer Entity AI code should be run

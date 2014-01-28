@@ -39,6 +39,7 @@ import net.minecraft.pathfinding.PathEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
+import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 
 public class EntitySaberCat extends EntityTameable
@@ -90,6 +91,11 @@ public class EntitySaberCat extends EntityTameable
         this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setAttribute(0.3D);
         this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setAttribute(!isTamed()?8:20);
     }
+    
+	@Override
+	public String getEntityName() {
+		return StatCollector.translateToLocal("entity.sabercat.name");
+	}
     
     public boolean isAIEnabled()
     {
