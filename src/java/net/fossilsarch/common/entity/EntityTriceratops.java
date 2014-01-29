@@ -61,6 +61,9 @@ public class EntityTriceratops extends EntityDinosaurce {
 		
 		this.setDinoAge(age);
 		
+		setSize((float) (1.5F + 0.3 * (float) this.getDinoAge()),
+				(float) (1.5F + 0.3 * (float) this.getDinoAge()));
+		
 		this.OrderStatus = EnumOrderType.FreeMove;
 		SelfType = EnumDinoType.Triceratops;
 		looksWithInterest = false;

@@ -80,7 +80,7 @@ public class Entitydil extends EntityDinosaurce{
         SelfType=EnumDinoType.dilphosaur;
         this.SelfType=EnumDinoType.dilphosaur;
         looksWithInterest = false;
-        setSize(0.3F, 0.3F);
+        setSize(0.6F, 1.1F);
         this.setHealth(10+this.getDinoAge());
 		this.attackStrength=2+this.getDinoAge();
         this.getNavigator().setAvoidsWater(true);
