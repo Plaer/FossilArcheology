@@ -72,13 +72,13 @@ public class EntityStegosaurus extends EntityDinosaurce{
 		this.tasks.addTask(0, new DinoAIGrowup(this, 12));
         this.tasks.addTask(1, new EntityAISwimming(this));
         this.tasks.addTask(2, new EntityAILeapAtTarget(this, 0.4F));
-        this.tasks.addTask(3, new EntityAIAttackOnCollide(this, 0.3f, true));
-        this.tasks.addTask(4, new DinoAIFollowOwner(this, 0.3f, 5F, 2.0F));
+        this.tasks.addTask(3, new EntityAIAttackOnCollide(this, 1, true));
+        this.tasks.addTask(4, new DinoAIFollowOwner(this, 1, 5F, 2.0F));
         this.tasks.addTask(5, new DinoAIEatFerns(this,this.HuntLimit));
-        this.tasks.addTask(6, new DinoAIUseFeeder(this,0.3f,24,this.HuntLimit,EnumDinoEating.Herbivorous));
-        this.tasks.addTask(6, new DinoAIPickItem(this,Item.wheat,0.3f,24,this.HuntLimit));
-        this.tasks.addTask(6, new DinoAIPickItem(this,Item.appleRed,0.3f,24,this.HuntLimit));
-        this.tasks.addTask(7, new DinoAIWander(this, 0.3f));
+        this.tasks.addTask(6, new DinoAIUseFeeder(this,1,24,this.HuntLimit,EnumDinoEating.Herbivorous));
+        this.tasks.addTask(6, new DinoAIPickItem(this,Item.wheat,1,24,this.HuntLimit));
+        this.tasks.addTask(6, new DinoAIPickItem(this,Item.appleRed,1,24,this.HuntLimit));
+        this.tasks.addTask(7, new DinoAIWander(this, 1));
         this.tasks.addTask(8, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
         this.tasks.addTask(9, new EntityAILookIdle(this));
         
@@ -110,6 +110,7 @@ public class EntityStegosaurus extends EntityDinosaurce{
     protected void applyEntityAttributes() {
         super.applyEntityAttributes();
         this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setAttribute(20.0D);
+        this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setAttribute(0.3D);
     }
 	
 	public int getHungerLimit(){

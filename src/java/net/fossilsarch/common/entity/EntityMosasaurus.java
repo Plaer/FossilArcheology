@@ -67,8 +67,8 @@ public class EntityMosasaurus extends EntityDinosaurce implements IWaterDino{
 		this.tasks.addTask(0, new DinoAIGrowup(this, 8));
 		this.tasks.addTask(0, new DinoAIStarvation(this));
         this.tasks.addTask(1, new WaterDinoAISwimming(this,true,FLOAT_SPEED,-SINK_SPEED).setDiveAtNight());
-        this.tasks.addTask(3, new EntityAIAttackOnCollide(this, 0.3f, true));
-        this.tasks.addTask(4, new WaterDinoAIWander(this, 0.3f,0.003F));
+        this.tasks.addTask(3, new EntityAIAttackOnCollide(this, 1, true));
+        this.tasks.addTask(4, new WaterDinoAIWander(this, 1,0.003F));
         this.tasks.addTask(5, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
         this.tasks.addTask(6, new EntityAILookIdle(this));
         this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, false));
@@ -98,6 +98,7 @@ public class EntityMosasaurus extends EntityDinosaurce implements IWaterDino{
     protected void applyEntityAttributes() {
         super.applyEntityAttributes();
         this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setAttribute(200.0D);
+        this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setAttribute(0.3D);
     }
 	
 	public int getHungerLimit(){

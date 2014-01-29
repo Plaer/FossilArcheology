@@ -10,10 +10,12 @@ import net.fossilsarch.common.io.EnumEmbyos;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.passive.EntityCow;
 import net.minecraft.entity.passive.EntityPig;
 import net.minecraft.entity.passive.EntitySheep;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Icon;
 import net.minecraft.util.StatCollector;
@@ -58,7 +60,9 @@ public class ItemEmbryoSyringe extends ForgeItem {
 	public static EnumEmbyos GetEmbyo(int index){
 		return EnumEmbyos.values()[index];
 	}
-    public boolean itemInteractionForEntity(ItemStack itemstack, EntityLiving entityliving)
+	
+	@Override
+    public boolean itemInteractionForEntity(ItemStack itemstack, EntityPlayer player, EntityLivingBase entityliving)
     {
         if(entityliving instanceof EntityAnimal && ((EntityAnimal)entityliving).getGrowingAge()==0)
         {
@@ -70,15 +74,17 @@ public class ItemEmbryoSyringe extends ForgeItem {
         		((EntitySheep)entityanimal1).setFleeceColor(((EntitySheep)entityliving).getFleeceColor());
         		((EntitySheep)entityanimal1).setSheared(((EntitySheep)entityliving).getSheared());
         	}
-        	if (entityanimal1!=null){
+        	if (entityanimal1!=null && entityanimal1.getClass() != entityliving.getClass()) {
         		entityanimal1.SetEmbyo(GetEmbyo(itemstack.getItemDamage()));
         		((EntityAnimal)entityanimal1).setLocationAndAngles(entityliving.posX, entityliving.posY, entityliving.posZ, entityliving.rotationYaw, entityliving.rotationPitch);
         		entityliving.setDead();
         		if (!entityliving.worldObj.isRemote)entityliving.worldObj.spawnEntityInWorld(((EntityAnimal)entityanimal1));
         		itemstack.stackSize--;
+        		return true;
         	}
-        	return true;
-        }else return false;
+        }
+        
+        return false;
     }
     public void getSubItems(int par1, CreativeTabs par2CreativeTabs, List par3List)
     {

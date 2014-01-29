@@ -81,9 +81,9 @@ public class EntityPterosaur extends EntityDinosaurce{
 		// TODO:Breeding
 		this.tasks.addTask(1, new EntityAILeapAtTarget(this, 0.4F));
 		this.tasks.addTask(2, new EntityAIAvoidEntity(this, EntityTRex.class,
-				8.0F, 0.3F, 0.35F));
+				8.0F, 1, 1.2f));
 		this.tasks.addTask(2, new EntityAIAvoidEntity(this, EntityBrachiosaurus.class,
-				8.0F, 0.3F, 0.35F));
+				8.0F, 1, 1.2f));
 		this.tasks.addTask(3, new EntityAIAttackOnCollide(this, 2.0f,
 				true));
 		this.tasks.addTask(5, new DinoAIFollowOwner(this, 2.0f, 5F,
@@ -133,6 +133,7 @@ public class EntityPterosaur extends EntityDinosaurce{
     protected void applyEntityAttributes() {
         super.applyEntityAttributes();
         this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setAttribute(20.0f);
+        this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setAttribute(1.0f);
     }
 
 	protected boolean canTriggerWalking()

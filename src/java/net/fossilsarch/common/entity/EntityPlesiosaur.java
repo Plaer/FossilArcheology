@@ -71,14 +71,14 @@ public class EntityPlesiosaur extends EntityDinosaurce implements IWaterDino{
 		this.tasks.addTask(0, new DinoAIGrowup(this, 12));
 		this.tasks.addTask(0, new DinoAIStarvation(this));
         this.tasks.addTask(1, new WaterDinoAISwimming(this,true,FLOAT_SPEED,-SINK_SPEED));
-        this.tasks.addTask(3, new EntityAIAttackOnCollide(this, 0.7f, true));
-        this.tasks.addTask(4, new DinoAIFollowOwner(this, 0.7f, 5F, 2.0F));
-        this.tasks.addTask(6, new DinoAIUseFeeder(this,0.7f,24,this.HuntLimit, EnumDinoEating.Carnivorous));
-        this.tasks.addTask(7, new DinoAIPickItem(this,Item.fishRaw,1.4f,24,this.HuntLimit));
-        this.tasks.addTask(7, new DinoAIPickItem(this,Item.fishCooked,1.4f,24,this.HuntLimit));
-        this.tasks.addTask(7, new DinoAIPickItem(this,mod_Fossil.SJL,1.4f,24,this.HuntLimit));
+        this.tasks.addTask(3, new EntityAIAttackOnCollide(this, 1, true));
+        this.tasks.addTask(4, new DinoAIFollowOwner(this, 1, 5F, 2.0F));
+        this.tasks.addTask(6, new DinoAIUseFeeder(this,1,24,this.HuntLimit, EnumDinoEating.Carnivorous));
+        this.tasks.addTask(7, new DinoAIPickItem(this,Item.fishRaw,2,24,this.HuntLimit));
+        this.tasks.addTask(7, new DinoAIPickItem(this,Item.fishCooked,2,24,this.HuntLimit));
+        this.tasks.addTask(7, new DinoAIPickItem(this,mod_Fossil.SJL,2,24,this.HuntLimit));
         this.tasks.addTask(8, new DinoAIFishing(this,this.HuntLimit,1));
-        this.tasks.addTask(9, new DinoAIWander(this, 0.7f));
+        this.tasks.addTask(9, new DinoAIWander(this, 1));
         this.tasks.addTask(10, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
         this.tasks.addTask(11, new EntityAILookIdle(this));
         //this.targetTasks.addTask(1, new WaterDinoAINearestAttackableTarget(this, EntityNautilus.class, 16.0F, 0, true));
@@ -109,6 +109,7 @@ public class EntityPlesiosaur extends EntityDinosaurce implements IWaterDino{
     protected void applyEntityAttributes() {
         super.applyEntityAttributes();
         this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setAttribute(200.0D);
+        this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setAttribute(0.7D);
     }
 	
 	public int getHungerLimit(){

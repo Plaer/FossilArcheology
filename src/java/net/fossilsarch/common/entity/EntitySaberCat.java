@@ -63,15 +63,15 @@ public class EntitySaberCat extends EntityTameable
     public EntitySaberCat(World world)
     {
         super(world);
-        setSize(0.8F, 0.8F);
-        this.getNavigator().setAvoidsWater(true);
+        setSize(0.9F, 0.8F);
+        this.getNavigator().setAvoidsWater(false);
         this.tasks.addTask(1, new EntityAISwimming(this));
         this.tasks.addTask(2, this.aiSit);
         this.tasks.addTask(3, new EntityAILeapAtTarget(this, 0.4F));
-        this.tasks.addTask(4, new EntityAIAttackOnCollide(this, 0.3f, true));
-        this.tasks.addTask(5, new EntityAIFollowOwner(this, 0.3f, 10.0F, 2.0F));
-        this.tasks.addTask(6, new EntityAIMate(this, 0.3f));
-        this.tasks.addTask(7, new EntityAIWander(this, 0.3f));
+        this.tasks.addTask(4, new EntityAIAttackOnCollide(this, 1, true));
+        this.tasks.addTask(5, new EntityAIFollowOwner(this, 1, 10.0F, 2.0F));
+        this.tasks.addTask(6, new EntityAIMate(this, 1));
+        this.tasks.addTask(7, new EntityAIWander(this, 1));
         this.tasks.addTask(8, new EntityAIBegSC(this, 8.0F));
         this.tasks.addTask(9, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
         this.tasks.addTask(9, new EntityAILookIdle(this));
@@ -89,6 +89,7 @@ public class EntitySaberCat extends EntityTameable
     protected void applyEntityAttributes() {
         super.applyEntityAttributes();
         this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setAttribute(!isTamed()?8:20);
+        this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setAttribute(0.3);
     }
     
 	@Override

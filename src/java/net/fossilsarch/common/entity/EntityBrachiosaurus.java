@@ -56,7 +56,7 @@ public class EntityBrachiosaurus extends EntityDinosaurce  {
 		super(world);
         this.setDinoAge(dinoAge+dinoAge);
 		this.SelfType=EnumDinoType.Brachiosaurus;
-		this.setSize(1.5F, 1.5F);
+		this.setSize(1.1f, 1.6F);
 		this.setHunger(getHungerLimit());
 		this.setHealth(8);
         this.getNavigator().setAvoidsWater(true);
@@ -66,7 +66,7 @@ public class EntityBrachiosaurus extends EntityDinosaurce  {
         this.tasks.addTask(2, this.ridingHandler=new DinoAIControlledByPlayer(this, 0.34F));
         this.tasks.addTask(3, new EntityAILeapAtTarget(this, 0.4F));
         this.tasks.addTask(4, new EntityAIAttackOnCollide(this, 1.0f, true));
-        this.tasks.addTask(5, new DinoAIFollowOwner(this, 0.3f, 5F, 2.0F));
+        this.tasks.addTask(5, new DinoAIFollowOwner(this, 1, 5F, 2.0F));
         this.tasks.addTask(6, new DinoAIEatLeavesWithHeight(this,1.0f,24,this.HuntLimit));
         this.tasks.addTask(6, new DinoAIUseFeederWithHeight(this,1.0f,24,this.HuntLimit));
         this.tasks.addTask(7, new DinoAIWander(this, 1.0f));
@@ -86,11 +86,15 @@ public class EntityBrachiosaurus extends EntityDinosaurce  {
     protected void applyEntityAttributes() {
         super.applyEntityAttributes();
         this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setAttribute(20.0D + 10.0D*this.getDinoAge());
+        this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setAttribute(0.3f);
     }
     
     @Override
     public float getAIMoveSpeed() {
-    	return (0.3f + 0.05f*this.getDinoAge()) * (float)this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).getAttributeValue();
+    	
+    	float speed = super.getAIMoveSpeed();
+    	
+    	return speed * (0.3f + 0.05f*this.getDinoAge());
     }
 	
 	public int getHungerLimit(){
@@ -297,7 +301,6 @@ public class EntityBrachiosaurus extends EntityDinosaurce  {
 		if (this.getDinoAge()>=4) BlockInteractive();		
 		
         this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setAttribute(20.0D + 10.0D*this.getDinoAge());
-        this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setAttribute(0.3D + 0.05D*this.getDinoAge());
 		
 	}
 	protected boolean isMovementCeased()
@@ -334,11 +337,7 @@ public class EntityBrachiosaurus extends EntityDinosaurce  {
 	public float getHalfHeight(){
 		return getEyeHeight()/2;
 	}
-	public float getSpeedModifier()
-    {
-		float f=1.0F+(float)Math.floor((float)this.getDinoAge()/5F);
-		return f;
-    }
+
 	public void BlockInteractive(){
 		if (!FossilOptions.TRexBreakingBlocks) return;
 		if (this.isModelized()) return;
@@ -446,7 +445,7 @@ public class EntityBrachiosaurus extends EntityDinosaurce  {
 	@Override
 	public void updateSize(boolean shouldAddAge) {
 		if (shouldAddAge && this.getDinoAge()<this.AGE_LIMIT) this.increaseDinoAge();
-		setSize((float)(1.5F+0.3*(float)this.getDinoAge()),(float)(1.5F+0.3*(float)this.getDinoAge()));
+		setSize((float)(1.1F+0.2*(float)this.getDinoAge()),(float)(1.6F+0.15*(float)this.getDinoAge()));
         this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setAttribute(20.0D + 10.0D*this.getDinoAge());
 	}
 	@Override

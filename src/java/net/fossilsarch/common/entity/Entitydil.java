@@ -88,13 +88,13 @@ public class Entitydil extends EntityDinosaurce{
 		this.tasks.addTask(0, new DinoAIGrowup(this, 8));
 		this.tasks.addTask(0, new DinoAIStarvation(this));
          this.tasks.addTask(1, new EntityAILeapAtTarget(this, 0.4F));       
-        this.tasks.addTask(2, new EntityAIAvoidEntity(this, EntityTRex.class, 8.0F, 0.3F, 0.35F));
+        this.tasks.addTask(2, new EntityAIAvoidEntity(this, EntityTRex.class, 8.0F, 1, 1.2f));
 
-        this.tasks.addTask(3, new EntityAIAttackOnCollide(this, 0.3f, true));
+        this.tasks.addTask(3, new EntityAIAttackOnCollide(this, 1, true));
         this.tasks.addTask(4, new EntityAIOpenDoor(this, true));
-        this.tasks.addTask(5, new DinoAIFollowOwner(this, 0.3f, 5F, 2.0F));
-        this.tasks.addTask(6, new DinoAIUseFeeder(this,0.3f,24,this.HuntLimit, EnumDinoEating.Carnivorous));
-        this.tasks.addTask(7, new EntityAIWander(this, 0.3f));
+        this.tasks.addTask(5, new DinoAIFollowOwner(this, 1, 5F, 2.0F));
+        this.tasks.addTask(6, new DinoAIUseFeeder(this,1,24,this.HuntLimit, EnumDinoEating.Carnivorous));
+        this.tasks.addTask(7, new EntityAIWander(this, 1));
         this.tasks.addTask(8, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
         this.tasks.addTask(9, new EntityAILookIdle(this));
         this.targetTasks.addTask(1, new EntityAIOwnerHurtByTarget(this));
@@ -142,6 +142,7 @@ public class Entitydil extends EntityDinosaurce{
         super.applyEntityAttributes();
         
         this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setAttribute(20.0D);
+        this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setAttribute(0.3f);
     }
 	
     @Override
@@ -654,7 +655,7 @@ public class Entitydil extends EntityDinosaurce{
     }
 
 	private void InitSize(){
-		setSize((float)(0.3F+0.1*(float)this.getDinoAge()),(float)(0.3F+0.1*(float)this.getDinoAge()));
+		setSize((float)(0.3F+0.15*(float)this.getDinoAge()),(float)(0.3F+0.15*(float)this.getDinoAge()));
 		setPosition(posX,posY,posZ);
 	}
 

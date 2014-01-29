@@ -152,7 +152,7 @@ public class Renderdil extends RenderLiving
 	protected ResourceLocation getEntityTexture(Entity entity) {
 		Entitydil dino = (Entitydil)entity;
 		
-		if (dino.getEntityToAttack() == null) return new ResourceLocation("/mob/UtaCalm");
-		else return new ResourceLocation("/mobo/UtaAttack");
+		if (dino.getEntityToAttack() == null) return new ResourceLocation("fossilsarch:entity/UtaCalm");
+		else return new ResourceLocation("fossilsarch:entity/UtaAttack");
 	}
 }

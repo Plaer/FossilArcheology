@@ -118,6 +118,7 @@ public class EntityTriceratops extends EntityDinosaurce {
 		super.applyEntityAttributes();	
 		
 		this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setAttribute(20);
+		this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setAttribute(0.3D);
 	}
 	
 	public int getHungerLimit(){

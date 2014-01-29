@@ -94,25 +94,25 @@ public class EntityRaptor extends EntityDinosaurce implements IHighIntellegent {
 
 		this.tasks.addTask(1, new EntityAILeapAtTarget(this, 0.4F));
 		this.tasks.addTask(2, new EntityAIAvoidEntity(this, EntityTRex.class,
-				8.0F, 0.3F, 0.35F));
+				8.0F, 1, 1.2f));
 		this.tasks.addTask(2, new EntityAIAvoidEntity(this, EntityBrachiosaurus.class,
-				8.0F, 0.3F, 0.35F));
-		this.tasks.addTask(3, new EntityAIAttackOnCollide(this, 0.3f,
+				8.0F, 1, 1.2f));
+		this.tasks.addTask(3, new EntityAIAttackOnCollide(this, 1,
 				true));
 		this.tasks.addTask(4, new EntityAIOpenDoor(this, true));
-		this.tasks.addTask(5, new DinoAIFollowOwner(this, 0.3f, 5F,
+		this.tasks.addTask(5, new DinoAIFollowOwner(this, 1, 5F,
 				2.0F));
-		this.tasks.addTask(6, new DinoAIUseFeeder(this, 0.3f, 24,
+		this.tasks.addTask(6, new DinoAIUseFeeder(this, 1, 24,
 				this.HuntLimit, EnumDinoEating.Carnivorous));
-        this.tasks.addTask(6, new DinoAIPickItem(this,Item.porkRaw,0.3f,24,this.HuntLimit));
-        this.tasks.addTask(6, new DinoAIPickItem(this,Item.beefRaw,0.3f,24,this.HuntLimit));
-        this.tasks.addTask(6, new DinoAIPickItem(this,Item.chickenRaw,0.3f,24,this.HuntLimit));
-        this.tasks.addTask(6, new DinoAIPickItem(this,Item.porkCooked,0.3f,24,this.HuntLimit));
-        this.tasks.addTask(6, new DinoAIPickItem(this,Item.beefCooked,0.3f,24,this.HuntLimit));
-        this.tasks.addTask(6, new DinoAIPickItem(this,Item.chickenCooked,0.3f,24,this.HuntLimit));
-        this.tasks.addTask(6, new DinoAIPickItem(this,mod_Fossil.RawDinoMeat,0.3f,24,this.HuntLimit));
-        this.tasks.addTask(6, new DinoAIPickItem(this,mod_Fossil.CookedDinoMeat,0.3f,24,this.HuntLimit));
-		this.tasks.addTask(7, new EntityAIWander(this, 0.3F));
+        this.tasks.addTask(6, new DinoAIPickItem(this,Item.porkRaw,1,24,this.HuntLimit));
+        this.tasks.addTask(6, new DinoAIPickItem(this,Item.beefRaw,1,24,this.HuntLimit));
+        this.tasks.addTask(6, new DinoAIPickItem(this,Item.chickenRaw,1,24,this.HuntLimit));
+        this.tasks.addTask(6, new DinoAIPickItem(this,Item.porkCooked,1,24,this.HuntLimit));
+        this.tasks.addTask(6, new DinoAIPickItem(this,Item.beefCooked,1,24,this.HuntLimit));
+        this.tasks.addTask(6, new DinoAIPickItem(this,Item.chickenCooked,1,24,this.HuntLimit));
+        this.tasks.addTask(6, new DinoAIPickItem(this,mod_Fossil.RawDinoMeat,1,24,this.HuntLimit));
+        this.tasks.addTask(6, new DinoAIPickItem(this,mod_Fossil.CookedDinoMeat,1,24,this.HuntLimit));
+		this.tasks.addTask(7, new EntityAIWander(this, 1));
 		this.tasks.addTask(7, new DinoAILearnChest(this));
 
 		this.tasks.addTask(8, new EntityAIWatchClosest(this,
@@ -148,6 +148,7 @@ public class EntityRaptor extends EntityDinosaurce implements IHighIntellegent {
     protected void applyEntityAttributes() {
         super.applyEntityAttributes();
         this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setAttribute(20.0D);
+        this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setAttribute(0.3D);
     }
 
 	public boolean isAIEnabled() {

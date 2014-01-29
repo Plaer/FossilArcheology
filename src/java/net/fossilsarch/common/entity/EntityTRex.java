@@ -76,21 +76,21 @@ public class EntityTRex extends EntityDinosaurce{
 		this.tasks.addTask(0, new DinoAIGrowup(this, 8,23));
 		this.tasks.addTask(0, new DinoAIStarvation(this));
 
-        this.tasks.addTask(1, new DinoAIAvoidEntityWhenYoung(this, EntityPlayer.class, 8.0F, 0.3F, 0.35F));
+        this.tasks.addTask(1, new DinoAIAvoidEntityWhenYoung(this, EntityPlayer.class, 8.0F, 1, 1.2f));
         this.tasks.addTask(2, new EntityAILeapAtTarget(this, 0.4F));
-        this.tasks.addTask(3, new EntityAIAttackOnCollide(this, 0.3f, true));
-        this.tasks.addTask(4, new DinoAIFollowOwner(this,0.3f, 5F, 2.0F));
-        this.tasks.addTask(5, new DinoAIUseFeeder(this,0.3f,24,this.HuntLimit,EnumDinoEating.Carnivorous));
-        this.tasks.addTask(6, new DinoAIWander(this, 0.3f));
+        this.tasks.addTask(3, new EntityAIAttackOnCollide(this, 1, true));
+        this.tasks.addTask(4, new DinoAIFollowOwner(this,1, 5F, 2.0F));
+        this.tasks.addTask(5, new DinoAIUseFeeder(this,1,24,this.HuntLimit,EnumDinoEating.Carnivorous));
+        this.tasks.addTask(6, new DinoAIWander(this, 1));
         this.tasks.addTask(7, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
-        this.tasks.addTask(8, new DinoAIPickItem(this,Item.porkRaw,0.3f,24,this.HuntLimit));
-        this.tasks.addTask(8, new DinoAIPickItem(this,Item.beefRaw,0.3f,24,this.HuntLimit));
-        this.tasks.addTask(8, new DinoAIPickItem(this,Item.chickenRaw,0.3f,24,this.HuntLimit));
-        this.tasks.addTask(8, new DinoAIPickItem(this,Item.porkCooked,0.3f,24,this.HuntLimit));
-        this.tasks.addTask(8, new DinoAIPickItem(this,Item.beefCooked,0.3f,24,this.HuntLimit));
-        this.tasks.addTask(8, new DinoAIPickItem(this,Item.chickenCooked,0.3f,24,this.HuntLimit));
-        this.tasks.addTask(8, new DinoAIPickItem(this,mod_Fossil.RawDinoMeat,0.3f,24,this.HuntLimit));
-        this.tasks.addTask(8, new DinoAIPickItem(this,mod_Fossil.CookedDinoMeat,0.3f,24,this.HuntLimit));
+        this.tasks.addTask(8, new DinoAIPickItem(this,Item.porkRaw,1,24,this.HuntLimit));
+        this.tasks.addTask(8, new DinoAIPickItem(this,Item.beefRaw,1,24,this.HuntLimit));
+        this.tasks.addTask(8, new DinoAIPickItem(this,Item.chickenRaw,1,24,this.HuntLimit));
+        this.tasks.addTask(8, new DinoAIPickItem(this,Item.porkCooked,1,24,this.HuntLimit));
+        this.tasks.addTask(8, new DinoAIPickItem(this,Item.beefCooked,1,24,this.HuntLimit));
+        this.tasks.addTask(8, new DinoAIPickItem(this,Item.chickenCooked,1,24,this.HuntLimit));
+        this.tasks.addTask(8, new DinoAIPickItem(this,mod_Fossil.RawDinoMeat,1,24,this.HuntLimit));
+        this.tasks.addTask(8, new DinoAIPickItem(this,mod_Fossil.CookedDinoMeat,1,24,this.HuntLimit));
         this.tasks.addTask(9, new EntityAILookIdle(this));
         this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, true));
         this.targetTasks.addTask(2, new DinoAITargetNonTamedExceptSelfClass(this, EntityLiving.class, 50, false));
@@ -106,6 +106,7 @@ public class EntityTRex extends EntityDinosaurce{
     	super.applyEntityAttributes();
     	
     	this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setAttribute(200.0);
+    	this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setAttribute(0.3D);
     }
 	
     @Override
