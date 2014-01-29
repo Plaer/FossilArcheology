@@ -19,6 +19,7 @@ import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAttackOnCollide;
 import net.minecraft.entity.ai.EntityAILeapAtTarget;
@@ -54,6 +55,7 @@ public class EntityStegosaurus extends EntityDinosaurce{
 	
 	public EntityStegosaurus(World world) {
 		this(world, randomSpawnAge(world.rand));
+		this.OrderStatus = EnumOrderType.FreeMove;
 	}
 	
 	public EntityStegosaurus(World world, int age)
@@ -70,16 +72,30 @@ public class EntityStegosaurus extends EntityDinosaurce{
 		this.tasks.addTask(0, new DinoAIGrowup(this, 12));
         this.tasks.addTask(1, new EntityAISwimming(this));
         this.tasks.addTask(2, new EntityAILeapAtTarget(this, 0.4F));
-        this.tasks.addTask(3, new EntityAIAttackOnCollide(this, 1.0f, true));
-        this.tasks.addTask(4, new DinoAIFollowOwner(this, 1.0f, 5F, 2.0F));
+        this.tasks.addTask(3, new EntityAIAttackOnCollide(this, 0.3f, true));
+        this.tasks.addTask(4, new DinoAIFollowOwner(this, 0.3f, 5F, 2.0F));
         this.tasks.addTask(5, new DinoAIEatFerns(this,this.HuntLimit));
-        this.tasks.addTask(6, new DinoAIUseFeeder(this,1.0f,24,this.HuntLimit,EnumDinoEating.Herbivorous));
-        this.tasks.addTask(6, new DinoAIPickItem(this,Item.wheat,1.0f,24,this.HuntLimit));
-        this.tasks.addTask(6, new DinoAIPickItem(this,Item.appleRed,1.0f,24,this.HuntLimit));
-        this.tasks.addTask(7, new DinoAIWander(this, 1.0f));
+        this.tasks.addTask(6, new DinoAIUseFeeder(this,0.3f,24,this.HuntLimit,EnumDinoEating.Herbivorous));
+        this.tasks.addTask(6, new DinoAIPickItem(this,Item.wheat,0.3f,24,this.HuntLimit));
+        this.tasks.addTask(6, new DinoAIPickItem(this,Item.appleRed,0.3f,24,this.HuntLimit));
+        this.tasks.addTask(7, new DinoAIWander(this, 0.3f));
         this.tasks.addTask(8, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
         this.tasks.addTask(9, new EntityAILookIdle(this));
+        
+        this.setHealth(8.0f+age);
     }
+	
+	@Override
+	public float getAIMoveSpeed() {
+		float speed = super.getAIMoveSpeed();
+		
+		speed *= 0.5f + 0.3f*this.getDinoAge();
+		
+		if (this.isSelfAngry()) speed *= 2.0f;
+		else speed *= 0.5f;
+		
+		return speed;
+	}
 	
 	private static int randomSpawnAge(Random random) {
 		boolean isChild = random.nextInt(4) == 0;
@@ -93,8 +109,7 @@ public class EntityStegosaurus extends EntityDinosaurce{
     @Override
     protected void applyEntityAttributes() {
         super.applyEntityAttributes();
-        this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setAttribute(0.5D+this.getDinoAge()*0.3D);
-        this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setAttribute(8.0D);
+        this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setAttribute(20.0D);
     }
 	
 	public int getHungerLimit(){
@@ -239,7 +254,9 @@ public class EntityStegosaurus extends EntityDinosaurce{
     {
         return isSelfSitting() || field_25052_g;
     }
-	public boolean attackEntityFrom(DamageSource damagesource, int i)
+	
+	@Override
+	public boolean attackEntityFrom(DamageSource damagesource, float i)
     {
 		Entity entity = damagesource.getEntity();
         setSelfSitting(false);
@@ -738,7 +755,7 @@ public class EntityStegosaurus extends EntityDinosaurce{
 		public void applyEntityCollision(Entity entity){
 			if (entity instanceof EntityLiving && !(entity instanceof EntityPlayer)){
 				if (this.riddenByEntity!=null && this.onGround){
-					this.onKillEntity((EntityLiving)entity);
+					this.onKillEntity((EntityLivingBase)entity);
 					((EntityLiving)entity).attackEntityFrom(DamageSource.causeMobDamage(this), 10);
 					return;
 				}

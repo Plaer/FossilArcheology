@@ -51,6 +51,7 @@ public class EntityMosasaurus extends EntityDinosaurce implements IWaterDino{
 	
 	public EntityMosasaurus(World world) {
 		this(world, randomSpawnAge(world.rand));
+		this.OrderStatus = EnumOrderType.FreeMove;
 	}
 	
 	public EntityMosasaurus(World world, int age)
@@ -61,12 +62,13 @@ public class EntityMosasaurus extends EntityDinosaurce implements IWaterDino{
         looksWithInterest = false;
         attackStrength = 4.0f + 2.0f*this.getDinoAge();
         setSize(0.5F, 0.5F);
+        setHealth(10+this.getDinoAge());
 		this.getNavigator().setCanSwim(true);
 		this.tasks.addTask(0, new DinoAIGrowup(this, 8));
 		this.tasks.addTask(0, new DinoAIStarvation(this));
         this.tasks.addTask(1, new WaterDinoAISwimming(this,true,FLOAT_SPEED,-SINK_SPEED).setDiveAtNight());
-        this.tasks.addTask(3, new EntityAIAttackOnCollide(this, 1.0f, true));
-        this.tasks.addTask(4, new WaterDinoAIWander(this, 1.0f,0.003F));
+        this.tasks.addTask(3, new EntityAIAttackOnCollide(this, 0.3f, true));
+        this.tasks.addTask(4, new WaterDinoAIWander(this, 0.3f,0.003F));
         this.tasks.addTask(5, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
         this.tasks.addTask(6, new EntityAILookIdle(this));
         this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, false));
@@ -76,6 +78,18 @@ public class EntityMosasaurus extends EntityDinosaurce implements IWaterDino{
         this.targetTasks.addTask(5, new WaterDinoAINearestAttackableTarget(this, EntityPlayer.class, 0, false));
     }
 	
+	@Override
+	public float getAIMoveSpeed() {
+		float speed = super.getAIMoveSpeed();
+		
+		speed *= 0.5f + 0.4f*this.getDinoAge();
+		
+		if (this.isSelfAngry())
+			speed *= 2.0f;
+		
+		return speed;
+	}
+	
 	private static int randomSpawnAge(Random random) {
 		return random.nextInt(2) + 7;
 	}
@@ -83,7 +97,6 @@ public class EntityMosasaurus extends EntityDinosaurce implements IWaterDino{
     @Override
     protected void applyEntityAttributes() {
         super.applyEntityAttributes();
-        this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setAttribute(0.15D + 0.12D*this.getDinoAge());
         this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setAttribute(200.0D);
     }
 	
@@ -402,7 +415,7 @@ public class EntityMosasaurus extends EntityDinosaurce implements IWaterDino{
             entity.attackEntityFrom(DamageSource.causeMobDamage(this), attackStrength);
         }
     }
-	public void onKillEntity(EntityLiving entityliving)
+	public void onKillEntity(EntityLivingBase entityliving)
     {
 		super.onKillEntity(entityliving);
         if(entityliving instanceof EntityPig){
@@ -516,6 +529,7 @@ public class EntityMosasaurus extends EntityDinosaurce implements IWaterDino{
 	private void InitSize(){
 		setSize((float)(0.5F+0.5125*(float)this.getDinoAge()),(float)(0.5F+0.5125*(float)this.getDinoAge()));
 		setPosition(posX,posY,posZ);
+		attackStrength=4+2*this.getDinoAge();
 	}
 	public boolean CheckSpace(){
 		if (this.isCollidedHorizontally) return false;

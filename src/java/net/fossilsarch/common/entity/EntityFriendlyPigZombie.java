@@ -51,8 +51,8 @@ public class EntityFriendlyPigZombie extends EntityMob
 		LeaderName="Notch";
         this.getNavigator().setBreakDoors(true);
         this.tasks.addTask(0, new EntityAISwimming(this));
-        this.tasks.addTask(2, new EntityAIAttackOnCollide(this, EntityLiving.class, 2F, false));
-        this.tasks.addTask(5, new FPZAIFollowOwner(this, 1.5F, 10.0F, 2.0F));
+        this.tasks.addTask(2, new EntityAIAttackOnCollide(this, EntityLiving.class, 2F*0.23f, false));
+        this.tasks.addTask(5, new FPZAIFollowOwner(this, 1.5F*0.23f, 10.0F, 2.0F));
         this.tasks.addTask(7, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
         this.tasks.addTask(7, new EntityAILookIdle(this));
         this.targetTasks.addTask(1, new FPZAIOwnerHurtByTarget(this));
@@ -61,11 +61,17 @@ public class EntityFriendlyPigZombie extends EntityMob
 		
 	}
 	
+	@Override
+	public float getAIMoveSpeed() {
+		float speed = super.getAIMoveSpeed();
+		
+		return speed * ((entityToAttack == null) ? 0.5F : 0.95F);
+	}
+	
     @Override
     protected void applyEntityAttributes() {
         super.applyEntityAttributes();
-        this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setAttribute(0.23D);
-        this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setAttribute(20.0D);
+         this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setAttribute(20.0D);
     }
 	
 	protected boolean isAIEnabled()
@@ -75,8 +81,6 @@ public class EntityFriendlyPigZombie extends EntityMob
 	  
     public void onUpdate()
     {
-    	this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setAttribute(entityToAttack == null ? 0.5D : 0.95D);
-    	
         if(randomSoundDelay > 0 && --randomSoundDelay == 0)
         {
             worldObj.playSoundAtEntity(this, "mob.zombiepig.zpigangry", getSoundVolume() * 2.0F, ((rand.nextFloat() - rand.nextFloat()) * 0.2F + 1.0F) * 1.8F);

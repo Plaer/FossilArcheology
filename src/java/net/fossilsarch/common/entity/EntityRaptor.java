@@ -75,6 +75,7 @@ public class EntityRaptor extends EntityDinosaurce implements IHighIntellegent {
 
 	public EntityRaptor(World world) {
 		this(world, randomSpawnAge(world.rand));
+		this.OrderStatus=EnumOrderType.FreeMove;
 	}
 	
 	public EntityRaptor(World world, int age) {
@@ -84,6 +85,7 @@ public class EntityRaptor extends EntityDinosaurce implements IHighIntellegent {
 		looksWithInterest = false;
 		this.CheckSkin();
 		setSize(0.3F, 0.3F);
+		this.setHealth(10+age);
 		this.setHunger(getHungerLimit());
 		this.getNavigator().setAvoidsWater(true);
 		this.tasks.addTask(0, new EntityAISwimming(this));
@@ -95,21 +97,21 @@ public class EntityRaptor extends EntityDinosaurce implements IHighIntellegent {
 				8.0F, 0.3F, 0.35F));
 		this.tasks.addTask(2, new EntityAIAvoidEntity(this, EntityBrachiosaurus.class,
 				8.0F, 0.3F, 0.35F));
-		this.tasks.addTask(3, new EntityAIAttackOnCollide(this, 1.0f,
+		this.tasks.addTask(3, new EntityAIAttackOnCollide(this, 0.3f,
 				true));
 		this.tasks.addTask(4, new EntityAIOpenDoor(this, true));
-		this.tasks.addTask(5, new DinoAIFollowOwner(this, 1.0f, 5F,
+		this.tasks.addTask(5, new DinoAIFollowOwner(this, 0.3f, 5F,
 				2.0F));
-		this.tasks.addTask(6, new DinoAIUseFeeder(this, 1.0f, 24,
+		this.tasks.addTask(6, new DinoAIUseFeeder(this, 0.3f, 24,
 				this.HuntLimit, EnumDinoEating.Carnivorous));
-        this.tasks.addTask(6, new DinoAIPickItem(this,Item.porkRaw,1.0f,24,this.HuntLimit));
-        this.tasks.addTask(6, new DinoAIPickItem(this,Item.beefRaw,1.0f,24,this.HuntLimit));
-        this.tasks.addTask(6, new DinoAIPickItem(this,Item.chickenRaw,1.0f,24,this.HuntLimit));
-        this.tasks.addTask(6, new DinoAIPickItem(this,Item.porkCooked,1.0f,24,this.HuntLimit));
-        this.tasks.addTask(6, new DinoAIPickItem(this,Item.beefCooked,1.0f,24,this.HuntLimit));
-        this.tasks.addTask(6, new DinoAIPickItem(this,Item.chickenCooked,1.0f,24,this.HuntLimit));
-        this.tasks.addTask(6, new DinoAIPickItem(this,mod_Fossil.RawDinoMeat,1.0f,24,this.HuntLimit));
-        this.tasks.addTask(6, new DinoAIPickItem(this,mod_Fossil.CookedDinoMeat,1.0f,24,this.HuntLimit));
+        this.tasks.addTask(6, new DinoAIPickItem(this,Item.porkRaw,0.3f,24,this.HuntLimit));
+        this.tasks.addTask(6, new DinoAIPickItem(this,Item.beefRaw,0.3f,24,this.HuntLimit));
+        this.tasks.addTask(6, new DinoAIPickItem(this,Item.chickenRaw,0.3f,24,this.HuntLimit));
+        this.tasks.addTask(6, new DinoAIPickItem(this,Item.porkCooked,0.3f,24,this.HuntLimit));
+        this.tasks.addTask(6, new DinoAIPickItem(this,Item.beefCooked,0.3f,24,this.HuntLimit));
+        this.tasks.addTask(6, new DinoAIPickItem(this,Item.chickenCooked,0.3f,24,this.HuntLimit));
+        this.tasks.addTask(6, new DinoAIPickItem(this,mod_Fossil.RawDinoMeat,0.3f,24,this.HuntLimit));
+        this.tasks.addTask(6, new DinoAIPickItem(this,mod_Fossil.CookedDinoMeat,0.3f,24,this.HuntLimit));
 		this.tasks.addTask(7, new EntityAIWander(this, 0.3F));
 		this.tasks.addTask(7, new DinoAILearnChest(this));
 
@@ -145,7 +147,6 @@ public class EntityRaptor extends EntityDinosaurce implements IHighIntellegent {
     @Override
     protected void applyEntityAttributes() {
         super.applyEntityAttributes();
-        this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setAttribute(0.3D);
         this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setAttribute(20.0D);
     }
 
@@ -321,7 +322,8 @@ public class EntityRaptor extends EntityDinosaurce implements IHighIntellegent {
 		return isSelfSitting() || field_25052_g;
 	}
 
-	public boolean attackEntityFrom(DamageSource damagesource, int i)// being
+	@Override
+	public boolean attackEntityFrom(DamageSource damagesource, float i)// being
 																		// attack
 	{
 		Entity entity = damagesource.getEntity();
@@ -368,6 +370,7 @@ public class EntityRaptor extends EntityDinosaurce implements IHighIntellegent {
 		// }
 	}
 
+	@Override
 	protected void attackEntity(Entity entity, float f) {
 		// mod_Fossil.ShowMessage(new
 		// StringBuilder().append("Range:").append(f).toString());
@@ -484,6 +487,7 @@ public class EntityRaptor extends EntityDinosaurce implements IHighIntellegent {
 
 	}
 
+	@Override
 	public void handleHealthUpdate(byte byte0) {
 		if (byte0 == 7) {
 			showHeartsOrSmokeFX(true);

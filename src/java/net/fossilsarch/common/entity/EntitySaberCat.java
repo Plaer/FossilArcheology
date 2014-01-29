@@ -68,10 +68,10 @@ public class EntitySaberCat extends EntityTameable
         this.tasks.addTask(1, new EntityAISwimming(this));
         this.tasks.addTask(2, this.aiSit);
         this.tasks.addTask(3, new EntityAILeapAtTarget(this, 0.4F));
-        this.tasks.addTask(4, new EntityAIAttackOnCollide(this, 1.0f, true));
-        this.tasks.addTask(5, new EntityAIFollowOwner(this, 1.0f, 10.0F, 2.0F));
-        this.tasks.addTask(6, new EntityAIMate(this, 1.0f));
-        this.tasks.addTask(7, new EntityAIWander(this, 1.0f));
+        this.tasks.addTask(4, new EntityAIAttackOnCollide(this, 0.3f, true));
+        this.tasks.addTask(5, new EntityAIFollowOwner(this, 0.3f, 10.0F, 2.0F));
+        this.tasks.addTask(6, new EntityAIMate(this, 0.3f));
+        this.tasks.addTask(7, new EntityAIWander(this, 0.3f));
         this.tasks.addTask(8, new EntityAIBegSC(this, 8.0F));
         this.tasks.addTask(9, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
         this.tasks.addTask(9, new EntityAILookIdle(this));
@@ -88,7 +88,6 @@ public class EntitySaberCat extends EntityTameable
     @Override
     protected void applyEntityAttributes() {
         super.applyEntityAttributes();
-        this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setAttribute(0.3D);
         this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setAttribute(!isTamed()?8:20);
     }
     
@@ -379,7 +378,8 @@ public class EntitySaberCat extends EntityTameable
         return isSitting() || field_25052_g;
     }
 
-    public boolean attackEntityFrom(DamageSource par1DamageSource, int par2)
+    @Override
+    public boolean attackEntityFrom(DamageSource par1DamageSource, float par2)
     {
         Entity var3 = par1DamageSource.getEntity();
         this.aiSit.setSitting(false);
@@ -391,11 +391,15 @@ public class EntitySaberCat extends EntityTameable
 
         return super.attackEntityFrom(par1DamageSource, par2);
     }
+    
+    @Override
     public boolean attackEntityAsMob(Entity par1Entity)
     {
         int var2 = this.isTamed() ? 4 : 2;
         return par1Entity.attackEntityFrom(DamageSource.causeMobDamage(this), var2);
     }
+    
+    @Override
     protected Entity findPlayerToAttack()
     {
         if (isAngry())
@@ -407,7 +411,9 @@ public class EntitySaberCat extends EntityTameable
             return null;
         }
     }
-    public void onKillEntity(EntityLiving entityliving)
+    
+    @Override
+    public void onKillEntity(EntityLivingBase entityliving)
     {
     	if (entityliving instanceof EntityAnimal){
     		int i=this.getGrowingAge();
@@ -421,6 +427,8 @@ public class EntitySaberCat extends EntityTameable
     	}
     	super.onKillEntity(entityliving);
     }
+    
+    @Override
     protected void attackEntity(Entity entity, float f)
     {
         if (f > 2.0F && f < 6F && rand.nextInt(10) == 0)
@@ -447,6 +455,7 @@ public class EntitySaberCat extends EntityTameable
         }
     }
 
+    @Override
     public boolean interact(EntityPlayer entityplayer)
     {
         ItemStack itemstack = entityplayer.inventory.getCurrentItem();

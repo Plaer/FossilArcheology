@@ -70,6 +70,7 @@ public class Entitydil extends EntityDinosaurce{
 	
 	public Entitydil(World world) {
 		this(world, randomSpawnAge(world.rand));
+		this.OrderStatus = EnumOrderType.FreeMove;
 	}
 	
 	public Entitydil(World world, int spawnAge)
@@ -80,7 +81,7 @@ public class Entitydil extends EntityDinosaurce{
         this.SelfType=EnumDinoType.dilphosaur;
         looksWithInterest = false;
         setSize(0.3F, 0.3F);
-        this.setHealth(10);
+        this.setHealth(10+this.getDinoAge());
 		this.attackStrength=2+this.getDinoAge();
         this.getNavigator().setAvoidsWater(true);
         this.tasks.addTask(0, new EntityAISwimming(this));
@@ -89,11 +90,11 @@ public class Entitydil extends EntityDinosaurce{
          this.tasks.addTask(1, new EntityAILeapAtTarget(this, 0.4F));       
         this.tasks.addTask(2, new EntityAIAvoidEntity(this, EntityTRex.class, 8.0F, 0.3F, 0.35F));
 
-        this.tasks.addTask(3, new EntityAIAttackOnCollide(this, 1.0f, true));
+        this.tasks.addTask(3, new EntityAIAttackOnCollide(this, 0.3f, true));
         this.tasks.addTask(4, new EntityAIOpenDoor(this, true));
-        this.tasks.addTask(5, new DinoAIFollowOwner(this, 1.0f, 5F, 2.0F));
-        this.tasks.addTask(6, new DinoAIUseFeeder(this,1.0f,24,this.HuntLimit, EnumDinoEating.Carnivorous));
-        this.tasks.addTask(7, new EntityAIWander(this, 0.3F));
+        this.tasks.addTask(5, new DinoAIFollowOwner(this, 0.3f, 5F, 2.0F));
+        this.tasks.addTask(6, new DinoAIUseFeeder(this,0.3f,24,this.HuntLimit, EnumDinoEating.Carnivorous));
+        this.tasks.addTask(7, new EntityAIWander(this, 0.3f));
         this.tasks.addTask(8, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
         this.tasks.addTask(9, new EntityAILookIdle(this));
         this.targetTasks.addTask(1, new EntityAIOwnerHurtByTarget(this));
@@ -112,6 +113,23 @@ public class Entitydil extends EntityDinosaurce{
 		}
     }
 	
+	@Override
+	public float getAIMoveSpeed() {
+		float factor = super.getAIMoveSpeed();
+		
+		if (this.isSelfAngry()) {
+			factor = 2.0f;
+		} else if (this.OrderStatus == EnumOrderType.Follow) {
+			Entity player = this.getOwner();
+			if (player != null && player.getDistanceToEntity(this) < 5.0f) {
+				factor = 2.0f;
+			} else
+				factor = 1.0f;
+		}
+		
+		return factor * (float)this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).getAttributeValue();
+	}
+	
 	private static int randomSpawnAge(Random rand) {
 		boolean isChild = rand.nextInt(4) == 0;
 		
@@ -126,7 +144,6 @@ public class Entitydil extends EntityDinosaurce{
         super.applyEntityAttributes();
         
         this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setAttribute(20.0D);
-        this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setAttribute(0.3D);
     }
 	
     @Override
@@ -368,7 +385,9 @@ public class Entitydil extends EntityDinosaurce{
     {
         return isSelfSitting() || field_25052_g;
     }
-	public boolean attackEntityFrom(DamageSource damagesource, int i)//being attack
+	
+	@Override
+	public boolean attackEntityFrom(DamageSource damagesource, float i)//being attack
     {
 		Entity entity = damagesource.getEntity();
 		boolean isPlayerAttack=false;
@@ -420,6 +439,8 @@ public class Entitydil extends EntityDinosaurce{
             return null;
         //}
     }
+	
+	@Override
 	protected void attackEntity(Entity entity, float f)
     {
 		//mod_Fossil.ShowMessage(new StringBuilder().append("Range:").append(f).toString());

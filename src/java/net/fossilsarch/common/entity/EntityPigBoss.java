@@ -48,14 +48,19 @@ public class EntityPigBoss extends EntityZombie
         angerLevel = 0;
         randomSoundDelay = 0;
         isImmuneToFire = true;
+        this.setAIMoveSpeed(0.5f);
         
     }
     
     @Override
     protected void applyEntityAttributes() {
         super.applyEntityAttributes();
-        this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setAttribute(0.5D);
-        this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setAttribute(100.0D);
+        
+        if (this.worldObj.provider.isHellWorld)
+        	this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setAttribute(100.0D);
+        else
+        	this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setAttribute(200.0D);
+        
         this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setAttribute(5.0D);
     }
     
@@ -159,7 +164,8 @@ public class EntityPigBoss extends EntityZombie
         
     }
     
-    public boolean attackEntityFrom(DamageSource damagesource, int i)
+    @Override
+    public boolean attackEntityFrom(DamageSource damagesource, float i)
     {
     		Entity entity = damagesource.getEntity();
     		if (entity instanceof EntityGhast) return false;
@@ -214,6 +220,8 @@ public class EntityPigBoss extends EntityZombie
         return super.attackEntityFrom(damagesource, i);
 
     }
+    
+    @Override
 	protected void attackEntity(Entity entity, float f)
     {
 		if (this.getAttackMode()==Melee) {
@@ -278,8 +286,8 @@ public class EntityPigBoss extends EntityZombie
     public void SetAttackMode(int newmode){
     	if (newmode<2) {
     		this.AttackType=newmode;
-    		if (newmode==Melee) this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setAttribute(0.9D);
-    		if (newmode==Ranged) this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setAttribute(0.5D);
+    		if (newmode==Melee) this.setAIMoveSpeed(0.9f);
+    		if (newmode==Ranged) this.setAIMoveSpeed(0.5f);
     	}
     }
     public void SwitchAttackMode(){

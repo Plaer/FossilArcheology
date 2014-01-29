@@ -20,6 +20,7 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAttackOnCollide;
 import net.minecraft.entity.ai.EntityAILeapAtTarget;
@@ -51,6 +52,8 @@ public class EntityTriceratops extends EntityDinosaurce {
 
 	public EntityTriceratops(World world) {
 		this(world, randomSpawnAge(world.rand));
+		this.setSubSpecies(worldObj.rand.nextInt(3)+1);
+		this.OrderStatus=EnumOrderType.FreeMove;
 	}
 	
 	public EntityTriceratops(World world, int age) {
@@ -89,6 +92,18 @@ public class EntityTriceratops extends EntityDinosaurce {
 		this.tasks.addTask(10, new EntityAILookIdle(this));
 	}
 	
+	@Override
+	public float getAIMoveSpeed() {
+		float speed = super.getAIMoveSpeed();
+		
+		speed *= (0.5f + 0.3f*this.getDinoAge());
+		
+		if (this.isSelfAngry()) speed *= 2.0f;
+		else speed *= 0.5f;
+		
+		return speed;
+	}
+	
 	private static int randomSpawnAge(Random random) {
 		boolean isChild = random.nextInt(4) == 0;
 		if (isChild) {
@@ -102,8 +117,7 @@ public class EntityTriceratops extends EntityDinosaurce {
 	protected void applyEntityAttributes() {
 		super.applyEntityAttributes();	
 		
-		this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setAttribute(0.3);
-		this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setAttribute(8);
+		this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setAttribute(20);
 	}
 	
 	public int getHungerLimit(){
@@ -323,10 +337,8 @@ public class EntityTriceratops extends EntityDinosaurce {
 		byte byte0 = dataWatcher.getWatchableObjectByte(16);
 		if (flag) {
 			dataWatcher.updateObject(16, Byte.valueOf((byte) (byte0 | 2)));
-			this.setAIMoveSpeed(2.0f);
 		} else {
 			dataWatcher.updateObject(16, Byte.valueOf((byte) (byte0 & -3)));
-			this.setAIMoveSpeed(0.5f);
 		}
 	}
 
@@ -357,7 +369,6 @@ public class EntityTriceratops extends EntityDinosaurce {
 	private void InitSize() {
 		updateSize(false);
 		setPosition(posX, posY, posZ);
-		this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setAttribute(0.5 + this.getDinoAge()*3);
 	}
 
 	private void ChangeTexture() {
@@ -516,7 +527,7 @@ public class EntityTriceratops extends EntityDinosaurce {
 	public void applyEntityCollision(Entity entity) {
 		if (entity instanceof EntityLiving && !(entity instanceof EntityPlayer)) {
 			if (this.riddenByEntity != null && this.onGround) {
-				this.onKillEntity((EntityLiving) entity);
+				this.onKillEntity((EntityLivingBase) entity);
 				((EntityLiving) entity).attackEntityFrom(
 						DamageSource.causeMobDamage(this), 10);
 				return;

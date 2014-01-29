@@ -20,6 +20,7 @@ import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAttackOnCollide;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
@@ -58,6 +59,7 @@ public class EntityTRex extends EntityDinosaurce{
 	
 	public EntityTRex(World world) {
 		this(world, randomSpawnAge(world.rand));
+		this.OrderStatus = EnumOrderType.FreeMove;
 	}
 	
 	public EntityTRex(World world, int age)
@@ -68,7 +70,7 @@ public class EntityTRex extends EntityDinosaurce{
         SelfType=EnumDinoType.TRex;
         looksWithInterest = false;
         setSize(0.5F, 0.5F);
-        this.setHealth(10);     
+        this.setHealth(10+23*age);     
 		attackStrength=4+this.getDinoAge();
         //this.getNavigator().setAvoidsWater(true);
 		this.tasks.addTask(0, new DinoAIGrowup(this, 8,23));
@@ -76,19 +78,19 @@ public class EntityTRex extends EntityDinosaurce{
 
         this.tasks.addTask(1, new DinoAIAvoidEntityWhenYoung(this, EntityPlayer.class, 8.0F, 0.3F, 0.35F));
         this.tasks.addTask(2, new EntityAILeapAtTarget(this, 0.4F));
-        this.tasks.addTask(3, new EntityAIAttackOnCollide(this, 1.0f, true));
-        this.tasks.addTask(4, new DinoAIFollowOwner(this, 1.0f, 5F, 2.0F));
-        this.tasks.addTask(5, new DinoAIUseFeeder(this,1.0f,24,this.HuntLimit,EnumDinoEating.Carnivorous));
-        this.tasks.addTask(6, new DinoAIWander(this, 1.0f));
+        this.tasks.addTask(3, new EntityAIAttackOnCollide(this, 0.3f, true));
+        this.tasks.addTask(4, new DinoAIFollowOwner(this,0.3f, 5F, 2.0F));
+        this.tasks.addTask(5, new DinoAIUseFeeder(this,0.3f,24,this.HuntLimit,EnumDinoEating.Carnivorous));
+        this.tasks.addTask(6, new DinoAIWander(this, 0.3f));
         this.tasks.addTask(7, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
-        this.tasks.addTask(8, new DinoAIPickItem(this,Item.porkRaw,1.0f,24,this.HuntLimit));
-        this.tasks.addTask(8, new DinoAIPickItem(this,Item.beefRaw,1.0f,24,this.HuntLimit));
-        this.tasks.addTask(8, new DinoAIPickItem(this,Item.chickenRaw,1.0f,24,this.HuntLimit));
-        this.tasks.addTask(8, new DinoAIPickItem(this,Item.porkCooked,1.0f,24,this.HuntLimit));
-        this.tasks.addTask(8, new DinoAIPickItem(this,Item.beefCooked,1.0f,24,this.HuntLimit));
-        this.tasks.addTask(8, new DinoAIPickItem(this,Item.chickenCooked,1.0f,24,this.HuntLimit));
-        this.tasks.addTask(8, new DinoAIPickItem(this,mod_Fossil.RawDinoMeat,1.0f,24,this.HuntLimit));
-        this.tasks.addTask(8, new DinoAIPickItem(this,mod_Fossil.CookedDinoMeat,1.0f,24,this.HuntLimit));
+        this.tasks.addTask(8, new DinoAIPickItem(this,Item.porkRaw,0.3f,24,this.HuntLimit));
+        this.tasks.addTask(8, new DinoAIPickItem(this,Item.beefRaw,0.3f,24,this.HuntLimit));
+        this.tasks.addTask(8, new DinoAIPickItem(this,Item.chickenRaw,0.3f,24,this.HuntLimit));
+        this.tasks.addTask(8, new DinoAIPickItem(this,Item.porkCooked,0.3f,24,this.HuntLimit));
+        this.tasks.addTask(8, new DinoAIPickItem(this,Item.beefCooked,0.3f,24,this.HuntLimit));
+        this.tasks.addTask(8, new DinoAIPickItem(this,Item.chickenCooked,0.3f,24,this.HuntLimit));
+        this.tasks.addTask(8, new DinoAIPickItem(this,mod_Fossil.RawDinoMeat,0.3f,24,this.HuntLimit));
+        this.tasks.addTask(8, new DinoAIPickItem(this,mod_Fossil.CookedDinoMeat,0.3f,24,this.HuntLimit));
         this.tasks.addTask(9, new EntityAILookIdle(this));
         this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, true));
         this.targetTasks.addTask(2, new DinoAITargetNonTamedExceptSelfClass(this, EntityLiving.class, 50, false));
@@ -104,23 +106,31 @@ public class EntityTRex extends EntityDinosaurce{
     	super.applyEntityAttributes();
     	
     	this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setAttribute(200.0);
-    	this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setAttribute(0.3);
     }
 	
+    @Override
 	public int getHungerLimit(){
 		return 500;
 	}
+    
+    @Override
     public boolean isAIEnabled()
     {
         return (!this.isModelized() && this.riddenByEntity==null && !this.isWeak());
     }
+    
+    @Override
 	protected boolean canTriggerWalking()
     {
         return false;
     }
+    
+    @Override
 	public boolean isYoung(){
 		return this.getDinoAge()<=3;
 	}
+    
+    @Override
 	public void writeEntityToNBT(NBTTagCompound nbttagcompound)
     {
         super.writeEntityToNBT(nbttagcompound);
@@ -128,6 +138,8 @@ public class EntityTRex extends EntityDinosaurce{
         nbttagcompound.setBoolean("Sitting", isSelfSitting());
 		nbttagcompound.setInteger("WeakToDeath", WeakToDeath);
     }
+    
+    @Override
 	public void readEntityFromNBT(NBTTagCompound nbttagcompound)
     {
         super.readEntityFromNBT(nbttagcompound);
@@ -138,39 +150,54 @@ public class EntityTRex extends EntityDinosaurce{
 		WeakToDeath=nbttagcompound.getInteger("WeakToDeath");
 
     }
+    
+    @Override
 	protected boolean canDespawn()
     {
         return false;
     }
+    
+    @Override
 	protected String getLivingSound()
     {
 		if (worldObj.getClosestPlayerToEntity(this, 8D)!=null) return "fossilsarch:TRex_Living";
 		else return null;
     }
+    
+    @Override
 	protected String getHurtSound()
     {
         return "fossilsarch:TRex_hit";
     }
 
+    @Override
     protected String getDeathSound()
     {
         return "fossilsarch:TRex_Death";
     }
+    
+    @Override
 	protected void updateEntityActionState()
     {
 
 		//super.updateEntityActionState();
 
     }
+    
+    @Override
     public boolean getCanSpawnHere()
     {
         return worldObj.checkNoEntityCollision(boundingBox) && worldObj.getCollidingBoundingBoxes(this, boundingBox).size() == 0 && !worldObj.isAnyLiquid(boundingBox);
     }
+    
+    @Override
     public boolean isInWater()
     {
     	if (this.onGround) return false;
     	else return super.isInWater();
     }
+    
+    @Override
 	public void onUpdate()
     {
 		//fleeingTick=0;
@@ -191,24 +218,30 @@ public class EntityTRex extends EntityDinosaurce{
 	        }
         }
     }
+    
+    @Override
     public void applyEntityCollision(Entity entity){
 		if (entity instanceof EntityLiving && !(entity instanceof EntityPlayer)){
 			if ((this.riddenByEntity!=null || this.isSelfAngry()) && this.onGround && this.getDinoAge()>3){
-				this.onKillEntity((EntityLiving)entity);
+				this.onKillEntity((EntityLivingBase)entity);
 				((EntityLiving)entity).attackEntityFrom(DamageSource.causeMobDamage(this), 10);
 				return;
 			}
 		}
 		super.applyEntityCollision(entity);
 	}
+    
 	public boolean getSelfShaking()
     {
         return false;
     }
+    
 	public float getInterestedAngle(float f)
     {
         return (field_25054_c + (field_25048_b - field_25054_c) * f) * 0.15F * 3.141593F;
     }
+	
+	@Override
 	public float getEyeHeight()
     {
         return height * 0.8F;
@@ -238,7 +271,9 @@ public class EntityTRex extends EntityDinosaurce{
     {
         return isSelfSitting() || field_25052_g;
     }
-	public boolean attackEntityFrom(DamageSource damagesource, int i)//being attack
+	
+	@Override
+	public boolean attackEntityFrom(DamageSource damagesource,float i)//being attack
     {
 		if (damagesource.getEntity()==this) return false;
 		Entity entity = damagesource.getEntity();
@@ -250,12 +285,16 @@ public class EntityTRex extends EntityDinosaurce{
 		return super.attackEntityFrom(damagesource, i);
 		
     }
+	
+	@Override
     protected void damageEntity(DamageSource damagesource, float i)
     {
         i = applyArmorCalculations(damagesource, i);
         i = applyPotionDamageCalculations(damagesource, i);
         this.setHealth(this.getHealth() - i);
     }
+	
+	@Override
 	protected Entity findPlayerToAttack()
     {
         if(isSelfAngry())
@@ -266,6 +305,8 @@ public class EntityTRex extends EntityDinosaurce{
             return null;
         }
     }
+	
+	@Override
     protected void attackEntity(Entity entity, float f)
     {
 		//mod_Fossil.ShowMessage(new StringBuilder().append("Start attack").append(entity.toString()).append(",").append(f).append(",").append(width*1.6).toString());
@@ -301,7 +342,9 @@ public class EntityTRex extends EntityDinosaurce{
             //if (entity.isDead && this.Prey==entity) this.Prey=null;
         }
     }
-	public void onKillEntity(EntityLiving entityliving)
+	
+	@Override
+	public void onKillEntity(EntityLivingBase entityliving)
     {
 		super.onKillEntity(entityliving);
 		if (getDinoAge()>=3) worldObj.playSoundAtEntity(this,"fossilsarch:TRex_scream",getSoundVolume() * 2.0F, 1.0F);

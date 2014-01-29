@@ -21,6 +21,7 @@ import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAttackOnCollide;
 import net.minecraft.entity.ai.EntityAILookIdle;
@@ -70,19 +71,31 @@ public class EntityPlesiosaur extends EntityDinosaurce implements IWaterDino{
 		this.tasks.addTask(0, new DinoAIGrowup(this, 12));
 		this.tasks.addTask(0, new DinoAIStarvation(this));
         this.tasks.addTask(1, new WaterDinoAISwimming(this,true,FLOAT_SPEED,-SINK_SPEED));
-        this.tasks.addTask(3, new EntityAIAttackOnCollide(this, 1.0f, true));
-        this.tasks.addTask(4, new DinoAIFollowOwner(this, 1.0f, 5F, 2.0F));
-        this.tasks.addTask(6, new DinoAIUseFeeder(this,1.0f,24,this.HuntLimit, EnumDinoEating.Carnivorous));
-        this.tasks.addTask(7, new DinoAIPickItem(this,Item.fishRaw,2.0f,24,this.HuntLimit));
-        this.tasks.addTask(7, new DinoAIPickItem(this,Item.fishCooked,2.0f,24,this.HuntLimit));
-        this.tasks.addTask(7, new DinoAIPickItem(this,mod_Fossil.SJL,2.0f,24,this.HuntLimit));
+        this.tasks.addTask(3, new EntityAIAttackOnCollide(this, 0.7f, true));
+        this.tasks.addTask(4, new DinoAIFollowOwner(this, 0.7f, 5F, 2.0F));
+        this.tasks.addTask(6, new DinoAIUseFeeder(this,0.7f,24,this.HuntLimit, EnumDinoEating.Carnivorous));
+        this.tasks.addTask(7, new DinoAIPickItem(this,Item.fishRaw,1.4f,24,this.HuntLimit));
+        this.tasks.addTask(7, new DinoAIPickItem(this,Item.fishCooked,1.4f,24,this.HuntLimit));
+        this.tasks.addTask(7, new DinoAIPickItem(this,mod_Fossil.SJL,1.4f,24,this.HuntLimit));
         this.tasks.addTask(8, new DinoAIFishing(this,this.HuntLimit,1));
-        this.tasks.addTask(9, new DinoAIWander(this, 1.0f));
+        this.tasks.addTask(9, new DinoAIWander(this, 0.7f));
         this.tasks.addTask(10, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
         this.tasks.addTask(11, new EntityAILookIdle(this));
         //this.targetTasks.addTask(1, new WaterDinoAINearestAttackableTarget(this, EntityNautilus.class, 16.0F, 0, true));
-        this.setHealth(8);
+        this.setHealth(8+age);
     }
+	
+	@Override
+	public float getAIMoveSpeed() {
+		float speed = super.getAIMoveSpeed();
+		
+		speed *= 0.5F+this.getDinoAge()*0.3f;
+		
+		if (this.isSelfAngry())
+			speed *= 2.0f;
+		
+		return speed;
+	}
 	
 	private static int randomSpawnAge(Random random) {
 		boolean isChild = random.nextInt(4) == 0;
@@ -95,7 +108,6 @@ public class EntityPlesiosaur extends EntityDinosaurce implements IWaterDino{
     @Override
     protected void applyEntityAttributes() {
         super.applyEntityAttributes();
-        this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setAttribute(0.35D + this.getDinoAge()*0.1D);
         this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setAttribute(200.0D);
     }
 	
@@ -562,11 +574,9 @@ public class EntityPlesiosaur extends EntityDinosaurce implements IWaterDino{
         if(flag)
         {
             dataWatcher.updateObject(16, Byte.valueOf((byte)(byte0 | 2)));
-            this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setAttribute(0.7D + 0.4D*this.getDinoAge());
         } else
         {
             dataWatcher.updateObject(16, Byte.valueOf((byte)(byte0 & -3)));
-            this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setAttribute(0.35D+0.1D*this.getDinoAge());
         }
     }
 	public void setSelfSitting(boolean flag)
@@ -841,7 +851,7 @@ public class EntityPlesiosaur extends EntityDinosaurce implements IWaterDino{
 		public void applyEntityCollision(Entity entity){
 			if (entity instanceof EntityLiving && !(entity instanceof EntityPlayer)){
 				if (this.riddenByEntity!=null && this.onGround){
-					this.onKillEntity((EntityLiving)entity);
+					this.onKillEntity((EntityLivingBase)entity);
 					((EntityLiving)entity).attackEntityFrom(DamageSource.causeMobDamage(this), 10);
 					return;
 				}
@@ -931,7 +941,7 @@ public class EntityPlesiosaur extends EntityDinosaurce implements IWaterDino{
 				}
 			}
 		}*/
-		public void onKillEntity(EntityLiving entityliving)
+		public void onKillEntity(EntityLivingBase entityliving)
 	    {
 			super.onKillEntity(entityliving);
 			if (entityliving instanceof EntityNautilus){

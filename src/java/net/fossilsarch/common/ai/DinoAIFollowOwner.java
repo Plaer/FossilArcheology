@@ -14,21 +14,21 @@ public class DinoAIFollowOwner extends EntityAIBase
     private EntityDinosaurce DinoEntity;
     private Entity FollowTarget;
     World WorldObj;
-    private float speed;
     private PathNavigate selfNavigator;
     private int actionCount;
     float closeRange;
     float stayRange;
+    float speed;
     private boolean field_48311_i;
 
-    public DinoAIFollowOwner(EntityDinosaurce par1Dinosaurce, float par2, float par3, float par4)
+    public DinoAIFollowOwner(EntityDinosaurce par1Dinosaurce, float speed, float par3, float par4)
     {
         this.DinoEntity = par1Dinosaurce;
         this.WorldObj = par1Dinosaurce.worldObj;
-        this.speed = par2;
         this.selfNavigator = par1Dinosaurce.getNavigator();
         this.stayRange = par3;
         this.closeRange = par4;
+        this.speed = speed;
         this.setMutexBits(3);
     }
 

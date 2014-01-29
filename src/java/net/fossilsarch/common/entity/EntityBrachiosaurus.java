@@ -23,6 +23,7 @@ import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAttackOnCollide;
 import net.minecraft.entity.ai.EntityAILeapAtTarget;
@@ -48,11 +49,12 @@ public class EntityBrachiosaurus extends EntityDinosaurce  {
 	
 	public EntityBrachiosaurus(World world) {
 		this(world, randomSpawnAge(world.rand));
+		this.OrderStatus = EnumOrderType.FreeMove;
 	}
 	
 	public EntityBrachiosaurus(World world, int dinoAge) {
 		super(world);
-        this.setDinoAge(dinoAge);
+        this.setDinoAge(dinoAge+dinoAge);
 		this.SelfType=EnumDinoType.Brachiosaurus;
 		this.setSize(1.5F, 1.5F);
 		this.setHunger(getHungerLimit());
@@ -64,7 +66,7 @@ public class EntityBrachiosaurus extends EntityDinosaurce  {
         this.tasks.addTask(2, this.ridingHandler=new DinoAIControlledByPlayer(this, 0.34F));
         this.tasks.addTask(3, new EntityAILeapAtTarget(this, 0.4F));
         this.tasks.addTask(4, new EntityAIAttackOnCollide(this, 1.0f, true));
-        this.tasks.addTask(5, new DinoAIFollowOwner(this, 1.0f, 5F, 2.0F));
+        this.tasks.addTask(5, new DinoAIFollowOwner(this, 0.3f, 5F, 2.0F));
         this.tasks.addTask(6, new DinoAIEatLeavesWithHeight(this,1.0f,24,this.HuntLimit));
         this.tasks.addTask(6, new DinoAIUseFeederWithHeight(this,1.0f,24,this.HuntLimit));
         this.tasks.addTask(7, new DinoAIWander(this, 1.0f));
@@ -84,7 +86,11 @@ public class EntityBrachiosaurus extends EntityDinosaurce  {
     protected void applyEntityAttributes() {
         super.applyEntityAttributes();
         this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setAttribute(20.0D + 10.0D*this.getDinoAge());
-        this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setAttribute(0.3D + 0.05D*this.getDinoAge());
+    }
+    
+    @Override
+    public float getAIMoveSpeed() {
+    	return (0.3f + 0.05f*this.getDinoAge()) * (float)this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).getAttributeValue();
     }
 	
 	public int getHungerLimit(){
@@ -175,7 +181,6 @@ public class EntityBrachiosaurus extends EntityDinosaurce  {
 
 	@Override
 	public void ShowPedia(EntityPlayer checker) {
-		//if (worldObj.isRemote) return;
 		PediaTextCorrection(SelfType,checker);
 		if (this.isTamed()){
 				mod_Fossil.ShowMessage(new StringBuilder().append(OwnerText).append(this.getOwnerName()).toString(),checker);
@@ -183,7 +188,6 @@ public class EntityBrachiosaurus extends EntityDinosaurce  {
 				mod_Fossil.ShowMessage(new StringBuilder().append(HelthText).append(this.getHealth()).append("/").append(getMaxHealth()).toString(),checker);
 				mod_Fossil.ShowMessage(new StringBuilder().append(HungerText).append(this.getHunger()).append("/").append(this.getHungerLimit()).toString(),checker);
 
-			//if ((this.isSelfTamed() && this.age>4 &&!worldObj.multiplayerWorld && riddenByEntity == null)) mod_Fossil.ShowMessage(RidiableText);
 		}else{
 			mod_Fossil.ShowMessage(UntamedText,checker);
 		}
@@ -212,7 +216,7 @@ public class EntityBrachiosaurus extends EntityDinosaurce  {
         ItemStack itemstack = entityplayer.inventory.getCurrentItem();
         if(itemstack != null && itemstack.itemID==Item.wheat.itemID)
             {
-				//if (EatTick<=0){
+
 					if(this.CheckEatable(itemstack.itemID) && HandleEating(10))
 					{
 						itemstack.stackSize--;
@@ -223,9 +227,7 @@ public class EntityBrachiosaurus extends EntityDinosaurce  {
 						heal(3);
 
 					}
-				/*}else{
-					SendStatusMessage(EnumSituation.ChewTime,this.SelfType);
-				}*/
+
 				return true;
 		}
         if (FMLCommonHandler.instance().getSide().isClient()){
@@ -303,221 +305,28 @@ public class EntityBrachiosaurus extends EntityDinosaurce  {
 	        return isSelfSitting();
 	    }
 
-	/*public void onLivingUpdate(){
-		if (this.isModelized()) {
-			super.onLivingUpdate();
-			return;
-		}
-		if (this.riddenByEntity==null){
-			super.onLivingUpdate();
-
-			if (Hunger<=this.HuntLimit && !isSelfSitting()&& !hasPath()){
-				//mod_Fossil.ShowMessage(new StringBuilder().append("Feeding Boolean:").append(FindWheats(24)).append(FindFeeder(24)).append(FindFren(24)).toString());
-				if (!FindWheats(24)) {
-					if (!FindFeeder(24)){
-						FindLeave(24);
-					}
-				}
-				return;
-			}
-
-			if(!hasAttacked && !hasPath() && isTamed() && ridingEntity == null)
-	        {
-	            EntityPlayer entityplayer = worldObj.getPlayerEntityByName(getOwnerName());
-	            if(entityplayer != null)
-	            {
-					if (OrderStatus==EnumOrderType.Follow){
-						float f = entityplayer.getDistanceToEntity(this);
-						if(f > 6F)
-						{
-							getPathOrWalkableBlock(entityplayer, f);
-						}
-					}
-	            } else{
-	            	OrderStatus=EnumOrderType.FreeMove;
-	            }
-	            return;
-	        }
-			
-		}else{
-            HandleRiding();
-			super.onLivingUpdate();
-		}
-	}*/
     public void applyEntityCollision(Entity entity){
     	if (this.isModelized()) return;
 		if (entity instanceof EntityLiving && !(entity instanceof EntityPlayer)){
 			if (this.onGround && ((EntityLiving)entity).getEyeHeight()<this.getHalfHeight()){
-				this.onKillEntity((EntityLiving)entity);
+				this.onKillEntity((EntityLivingBase)entity);
 				((EntityLiving)entity).attackEntityFrom(DamageSource.causeMobDamage(this), 10);
 				return;
 			}
 		}
 		super.applyEntityCollision(entity);
 	}
-	/*protected void updateEntityActionState()
-    {
-		if (this.isModelized()) return;
-		if (this.riddenByEntity==null){
-			super.updateEntityActionState();
-	        if(isInWater())
-	        {
-	            setSelfSitting(false);
-	        }
-			if (!isSelfSitting()&& !hasPath()&&(new Random().nextInt(1000)==5)){
-				if (!FindWheats(6)) FindLeave(6);
-			}
-		}
-    }*/
+
 	public void setSelfSitting(boolean b) {
 		if (b) this.OrderStatus=EnumOrderType.Stay;
 		else this.OrderStatus=EnumOrderType.FreeMove;
 		
 	}
 
-	/*private boolean FindLeave(int range) {
-		float TempDis=range*2;
-		int targetX=0;
-		int targetY=0;
-		int targetZ=0;
-		int EyeHeight=(int)Math.round(this.getEyeHeight());
-		int LowerBound=EyeHeight-2;
-		if (LowerBound<0)LowerBound=0;
-		for (int j=LowerBound;j<EyeHeight+2;j++){
-				for (int i=-range;i<=range;i++){
-						for (int k=-range;k<=range;k++){
-							if (worldObj.getBlockId((int)Math.round(posX+i), (int)Math.round(posY+j),(int)Math.round(posZ+ k))==Block.leaves.blockID){
-								if (TempDis> GetDistanceWithXYZ(posX+i,posY+j,posZ+k)){
-									TempDis=GetDistanceWithXYZ(posX+i,posY+j,posZ+k);
-									targetX=i;
-									targetY=j;
-									targetZ=k;
-								}
-							}
-						}
-				}
-		}
-		if (TempDis!=range*2){
-			if (Math.sqrt((targetX)^2+(targetY)^2+(targetZ)^2)>=2){
-				setPathToEntity(worldObj.getEntityPathToXYZ((Entity)this,(int)Math.round(posX+targetX),(int)Math.round(posY+targetY),(int)Math.round(posZ+targetZ),10F, true, false, true, false));
-				return true;
-			}else{
-				if (this.getHungerTick()==0){
-					FaceToCoord((int)-(posX+targetX),(int)(posY+targetY),(int)-(posZ+targetZ));
-					HandleEating(20,true);
-					worldObj.playAuxSFX(2001, (int)Math.round(posX+targetX), (int)Math.round(posY+targetY), (int)Math.round(posZ+targetZ), Block.tallGrass.blockID);
-					worldObj.setBlockWithNotify((int)Math.round(posX+targetX),(int)Math.round(posY+targetY),(int)Math.round(posZ+targetZ),0);
-					this.heal(3);
-					EatTick=100;
-					this.setPathToEntity(null);
-				}
-				return true;
-			}
-		}else return false;
-		
-	}*/
-
-	/*private boolean FindFeeder(int range){ 
-		if(range>6) range=6;
-		TileEntityFeeder target=null;
-		if (GetNearestTileEntity(2,range)!=null){
-			target=(TileEntityFeeder)GetNearestTileEntity(2,range);
-			if (GetDistanceWithTileEntity((TileEntity)target)>3){
-				//mod_Fossil.ShowMessage(new StringBuilder().append("Setting Path:").append(target.xCoord).append(",").append(target.yCoord).append(",").append(target.zCoord).toString());
-				setPathToEntity(worldObj.getEntityPathToXYZ((Entity)this,(int)Math.round(target.xCoord),(int)Math.round(target.yCoord),(int)Math.round(target.zCoord),(float)range,true,false,true,false));
-				
-			}else{
-				if (target.CheckIsEmpty(this))return false;
-				FaceToCoord(target.xCoord,target.yCoord,target.zCoord);
-				target.Feed(this);
-				this.setTarget(null);
-			}
-			return true;
-		}else return false;
-	}*/
-
-	/*private boolean FindWheats(int range) {
-		if (!isSelfSitting()){
-			List NearBy=worldObj.getEntitiesWithinAABBExcludingEntity(this, boundingBox.expand(1.0D, 0.0D, 1.0D));
-			if (NearBy!=null){
-				for(int i = 0; i < NearBy.size(); i++)
-				{	
-					if (NearBy.get(i) instanceof EntityItem){
-						EntityItem ItemInRange=(EntityItem)NearBy.get(i);
-						if (ItemInRange.item.itemID==Item.wheat.shiftedIndex){
-							HandleEating(10);
-							worldObj.playSoundAtEntity(this, "random.pop", 0.2F, ((new Random().nextFloat() - new Random().nextFloat()) * 0.7F + 1.0F) * 2.0F);
-							ItemInRange.setDead();
-							return true;
-						}
-					}
-				}		
-			}
-			EntityItem TargetItem=null;
-			List searchlist=worldObj.getEntitiesWithinAABB(net.minecraft.src.EntityItem.class, AxisAlignedBB.getBoundingBoxFromPool(posX, posY, posZ, posX + 1.0D, posY + 1.0D, posZ + 1.0D).expand(range, 4D, range));
-			Iterator iterator = searchlist.iterator();
-			do
-			{
-				if(!iterator.hasNext())
-				{
-					break;
-				}
-				Entity entity1 = (Entity)iterator.next();
-				if (entity1 instanceof EntityItem){
-					EntityItem Tmp=(EntityItem)entity1;
-					if (Tmp.item.getItem().shiftedIndex==Item.wheat.shiftedIndex){
-						if (TargetItem!=null){
-							if (GetDistanceWithEntity(Tmp)<GetDistanceWithEntity(TargetItem)){
-								TargetItem	= Tmp;
-							}
-						}else{
-							TargetItem	= Tmp;
-						}
-					}
-				}
-			} while(true);
-			if (TargetItem!=null){
-				setPathToEntity(worldObj.getPathEntityToEntity(this,TargetItem,(float)range, true, false, true, false));
-				return true;
-			}else return false;
-		}else return false;	
-	}*/
-
 	public boolean isSelfSitting() {
 		return (this.OrderStatus==EnumOrderType.Stay);
 	}
-	/*private TileEntity GetNearestTileEntity(int targetType,int range){
-		final int Chest=0;
-		final int Furance=1;
-		final int Feeder=2;
-		TileEntity result=null;
-		TileEntity tmp=null;
-		if (range>6) range=6;
-		float Distance=range+1;
-		float EyeHeight=this.getEyeHeight();
-		int initHeight=(int)Math.round(posY)-(int)EyeHeight;
-		if (initHeight<0)initHeight=0;
-		for (int i=(int)Math.round(posX)-range;i<=(int)Math.round(posX)+range;i++){
-			for (int j=initHeight;j<=(int)Math.round(posY)+(int)EyeHeight;j++){
-				for (int k=(int)Math.round(posZ)-range;k<=(int)Math.round(posZ)+range;k++){
-					//mod_Fossil.ShowMessage(new StringBuilder().append(worldObj.getBlockTileEntity(i,j,k)).toString());
-					//mod_Fossil.ShowMessage(new StringBuilder().append(i).append(",").append(j).append(",").append(k).toString());
-					tmp=worldObj.getBlockTileEntity(i,j,k);
-					if (tmp!=null){
-						if((tmp instanceof TileEntityFeeder)&&(!((TileEntityFeeder)tmp).CheckIsEmpty(this))){
-							float TempDis=GetDistanceWithTileEntity(tmp);
-							//mod_Fossil.ShowMessage(new StringBuilder().append(TempDis).toString());
-							if (TempDis<Distance) {
-								Distance=TempDis;
-								result=tmp;
-							}
-						}
-					}
-				}
-			}
-		}
-		return result;
-	}*/
+
 	public float getEyeHeight()
     {
 		return (4+this.getDinoAge()/1.8F);
@@ -638,6 +447,7 @@ public class EntityBrachiosaurus extends EntityDinosaurce  {
 	public void updateSize(boolean shouldAddAge) {
 		if (shouldAddAge && this.getDinoAge()<this.AGE_LIMIT) this.increaseDinoAge();
 		setSize((float)(1.5F+0.3*(float)this.getDinoAge()),(float)(1.5F+0.3*(float)this.getDinoAge()));
+        this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setAttribute(20.0D + 10.0D*this.getDinoAge());
 	}
 	@Override
 	public EnumOrderType getOrderType() {

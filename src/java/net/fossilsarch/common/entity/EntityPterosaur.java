@@ -63,6 +63,7 @@ public class EntityPterosaur extends EntityDinosaurce{
 	
 	public EntityPterosaur(World world) {
 		this(world, randomSpawnAge(world.rand));
+		this.OrderStatus = EnumOrderType.FreeMove;
 	}
 	
 	public EntityPterosaur(World world, int age) 
@@ -73,7 +74,7 @@ public class EntityPterosaur extends EntityDinosaurce{
         looksWithInterest = false;
         this.CheckSkin();
         setSize(0.8F, 0.8F);
-        this.setHealth(10);
+        this.setHealth(10+age);
 		this.tasks.addTask(0, new EntityAISwimming(this));
 		this.tasks.addTask(0, new DinoAIGrowup(this, AGE_LIMIT));
 		this.tasks.addTask(0, new DinoAIStarvation(this));
@@ -83,14 +84,14 @@ public class EntityPterosaur extends EntityDinosaurce{
 				8.0F, 0.3F, 0.35F));
 		this.tasks.addTask(2, new EntityAIAvoidEntity(this, EntityBrachiosaurus.class,
 				8.0F, 0.3F, 0.35F));
-		this.tasks.addTask(3, new EntityAIAttackOnCollide(this, 1.0f,
+		this.tasks.addTask(3, new EntityAIAttackOnCollide(this, 2.0f,
 				true));
-		this.tasks.addTask(5, new DinoAIFollowOwner(this, 1.0f, 5F,
+		this.tasks.addTask(5, new DinoAIFollowOwner(this, 2.0f, 5F,
 				2.0F));
-		this.tasks.addTask(6, new DinoAIUseFeeder(this, 1.0f, 24,
+		this.tasks.addTask(6, new DinoAIUseFeeder(this, 2.0f, 24,
 				this.HuntLimit, EnumDinoEating.Carnivorous));
-        this.tasks.addTask(6, new DinoAIPickItem(this,Item.fishRaw,1.0f,24,this.HuntLimit));
-        this.tasks.addTask(6, new DinoAIPickItem(this,Item.fishCooked,1.0f,24,this.HuntLimit));
+        this.tasks.addTask(6, new DinoAIPickItem(this,Item.fishRaw,2.0f,24,this.HuntLimit));
+        this.tasks.addTask(6, new DinoAIPickItem(this,Item.fishCooked,2.0f,24,this.HuntLimit));
         this.tasks.addTask(6, new DinoAIPickItem(this,mod_Fossil.SJL,2.0f,24,this.HuntLimit));
 		this.tasks.addTask(7, new EntityAIWander(this, 0.3F));
 		//this.tasks.addTask(8, new EntityAIWatchClosest(this,
@@ -111,6 +112,15 @@ public class EntityPterosaur extends EntityDinosaurce{
 		}
     }
 	
+	@Override
+	public float getAIMoveSpeed() {
+		float speed = super.getAIMoveSpeed();
+		
+		if (this.isSelfAngry()) speed *= 2.0f;
+		
+		return speed;
+	}
+	
 	private static int randomSpawnAge(Random random) {
 		boolean isChild = random.nextInt(4) == 0;
 		if (isChild)
@@ -122,7 +132,6 @@ public class EntityPterosaur extends EntityDinosaurce{
     @Override
     protected void applyEntityAttributes() {
         super.applyEntityAttributes();
-        this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setAttribute(2.0f);
         this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setAttribute(20.0f);
     }
 
@@ -477,6 +486,7 @@ public class EntityPterosaur extends EntityDinosaurce{
 
     }
 
+	@Override
 	public void handleHealthUpdate(byte byte0)
     {
         if(byte0 == 7)
