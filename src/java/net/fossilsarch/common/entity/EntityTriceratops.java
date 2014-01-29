@@ -96,7 +96,7 @@ public class EntityTriceratops extends EntityDinosaurce {
 	public float getAIMoveSpeed() {
 		float speed = super.getAIMoveSpeed();
 		
-		speed *= (0.5f + 0.3f*this.getDinoAge());
+		speed *= (0.7f + 0.2f*this.getDinoAge());
 		
 		if (this.isSelfAngry()) speed *= 2.0f;
 		else speed *= 0.5f;
