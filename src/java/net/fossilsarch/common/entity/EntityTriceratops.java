@@ -66,7 +66,7 @@ public class EntityTriceratops extends EntityDinosaurce {
 		looksWithInterest = false;
 
 		this.updateSize(false);
-		this.setHealth(8);
+		this.setHealth(8+age);
 		this.getNavigator().setAvoidsWater(true);
 		this.tasks.addTask(0, new DinoAIGrowup(this, AGE_LIMIT));
 		this.tasks.addTask(0, new DinoAIStarvation(this));

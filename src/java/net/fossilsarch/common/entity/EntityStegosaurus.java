@@ -452,11 +452,9 @@ public class EntityStegosaurus extends EntityDinosaurce{
         if(flag)
         {
             dataWatcher.updateObject(16, Byte.valueOf((byte)(byte0 | 2)));
-            this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setAttribute(1.0D+this.getDinoAge()*0.6D);
         } else
         {
             dataWatcher.updateObject(16, Byte.valueOf((byte)(byte0 & -3)));
-            this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setAttribute(0.25D+this.getDinoAge()*0.15D);
         }
     }
 	public void setSelfSitting(boolean flag)
