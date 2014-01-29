@@ -25,6 +25,7 @@ public class Renderdil extends RenderLiving
         //super.doRenderLiving(EntityUta, d, d1, d2, f, f1);
 		GL11.glPushMatrix();
         GL11.glDisable(2884 /*GL_CULL_FACE*/);
+        this.bindTexture(this.getEntityTexture(entityUta));
         mainModel.onGround = renderSwingProgress(entityUta, f1);
         if(renderPassModel != null)
         {

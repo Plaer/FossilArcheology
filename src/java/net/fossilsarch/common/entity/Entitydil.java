@@ -118,16 +118,14 @@ public class Entitydil extends EntityDinosaurce{
 		float factor = super.getAIMoveSpeed();
 		
 		if (this.isSelfAngry()) {
-			factor = 2.0f;
+			factor *= 2.0f;
 		} else if (this.OrderStatus == EnumOrderType.Follow) {
 			Entity player = this.getOwner();
-			if (player != null && player.getDistanceToEntity(this) < 5.0f) {
-				factor = 2.0f;
-			} else
-				factor = 1.0f;
+			if (player != null && player.getDistanceToEntity(this) < 5.0f)
+				factor *= 2.0f;
 		}
 		
-		return factor * (float)this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).getAttributeValue();
+		return factor;
 	}
 	
 	private static int randomSpawnAge(Random rand) {

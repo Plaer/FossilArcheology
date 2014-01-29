@@ -82,7 +82,7 @@ public class EntityMammoth extends EntityTameable implements IShearable {
     @Override
     protected void applyEntityAttributes() {
         super.applyEntityAttributes();
-        this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setAttribute(24.0D);
+        this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setAttribute(24.0D);
     }
     
 	@Override
