@@ -233,7 +233,8 @@ public class TileEntityAnalyzer extends TileEntity implements IInventory, ISided
 			if(chance<=60) itemstack=new ItemStack(Item.dyePowder, 3, 15);
 			if(chance>60 && chance<=80) itemstack=new ItemStack(mod_Fossil.FernSeed,3);
 			if (chance>80){
-				int chanceDNA=new java.util.Random().nextInt(EnumDinoType.values().length);
+				int chanceDNA=new java.util.Random().nextInt(EnumDinoType.values().length-1);
+				if (chanceDNA >= EnumDinoType.Mosasaurus.ordinal()) chanceDNA++;
 				itemstack=new ItemStack(mod_Fossil.DNA,1,chanceDNA);
 			}
 			//random get of DNA

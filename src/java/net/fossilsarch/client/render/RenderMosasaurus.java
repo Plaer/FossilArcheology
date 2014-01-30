@@ -9,6 +9,7 @@
 
 import net.fossilsarch.client.model.ModelMosasaurus;
 import net.fossilsarch.common.entity.EntityMosasaurus;
+import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
@@ -40,7 +41,11 @@ public class RenderMosasaurus extends RenderLiving
     	float f1 = 300.0F;
         GL11.glEnable(3042 /*GL_BLEND*/);
         GL11.glDisable(3008 /*GL_ALPHA_TEST*/);
-        GL11.glBlendFunc(770, 771);
+        GL11.glBlendFunc(GL11.GL_ONE, GL11.GL_ONE);
+        char c0 = 61680;
+        int j = c0 % 65536;
+        int k = c0 / 65536;
+        OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float)j / 1.0F, (float)k / 1.0F);
         GL11.glColor4f(1.0F, 1.0F, 1.0F, f1*100);
         return 1;
     }
@@ -120,7 +125,7 @@ public class RenderMosasaurus extends RenderLiving
         try
         {
 
-        	
+        	this.bindTexture(this.getEntityTexture(entityMosasaurus));
             float f2 = entityMosasaurus.prevRenderYawOffset + (entityMosasaurus.renderYawOffset - entityMosasaurus.prevRenderYawOffset) * f1;
             float f3 = entityMosasaurus.prevRotationYaw + (entityMosasaurus.rotationYaw - entityMosasaurus.prevRotationYaw) * f1;
             float f4 = entityMosasaurus.prevRotationPitch + (entityMosasaurus.rotationPitch - entityMosasaurus.prevRotationPitch) * f1;
@@ -151,6 +156,8 @@ public class RenderMosasaurus extends RenderLiving
                    GL11.glEnable(3008 /*GL_ALPHA_TEST*/);
                 }
             }
+            
+            this.bindTexture(this.getEntityTexture(entityMosasaurus));
 
             renderEquippedItems(entityMosasaurus, f1);
             float f9 = entityMosasaurus.getBrightness(f1);

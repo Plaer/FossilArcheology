@@ -15,6 +15,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
+import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -61,14 +62,15 @@ public class EntityMosasaurus extends EntityDinosaurce implements IWaterDino{
         SelfType=EnumDinoType.Mosasaurus;
         looksWithInterest = false;
         attackStrength = 4.0f + 2.0f*this.getDinoAge();
-        setSize(0.5F, 0.5F);
+        setSize(1.0F, 1.0F);
         setHealth(10+this.getDinoAge());
 		this.getNavigator().setCanSwim(true);
+		this.getNavigator().setAvoidsWater(true);
 		this.tasks.addTask(0, new DinoAIGrowup(this, 8));
-		this.tasks.addTask(0, new DinoAIStarvation(this));
-        this.tasks.addTask(1, new WaterDinoAISwimming(this,true,FLOAT_SPEED,-SINK_SPEED).setDiveAtNight());
-        this.tasks.addTask(3, new EntityAIAttackOnCollide(this, 1, true));
-        this.tasks.addTask(4, new WaterDinoAIWander(this, 1,0.003F));
+		this.tasks.addTask(1, new DinoAIStarvation(this));
+        this.tasks.addTask(2, new EntityAIAttackOnCollide(this, 1, true));
+        this.tasks.addTask(3, new WaterDinoAIWander(this, 1,0.003F));
+        this.tasks.addTask(4, new WaterDinoAISwimming(this,true,FLOAT_SPEED,-SINK_SPEED).setDiveAtNight());
         this.tasks.addTask(5, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
         this.tasks.addTask(6, new EntityAILookIdle(this));
         this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, false));
@@ -183,6 +185,8 @@ public class EntityMosasaurus extends EntityDinosaurce implements IWaterDino{
 		AxisAlignedBB checkBoxUpper=AxisAlignedBB.getBoundingBox(boxTmp.minX, boxTmp.minY+(boxTmp.maxY-boxTmp.minY)/4, boxTmp.minZ, boxTmp.maxX, boxTmp.maxY, boxTmp.maxZ);
 		return (worldObj.isAABBInMaterial(checkBoxLower, Material.water) && (worldObj.isAABBInMaterial(checkBoxLower, Material.air)));
 	}
+	
+	@Override
 	public void moveEntityWithHeading(float f, float f1)
     {
         if(isInWater())
@@ -292,6 +296,7 @@ public class EntityMosasaurus extends EntityDinosaurce implements IWaterDino{
         limbSwing += limbSwingAmount;
     }
 
+	@Override
 	public void onLivingUpdate()
     {
 		if (this.motionY<=0.0f && this.isInWater()){
@@ -300,7 +305,6 @@ public class EntityMosasaurus extends EntityDinosaurce implements IWaterDino{
 			else
 				this.motionY=this.SINK_SPEED;
 		}
-        this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setAttribute(0.15D + 0.12D*this.getDinoAge());
         
         this.attackStrength =  4.0f + 2.0f*this.getDinoAge();
 		
@@ -329,11 +333,13 @@ public class EntityMosasaurus extends EntityDinosaurce implements IWaterDino{
     }*/
 
 
-
+    @Override
 	public float getEyeHeight()
     {
         return height * 0.2F;
     }
+    
+    @Override
 	public int getVerticalFaceSpeed()
     {
         if(isSelfSitting())
@@ -345,6 +351,7 @@ public class EntityMosasaurus extends EntityDinosaurce implements IWaterDino{
         }
     }
 
+    @Override
 	public void getPathOrWalkableBlock(Entity entity, float f)
     {
         PathEntity pathentity = worldObj.getPathEntityToEntity(this, entity, 16F, true, false, true, false);
@@ -372,6 +379,8 @@ public class EntityMosasaurus extends EntityDinosaurce implements IWaterDino{
             setPathToEntity(pathentity);
         }
     }
+    
+    @Override
 	protected boolean isMovementCeased()
     {
         return isSelfSitting() || field_25052_g;
@@ -389,6 +398,8 @@ public class EntityMosasaurus extends EntityDinosaurce implements IWaterDino{
 		return super.attackEntityFrom(damagesource, i);
 		
     }*/
+    
+    @Override
 	protected Entity findPlayerToAttack()
     {
         if(isSelfAngry())
@@ -399,6 +410,8 @@ public class EntityMosasaurus extends EntityDinosaurce implements IWaterDino{
             return null;
         }
     }
+    
+    @Override
 	protected void attackEntity(Entity entity, float f)
     {
 		//mod_Fossil.ShowMessage(new StringBuilder().append("Start attack").append(entity.toString()).append(",").append(f).append(",").append(width*1.6).toString());
@@ -416,31 +429,32 @@ public class EntityMosasaurus extends EntityDinosaurce implements IWaterDino{
             entity.attackEntityFrom(DamageSource.causeMobDamage(this), attackStrength);
         }
     }
+    
+    @Override
 	public void onKillEntity(EntityLivingBase entityliving)
     {
 		super.onKillEntity(entityliving);
         if(entityliving instanceof EntityPig){
 			HandleEating(30);
 			//return;
-		}
-		if(entityliving instanceof EntitySheep){
+		} else if(entityliving instanceof EntitySheep){
 			HandleEating(35);
 			//return;
-		}
-		if(entityliving instanceof EntityCow){
+		} else if(entityliving instanceof EntityCow){
 			HandleEating(50);
 			//return;
-		}
-		if(entityliving instanceof EntityChicken){
+		} else if(entityliving instanceof EntityChicken){
 			HandleEating(20);
 			//return;
-		}
-		if(entityliving instanceof EntityMob){
+		} else if(entityliving instanceof EntityMob){
 			HandleEating(20);
 			//return;
-		}
-		if (entityliving instanceof EntityNautilus){
+		} else if (entityliving instanceof EntityNautilus){
 			HandleEating(100);
+		} else if (entityliving instanceof EntityPlayer) {
+			HandleEating(100);
+		} else if (entityliving instanceof EntityCreature) {
+			HandleEating(20);
 		}
 		heal(5);
 		

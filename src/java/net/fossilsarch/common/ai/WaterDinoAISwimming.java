@@ -25,7 +25,7 @@ public class WaterDinoAISwimming extends EntityAIBase
         this.entity = par1EntityDinosaurce;
         if (entity instanceof IWaterDino) entityInterface=(IWaterDino)entity;
         this.usuallySurface=isUsuallySurface;
-        this.setMutexBits(4);
+        this.setMutexBits(1);
         //par1EntityDinosaurce.getNavigator().setCanSwim(true);
         FLOAT_SPEED=(floatSpeed>1.0F)?1.0F:floatSpeed;
         SINK_SPEED=-sinkSpeed;
