@@ -24,6 +24,7 @@ import net.minecraft.block.StepSound;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAttackOnCollide;
 import net.minecraft.entity.ai.EntityAIAvoidEntity;
@@ -122,7 +123,7 @@ public class EntityRaptor extends EntityDinosaurce implements IHighIntellegent {
 		this.targetTasks.addTask(2, new EntityAIOwnerHurtTarget(this));
 		this.targetTasks.addTask(3, new EntityAIHurtByTarget(this, true));
 		this.targetTasks.addTask(4, new DinoAITargetNonTamedExceptSelfClass(
-				this, EntityLiving.class, 50, false));
+				this, EntityLivingBase.class, 50, false));
 		
 		if (fallInvoke == null) {
 			try {
@@ -350,8 +351,8 @@ public class EntityRaptor extends EntityDinosaurce implements IHighIntellegent {
 						&& ((EntityArrow) entity).shootingEntity != null) {
 					entity = ((EntityArrow) entity).shootingEntity;
 				}
-				if (entity instanceof EntityLiving) {
-					this.setAttackTarget((EntityLiving) entity);
+				if (entity instanceof EntityLivingBase) {
+					this.setAttackTarget((EntityLivingBase) entity);
 				}
 			} else if (entity != this && entity != null) {
 				entityToAttack = entity;

@@ -233,7 +233,7 @@ public class EntityJavelin extends EntityArrow implements IEntityAdditionalSpawn
                 }
                 if (var4.entityHit.attackEntityFrom(damagesource, j1))
                 {
-                    if (var4.entityHit instanceof EntityLiving)
+                    if (var4.entityHit instanceof EntityLivingBase)
                     {
                         if (field_46027_au > 0)
                         {

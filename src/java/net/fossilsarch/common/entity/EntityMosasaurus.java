@@ -619,7 +619,7 @@ public class EntityMosasaurus extends EntityDinosaurce implements IWaterDino{
 				EntityLivingBase targetLiving=null;
 				EntityLivingBase TempLiving=null;
 				float NearestDistance=(float)range*2;
-				List list = worldObj.getEntitiesWithinAABB(EntityLiving.class, AxisAlignedBB.getAABBPool().getAABB(posX, posY, posZ, posX + 1.0D, posY + 1.0D, posZ + 1.0D).expand(range, range*2, range));
+				List list = worldObj.getEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getAABBPool().getAABB(posX, posY, posZ, posX + 1.0D, posY + 1.0D, posZ + 1.0D).expand(range, range*2, range));
 				Iterator iterator = list.iterator();
 				do{
 					if(!iterator.hasNext())

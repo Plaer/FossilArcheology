@@ -529,10 +529,10 @@ public class EntityTriceratops extends EntityDinosaurce {
 	 * }
 	 */
 	public void applyEntityCollision(Entity entity) {
-		if (entity instanceof EntityLiving && !(entity instanceof EntityPlayer)) {
+		if (entity instanceof EntityLivingBase && !(entity instanceof EntityPlayer)) {
 			if (this.riddenByEntity != null && this.onGround) {
 				this.onKillEntity((EntityLivingBase) entity);
-				((EntityLiving) entity).attackEntityFrom(
+				((EntityLivingBase) entity).attackEntityFrom(
 						DamageSource.causeMobDamage(this), 10);
 				return;
 			}

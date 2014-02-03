@@ -20,6 +20,7 @@ import net.minecraft.block.StepSound;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAttackOnCollide;
 import net.minecraft.entity.ai.EntityAIAvoidEntity;
@@ -100,7 +101,7 @@ public class Entitydil extends EntityDinosaurce{
         this.targetTasks.addTask(1, new EntityAIOwnerHurtByTarget(this));
         this.targetTasks.addTask(2, new EntityAIOwnerHurtTarget(this));
         this.targetTasks.addTask(3, new EntityAIHurtByTarget(this, true));
-        this.targetTasks.addTask(4, new DinoAITargetNonTamedExceptSelfClass(this, EntityLiving.class, 50, false));
+        this.targetTasks.addTask(4, new DinoAITargetNonTamedExceptSelfClass(this, EntityLivingBase.class, 50, false));
         
 		if (fallInvoke == null) {
 			try {
@@ -148,7 +149,7 @@ public class Entitydil extends EntityDinosaurce{
     @Override
     public boolean attackEntityAsMob(Entity par1Entity)
     {
-        if (rand.nextInt(16)<4 && par1Entity instanceof EntityLiving) ((EntityLiving)par1Entity).addPotionEffect(new PotionEffect(Potion.blindness.id, rand.nextInt(110)+10, 0));
+        if (rand.nextInt(16)<4 && par1Entity instanceof EntityLivingBase) ((EntityLivingBase)par1Entity).addPotionEffect(new PotionEffect(Potion.blindness.id, rand.nextInt(110)+10, 0));
         return super.attackEntityAsMob(par1Entity);
     }
     public boolean isAIEnabled()
@@ -405,7 +406,7 @@ public class Entitydil extends EntityDinosaurce{
 					setOwner("");
 					ItemInMouth=null;
                     //setSelfAngry(true);
-                    this.setTarget((EntityLiving)entity);
+                    this.setTarget((EntityLivingBase)entity);
                     this.PreyChecked=true;
 					isPlayerAttack=true;
                 }
@@ -413,9 +414,9 @@ public class Entitydil extends EntityDinosaurce{
                 {
                     entity = ((EntityArrow)entity).shootingEntity;
                 }
-                if(entity instanceof EntityLiving)
+                if(entity instanceof EntityLivingBase)
                 {
-                	this.setTarget((EntityLiving)entity);
+                	this.setTarget((EntityLivingBase)entity);
                 }
             } else
             if(entity != this && entity != null)
@@ -463,7 +464,7 @@ public class Entitydil extends EntityDinosaurce{
         {
             attackTime = 20;
             entity.attackEntityFrom(DamageSource.causeMobDamage(this), 2+this.getDinoAge());
-            if (rand.nextInt(16)<4 && entity instanceof EntityLiving) ((EntityLiving)entity).addPotionEffect(new PotionEffect(Potion.blindness.id, rand.nextInt(110)+10, 0));
+            if (rand.nextInt(16)<4 && entity instanceof EntityLivingBase) ((EntityLivingBase)entity).addPotionEffect(new PotionEffect(Potion.blindness.id, rand.nextInt(110)+10, 0));
         }
     }
 	public boolean interact(EntityPlayer entityplayer)

@@ -93,7 +93,7 @@ public class EntityTRex extends EntityDinosaurce{
         this.tasks.addTask(8, new DinoAIPickItem(this,mod_Fossil.CookedDinoMeat,1,24,this.HuntLimit));
         this.tasks.addTask(9, new EntityAILookIdle(this));
         this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, true));
-        this.targetTasks.addTask(2, new DinoAITargetNonTamedExceptSelfClass(this, EntityLiving.class, 50, false));
+        this.targetTasks.addTask(2, new DinoAITargetNonTamedExceptSelfClass(this, EntityLivingBase.class, 50, false));
     }
 	
 	
@@ -222,10 +222,10 @@ public class EntityTRex extends EntityDinosaurce{
     
     @Override
     public void applyEntityCollision(Entity entity){
-		if (entity instanceof EntityLiving && !(entity instanceof EntityPlayer)){
+		if (entity instanceof EntityLivingBase && !(entity instanceof EntityPlayer)){
 			if ((this.riddenByEntity!=null || this.isSelfAngry()) && this.onGround && this.getDinoAge()>3){
 				this.onKillEntity((EntityLivingBase)entity);
-				((EntityLiving)entity).attackEntityFrom(DamageSource.causeMobDamage(this), 10);
+				((EntityLivingBase)entity).attackEntityFrom(DamageSource.causeMobDamage(this), 10);
 				return;
 			}
 		}
@@ -282,7 +282,7 @@ public class EntityTRex extends EntityDinosaurce{
 		//if (damagesource.damageType.equals("arrow") && this.age>=3) return super.attackEntityFrom(damagesource, i/2);
 		if (i<6 && entity!=null && this.getDinoAge()>=3) return false;
 		if ((i==20) && (entity==null)) return super.attackEntityFrom(damagesource, 200);
-		this.setTarget((EntityLiving)entity);
+		this.setTarget((EntityLivingBase)entity);
 		return super.attackEntityFrom(damagesource, i);
 		
     }

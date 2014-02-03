@@ -334,7 +334,7 @@ public class EntityPigBoss extends EntityZombie
             {
             	if (((EntityPigZombie) entity1).getAITarget()==null){
 	                EntityPigZombie entitypigzombie = (EntityPigZombie)entity1;
-	                entitypigzombie.setAttackTarget((EntityLiving)target);
+	                entitypigzombie.setAttackTarget((EntityLivingBase)target);
 	                new PigmenSpeaker(null).SendSpeech(EnumPigmenSpeaks.AnuSommon);
             	}
             }
@@ -352,7 +352,7 @@ public class EntityPigBoss extends EntityZombie
         }
     }
     private void SkillSwordQi(){
-    	List list = worldObj.getEntitiesWithinAABB(EntityLiving.class, AxisAlignedBB.getAABBPool().getAABB(posX, posY, posZ, posX + 1.0D, posY + 1.0D, posZ + 1.0D).expand(32D, 4D, 32D));
+    	List list = worldObj.getEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getAABBPool().getAABB(posX, posY, posZ, posX + 1.0D, posY + 1.0D, posZ + 1.0D).expand(32D, 4D, 32D));
     	if (!list.isEmpty()){
     		Mouth.SendSpeech(EnumPigBossSpeaks.Qi);
             worldObj.playSoundEffect(posX, posY, posZ, "random.explode", 6F, (1.0F + (worldObj.rand.nextFloat() - worldObj.rand.nextFloat()) * 0.2F) * 0.7F);

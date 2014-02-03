@@ -7,6 +7,7 @@ import java.util.List;
 
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 
 public class WaterDinoAINearestAttackableTarget extends
@@ -16,7 +17,9 @@ public class WaterDinoAINearestAttackableTarget extends
 		super(par1EntityLiving, par2Class, par4, par5);
 		// TODO Auto-generated constructor stub
 	}
-	protected boolean isSuitableTarget(EntityLiving par1EntityLiving, boolean par2)
+	
+	@Override
+	protected boolean isSuitableTarget(EntityLivingBase par1EntityLiving, boolean par2)
     {
         if (par1EntityLiving!=null && !par1EntityLiving.isInWater()) return false;
         return super.isSuitableTarget(par1EntityLiving, par2);

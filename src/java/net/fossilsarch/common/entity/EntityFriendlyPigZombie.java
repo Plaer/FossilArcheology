@@ -51,7 +51,7 @@ public class EntityFriendlyPigZombie extends EntityMob
 		LeaderName="Notch";
         this.getNavigator().setBreakDoors(true);
         this.tasks.addTask(0, new EntityAISwimming(this));
-        this.tasks.addTask(2, new EntityAIAttackOnCollide(this, EntityLiving.class, 2F, false));
+        this.tasks.addTask(2, new EntityAIAttackOnCollide(this, EntityLivingBase.class, 2F, false));
         this.tasks.addTask(5, new FPZAIFollowOwner(this, 1.5F, 10.0F, 2.0F));
         this.tasks.addTask(7, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
         this.tasks.addTask(7, new EntityAILookIdle(this));

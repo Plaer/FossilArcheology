@@ -310,10 +310,10 @@ public class EntityBrachiosaurus extends EntityDinosaurce  {
 
     public void applyEntityCollision(Entity entity){
     	if (this.isModelized()) return;
-		if (entity instanceof EntityLiving && !(entity instanceof EntityPlayer)){
-			if (this.onGround && ((EntityLiving)entity).getEyeHeight()<this.getHalfHeight()){
+		if (entity instanceof EntityLivingBase && !(entity instanceof EntityPlayer)){
+			if (this.onGround && ((EntityLivingBase)entity).getEyeHeight()<this.getHalfHeight()){
 				this.onKillEntity((EntityLivingBase)entity);
-				((EntityLiving)entity).attackEntityFrom(DamageSource.causeMobDamage(this), 10);
+				((EntityLivingBase)entity).attackEntityFrom(DamageSource.causeMobDamage(this), 10);
 				return;
 			}
 		}

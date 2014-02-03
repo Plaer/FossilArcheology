@@ -410,7 +410,7 @@ public class EntityPlesiosaur extends EntityDinosaurce implements IWaterDino{
                 {
                     entity = ((EntityArrow)entity).shootingEntity;
                 }
-                if(entity instanceof EntityLiving)
+                if(entity instanceof EntityLivingBase)
                 {
                     /*List list = worldObj.getEntitiesWithinAABB(net.minecraft.src.EntityWolf.class, AxisAlignedBB.getBoundingBoxFromPool(posX, posY, posZ, posX + 1.0D, posY + 1.0D, posZ + 1.0D).expand(16D, 4D, 16D));
                     Iterator iterator = list.iterator();
@@ -850,10 +850,10 @@ public class EntityPlesiosaur extends EntityDinosaurce implements IWaterDino{
 
 		}
 		public void applyEntityCollision(Entity entity){
-			if (entity instanceof EntityLiving && !(entity instanceof EntityPlayer)){
+			if (entity instanceof EntityLivingBase && !(entity instanceof EntityPlayer)){
 				if (this.riddenByEntity!=null && this.onGround){
 					this.onKillEntity((EntityLivingBase)entity);
-					((EntityLiving)entity).attackEntityFrom(DamageSource.causeMobDamage(this), 10);
+					((EntityLivingBase)entity).attackEntityFrom(DamageSource.causeMobDamage(this), 10);
 					return;
 				}
 			}
