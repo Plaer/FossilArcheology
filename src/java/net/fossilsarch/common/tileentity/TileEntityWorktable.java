@@ -186,7 +186,7 @@ public class TileEntityWorktable extends TileEntity
         {
             return false;
         }
-        ItemStack itemstack = CheckSmelt(furnaceItemStacks[0].getItem().itemID);
+        ItemStack itemstack = checkSmelt(furnaceItemStacks[0].getItem().itemID);
 		//need change
         if(itemstack == null)
         {
@@ -212,7 +212,7 @@ public class TileEntityWorktable extends TileEntity
         {
             return;
         }
-        ItemStack itemstack = CheckSmelt(furnaceItemStacks[0].getItem().itemID);
+        ItemStack itemstack = checkSmelt(furnaceItemStacks[0].getItem().itemID);
 		//need change
         if(furnaceItemStacks[2] == null)
         {
@@ -234,7 +234,7 @@ public class TileEntityWorktable extends TileEntity
             furnaceItemStacks[0] = null;
         }
     }
-	private int getItemBurnTime(ItemStack itemstack)
+	public int getItemBurnTime(ItemStack itemstack)
     {
         if(itemstack == null)
         {
@@ -252,7 +252,7 @@ public class TileEntityWorktable extends TileEntity
         }
         return entityplayer.getDistanceSq((double)xCoord + 0.5D, (double)yCoord + 0.5D, (double)zCoord + 0.5D) <= 64D;
     }
-	private ItemStack CheckSmelt(int index){
+	public ItemStack checkSmelt(int index){
 		if (index==mod_Fossil.BrokenSword.itemID) return new ItemStack(mod_Fossil.AncientSword);
 		if (index==mod_Fossil.Brokenhelmet.itemID) return new ItemStack(mod_Fossil.Ancienthelmet);
 		if (index==mod_Fossil.GenAxe.itemID) return new ItemStack(mod_Fossil.GenAxe);
@@ -281,7 +281,7 @@ public class TileEntityWorktable extends TileEntity
 	}
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack itemstack) {
-		if (i == 0 && CheckSmelt(itemstack.itemID) == null)
+		if (i == 0 && checkSmelt(itemstack.itemID) == null)
 			return false;
 		else if (i == 2)
 			return false;

@@ -181,7 +181,7 @@ public class TileEntityAnalyzer extends TileEntity implements IInventory, ISided
         }
     }
 	
-	private boolean isValidInput(int itemID) {
+	public boolean isValidInput(int itemID) {
 		if (itemID == mod_Fossil.biofossil.itemID ||
 				itemID == mod_Fossil.relic.itemID ||
 				itemID == mod_Fossil.RawDinoMeat.itemID ||

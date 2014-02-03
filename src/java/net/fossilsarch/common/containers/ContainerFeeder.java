@@ -46,12 +46,16 @@ public class ContainerFeeder extends Container
         }
 
     }
+    
+    @Override
     public void addCraftingToCrafters(ICrafting par1ICrafting)
     {
         super.addCraftingToCrafters(par1ICrafting);
         par1ICrafting.sendProgressBarUpdate(this, 0, this.tileEntityFeeder.VegCurrent);
         par1ICrafting.sendProgressBarUpdate(this, 1, this.tileEntityFeeder.MeatCurrent);
     }
+    
+    @Override
     public void detectAndSendChanges()
     {
         super.detectAndSendChanges();
@@ -76,7 +80,9 @@ public class ContainerFeeder extends Container
         this.lastVegValue = this.tileEntityFeeder.VegCurrent;
         this.lastMeatValue = this.tileEntityFeeder.MeatCurrent;
     }
+    
     @SideOnly(Side.CLIENT)
+    @Override
     public void updateProgressBar(int par1, int par2)
     {
         if (par1 == 0)
@@ -90,13 +96,62 @@ public class ContainerFeeder extends Container
         }
 
     }
+    
+    @Override
     public boolean canInteractWith(EntityPlayer entityplayer)
     {
         return tileEntityFeeder.isUseableByPlayer(entityplayer);
     }
-    public ItemStack func_82846_b(int i)
+    
+    @Override
+    public ItemStack transferStackInSlot(EntityPlayer player, int i)
     {
-    	return null;
+        ItemStack itemstack = null;
+        Slot slot = (Slot)inventorySlots.get(i);
+        if(slot != null && slot.getHasStack())
+        {
+            ItemStack itemstack1 = slot.getStack();
+            itemstack = itemstack1.copy();
+
+            if (i < 0)
+            	return null;
+            
+            if(i < 2)
+            {
+                if(!mergeItemStack(itemstack1, 2, 38, false))
+                {
+                    return null;
+                }
+            } else if (tileEntityFeeder.MeatValue(itemstack1.itemID) > 0) {
+            	if (!mergeItemStack(itemstack1, 0, 1, false))
+            		return null;
+            } else if (tileEntityFeeder.VegValue(itemstack1.itemID) > 0) {
+            	if (!mergeItemStack(itemstack1, 1, 2, false))
+            		return null;
+            }else {
+            	boolean successfullyPlaced;
+            	if (i < 29)
+            		successfullyPlaced = mergeItemStack(itemstack1, 29, 38, false);
+            	else
+            		successfullyPlaced = mergeItemStack(itemstack1, 2, 29, false);
+            	
+            	if (!successfullyPlaced)
+            		return null;          	
+            }
+            
+            if(itemstack1.stackSize == 0)
+            {
+                slot.putStack(null);
+            } else
+            {
+                slot.onSlotChanged();
+            }
+            if (itemstack1.stackSize == itemstack1.stackSize)
+            {
+                return null;
+            }
+        }
+        return itemstack;
     }
     private TileEntityFeeder tileEntityFeeder;
 }

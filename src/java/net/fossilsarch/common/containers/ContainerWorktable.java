@@ -41,6 +41,8 @@ public class ContainerWorktable extends Container
         }
 
     }
+	
+	@Override
 	public void detectAndSendChanges()
     {
         super.detectAndSendChanges();
@@ -65,6 +67,8 @@ public class ContainerWorktable extends Container
         burnTime = furnace.furnaceBurnTime;
         itemBurnTime = furnace.currentItemBurnTime;
     }
+	
+	@Override
 	public void updateProgressBar(int i, int j)
     {
         if(i == 0)
@@ -80,11 +84,15 @@ public class ContainerWorktable extends Container
             furnace.currentItemBurnTime = j;
         }
     }
+	
+	@Override
 	public boolean canInteractWith(EntityPlayer entityplayer)
     {
         return furnace.isUseableByPlayer(entityplayer);
     }
-	public ItemStack func_82846_b(int i)
+	
+	@Override
+	public ItemStack transferStackInSlot(EntityPlayer player, int i)
     {
         ItemStack itemstack = null;
         Slot slot = (Slot)inventorySlots.get(i);
@@ -92,33 +100,33 @@ public class ContainerWorktable extends Container
         {
             ItemStack itemstack1 = slot.getStack();
             itemstack = itemstack1.copy();
-            if(i == 2)
+
+            if (i < 0)
+            	return null;
+            
+            if(i < 3)
             {
-                if(!mergeItemStack(itemstack1, 3, 39, true))
+                if(!mergeItemStack(itemstack1, 3, 39, i >= 2))
                 {
                     return null;
                 }
-            } else
-            if(i >= 3 && i < 30)
-            {
-                if(!mergeItemStack(itemstack1, 30, 39, false))
-                {
-                    return null;
-                }
-            } else
-            if(i >= 30 && i < 39)
-            {
-                if(!mergeItemStack(itemstack1, 3, 30, false))
-                {
-                    return null;
-                }
-            } else
-            {
-                if(!mergeItemStack(itemstack1, 3, 39, false))
-                {
-                    return null;
-                }
+            } else if (furnace.checkSmelt(itemstack1.itemID) != null) {
+            	if (!mergeItemStack(itemstack1, 0, 1, false))
+            		return null;
+            } else if (furnace.getItemBurnTime(itemstack1) > 0) {
+            	if (!mergeItemStack(itemstack1, 1, 2, false))
+            		return null;
+            }else {
+            	boolean successfullyPlaced;
+            	if (i < 30)
+            		successfullyPlaced = mergeItemStack(itemstack1, 30, 39, false);
+            	else
+            		successfullyPlaced = mergeItemStack(itemstack1, 3, 30, false);
+            	
+            	if (!successfullyPlaced)
+            		return null;          	
             }
+            
             if(itemstack1.stackSize == 0)
             {
                 slot.putStack(null);

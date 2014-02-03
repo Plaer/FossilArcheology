@@ -10,6 +10,7 @@ public class ContainerPedia extends Container
        super();
     }
 
+    @Override
     public boolean canInteractWith(EntityPlayer par1EntityPlayer)
     {
         return true;

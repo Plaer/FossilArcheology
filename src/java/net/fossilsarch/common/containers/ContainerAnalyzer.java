@@ -50,6 +50,8 @@ public class ContainerAnalyzer extends Container
         }
 
     }
+	
+	@Override
     public void addCraftingToCrafters(ICrafting par1ICrafting)
     {
         super.addCraftingToCrafters(par1ICrafting);
@@ -57,6 +59,8 @@ public class ContainerAnalyzer extends Container
         par1ICrafting.sendProgressBarUpdate(this, 1, this.analyzer.analyzerBurnTime);
         par1ICrafting.sendProgressBarUpdate(this, 2, this.analyzer.currentItemBurnTime);
     }
+    
+    @Override
 	public void detectAndSendChanges()
     {
         super.detectAndSendChanges();
@@ -81,7 +85,9 @@ public class ContainerAnalyzer extends Container
         burnTime = analyzer.analyzerBurnTime;
         itemBurnTime = analyzer.currentItemBurnTime;
     }
-	 public void updateProgressBar(int i, int j)
+	
+	@Override
+	public void updateProgressBar(int i, int j)
     {
         if(i == 0)
         {
@@ -96,11 +102,15 @@ public class ContainerAnalyzer extends Container
             analyzer.currentItemBurnTime = j;
         }
     }
+	 
+	@Override
 	public boolean canInteractWith(EntityPlayer entityplayer)
     {
         return analyzer.isUseableByPlayer(entityplayer);
     }
-	public ItemStack func_82846_b(int i)
+	
+	@Override
+	public ItemStack transferStackInSlot(EntityPlayer player, int i)
     {
         ItemStack itemstack = null;
         Slot slot = (Slot)inventorySlots.get(i);
@@ -108,31 +118,30 @@ public class ContainerAnalyzer extends Container
         {
             ItemStack itemstack1 = slot.getStack();
             itemstack = itemstack1.copy();
-            if(i == 2)
+            
+            if (i < 0)
+            	return null;
+            
+            if(i < 13)
             {
-                if(!mergeItemStack(itemstack1, 3, 39, true))
+                if(!mergeItemStack(itemstack1, 13, 49, i >= 9))
                 {
                     return null;
                 }
-            } else
-            if(i >= 3 && i < 30)
-            {
-                if(!mergeItemStack(itemstack1, 30, 39, false))
-                {
-                    return null;
-                }
-            } else
-            if(i >= 30 && i < 39)
-            {
-                if(!mergeItemStack(itemstack1, 3, 30, false))
-                {
-                    return null;
-                }
-            } else
-                if(!mergeItemStack(itemstack1, 3, 39, false))
-                {
-                    return null;
-                }
+            } else if (analyzer.isValidInput(itemstack1.itemID)) {
+            	if (!mergeItemStack(itemstack1, 0, 9, false))
+            		return null;
+            }else {
+            	boolean successfullyPlaced;
+            	if (i < 40)
+            		successfullyPlaced = mergeItemStack(itemstack1, 40, 49, false);
+            	else
+            		successfullyPlaced = mergeItemStack(itemstack1, 13, 40, false);
+            	
+            	if (!successfullyPlaced)
+            		return null;          	
+            }
+
             if(itemstack1.stackSize == 0)
             {
                 slot.putStack(null);

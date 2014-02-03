@@ -41,6 +41,8 @@ public class ContainerCultivate extends Container
         }
 
     }
+	
+	@Override
     public void addCraftingToCrafters(ICrafting par1ICrafting)
     {
         super.addCraftingToCrafters(par1ICrafting);
@@ -48,6 +50,8 @@ public class ContainerCultivate extends Container
         par1ICrafting.sendProgressBarUpdate(this, 1, this.furnace.furnaceBurnTime);
         par1ICrafting.sendProgressBarUpdate(this, 2, this.furnace.currentItemBurnTime);
     }
+	
+	@Override
 	public void detectAndSendChanges()
     {
         super.detectAndSendChanges();
@@ -72,6 +76,8 @@ public class ContainerCultivate extends Container
         burnTime = furnace.furnaceBurnTime;
         itemBurnTime = furnace.currentItemBurnTime;
     }
+	
+	@Override
 	public void updateProgressBar(int i, int j)
     {
         if(i == 0)
@@ -87,43 +93,49 @@ public class ContainerCultivate extends Container
             furnace.currentItemBurnTime = j;
         }
     }
+	
+	@Override
 	public boolean canInteractWith(EntityPlayer entityplayer)
     {
         return furnace.isUseableByPlayer(entityplayer);
     }
-	public ItemStack func_82846_b(int par1)
+	
+	@Override
+	public ItemStack transferStackInSlot(EntityPlayer player, int i)
     {
 		 ItemStack itemstack = null;
-	        Slot slot = (Slot)inventorySlots.get(par1);
+	        Slot slot = (Slot)inventorySlots.get(i);
 	        if(slot != null && slot.getHasStack())
 	        {
 	            ItemStack itemstack1 = slot.getStack();
 	            itemstack = itemstack1.copy();
-	            if(par1 == 2)
+	            
+	            if (i < 0)
+	            	return null;
+	            
+	            if(i < 3)
 	            {
-	                if(!mergeItemStack(itemstack1, 3, 39, true))
+	                if(!mergeItemStack(itemstack1, 3, 39, i >= 2))
 	                {
 	                    return null;
 	                }
-	            } else
-	            if(par1 >= 3 && par1 < 30)
-	            {
-	                if(!mergeItemStack(itemstack1, 30, 39, false))
-	                {
-	                    return null;
-	                }
-	            } else
-	            if(par1 >= 30 && par1 < 39)
-	            {
-	                if(!mergeItemStack(itemstack1, 3, 30, false))
-	                {
-	                    return null;
-	                }
-	            } else
-	                if(!mergeItemStack(itemstack1, 3, 39, false))
-	                {
-	                    return null;
-	                }
+	            } else if (furnace.checkSmelt(itemstack1) != null) {
+	            	if (!mergeItemStack(itemstack1, 0, 1, false))
+	            		return null;
+	            } else if (furnace.getItemBurnTime(itemstack1) > 0) {
+	            	if (!mergeItemStack(itemstack1, 1, 2, false))
+	            		return null;
+	            }else {
+	            	boolean successfullyPlaced;
+	            	if (i < 30)
+	            		successfullyPlaced = mergeItemStack(itemstack1, 30, 39, false);
+	            	else
+	            		successfullyPlaced = mergeItemStack(itemstack1, 3, 30, false);
+	            	
+	            	if (!successfullyPlaced)
+	            		return null;          	
+	            }
+
 	            if(itemstack1.stackSize == 0)
 	            {
 	                slot.putStack(null);

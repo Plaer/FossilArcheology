@@ -195,7 +195,7 @@ public class TileEntityCultivate extends TileEntity
 			{
 				return false;
 			}
-			ItemStack itemstack = CheckSmelt(cultivateItemStacks[0]);
+			ItemStack itemstack = checkSmelt(cultivateItemStacks[0]);
 			if(itemstack == null)
 			{
 				return false;
@@ -220,7 +220,7 @@ public class TileEntityCultivate extends TileEntity
 			{
 				return;
 			}
-			ItemStack itemstack = CheckSmelt(cultivateItemStacks[0]);
+			ItemStack itemstack = checkSmelt(cultivateItemStacks[0]);
 			//need change
 			if(cultivateItemStacks[2] == null)
 			{
@@ -242,7 +242,7 @@ public class TileEntityCultivate extends TileEntity
 				cultivateItemStacks[0] = null;
 			}
 		}
-		private int getItemBurnTime(ItemStack itemstack)
+		public int getItemBurnTime(ItemStack itemstack)
 		{
 			if(itemstack == null)
 			{
@@ -270,10 +270,8 @@ public class TileEntityCultivate extends TileEntity
 			}
 			return entityplayer.getDistanceSq((double)xCoord + 0.5D, (double)yCoord + 0.5D, (double)zCoord + 0.5D) <= 64D;
 		}
-		private ItemStack CheckSmelt(int ItemIndex){
-				return null;
-		}
-		private ItemStack CheckSmelt(ItemStack Itemstack){
+
+		public ItemStack checkSmelt(ItemStack Itemstack){
 				if (Itemstack.itemID==mod_Fossil.DNA.itemID) return new ItemStack(mod_Fossil.Ancientegg,1,Itemstack.getItemDamage());
 				if (Itemstack.itemID==mod_Fossil.AnimalDNA.itemID) {
 					int Tmp=Itemstack.getItemDamage();
@@ -333,7 +331,7 @@ public class TileEntityCultivate extends TileEntity
 			
 			@Override
 			public boolean isItemValidForSlot(int i, ItemStack itemstack) {
-				if (i == 0 && CheckSmelt(itemstack) == null)
+				if (i == 0 && checkSmelt(itemstack) == null)
 					return false;
 				else if (i == 2)
 					return false;
