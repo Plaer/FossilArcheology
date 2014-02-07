@@ -30,7 +30,7 @@ public class ItemBioFossil extends Item {
         Class choose=getRandomModel().getDinoClass();
 		EntityDinosaurce entityModel;
 		try {
-			entityModel = (EntityDinosaurce)choose.getConstructor(new Class[] {World.class}).newInstance(new Object[] {par3World});
+			entityModel = (EntityDinosaurce)choose.getConstructor(new Class[] {World.class, int.class}).newInstance(new Object[] {par3World, 0});
 		} catch (Throwable e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
