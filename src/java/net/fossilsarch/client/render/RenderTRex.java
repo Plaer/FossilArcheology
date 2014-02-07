@@ -70,7 +70,7 @@ public class RenderTRex extends RenderLiving
              float var15 = par1EntityLiving.prevLimbSwingAmount + (par1EntityLiving.limbSwingAmount - par1EntityLiving.prevLimbSwingAmount) * par9;
              float var16 = par1EntityLiving.limbSwing - par1EntityLiving.limbSwingAmount * (1.0F - par9);
 
-             if (par1EntityLiving.isChild())
+             if (((EntityTRex)par1EntityLiving).isYoung())
              {
                  var16 *= 3.0F;
              }
@@ -230,7 +230,14 @@ public class RenderTRex extends RenderLiving
     }
 	@Override
 	protected ResourceLocation getEntityTexture(Entity entity) {
-		// TODO Auto-generated method stub
-		return null;
+		EntityTRex trex = (EntityTRex)entity;
+		
+		if (trex.isWeak()) {
+			return new ResourceLocation("fossilsarch:entity/TRexWeak.png");
+		} else if (trex.isYoung()) {
+			return new ResourceLocation("fossilsarch:entity/TRex.png");
+		} else {
+			return new ResourceLocation("fossilsarch:entity/TRex_Adult.png");
+		}
 	}
 }

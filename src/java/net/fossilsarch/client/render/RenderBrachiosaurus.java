@@ -73,7 +73,7 @@ public class RenderBrachiosaurus extends RenderLiving
              float var15 = Entitybrachiosaurus.prevLimbSwingAmount + (Entitybrachiosaurus.limbSwingAmount - Entitybrachiosaurus.prevLimbSwingAmount) * f1;
              float var16 = Entitybrachiosaurus.limbSwing - Entitybrachiosaurus.limbSwingAmount * (1.0F - f1);
 
-             if (Entitybrachiosaurus.isChild())
+             if (Entitybrachiosaurus.isYoung())
              {
                  var16 *= 3.0F;
              }

@@ -97,7 +97,7 @@ public class RenderPlesiosaur extends RenderLiving
               float var15 = entityPlesiosaur.prevLimbSwingAmount + (entityPlesiosaur.limbSwingAmount - entityPlesiosaur.prevLimbSwingAmount) * f1;
               float var16 = entityPlesiosaur.limbSwing - entityPlesiosaur.limbSwingAmount * (1.0F - f1);
 
-              if (entityPlesiosaur.isChild())
+              if (entityPlesiosaur.isYoung())
               {
                   var16 *= 3.0F;
               }

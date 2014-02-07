@@ -70,7 +70,7 @@ public class RenderTriceratops extends RenderLiving
              float var15 = entityTriceratops.prevLimbSwingAmount + (entityTriceratops.limbSwingAmount - entityTriceratops.prevLimbSwingAmount) * f1;
              float var16 = entityTriceratops.limbSwing - entityTriceratops.limbSwingAmount * (1.0F - f1);
 
-             if (entityTriceratops.isChild())
+             if (entityTriceratops.isYoung())
              {
                  var16 *= 3.0F;
              }

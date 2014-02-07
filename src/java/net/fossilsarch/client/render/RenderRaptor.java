@@ -76,7 +76,7 @@ public class RenderRaptor extends RenderLiving
              float var15 = entityRaptor.prevLimbSwingAmount + (entityRaptor.limbSwingAmount - entityRaptor.prevLimbSwingAmount) * f1;
              float var16 = entityRaptor.limbSwing - entityRaptor.limbSwingAmount * (1.0F - f1);
 
-             if (entityRaptor.isChild())
+             if (entityRaptor.isYoung())
              {
                  var16 *= 3.0F;
              }
