@@ -38,6 +38,7 @@ public class BlockIcedStone extends Block
         return Block.cobblestone.blockID;
     }
     
+    @Override
     public void updateTick(World world, int i, int j, int k, Random random)
     {
         if((world.getSavedLightValue(EnumSkyBlock.Block, i, j, k) > 11 - Block.lightOpacity[blockID])||
@@ -66,6 +67,8 @@ public class BlockIcedStone extends Block
         }
         
     }
+    
+    @Override
     public void onNeighborBlockChange(World world, int i, int j, int k, int l)
     {
         if((world.getSavedLightValue(EnumSkyBlock.Block, i, j, k) > 11 - Block.lightOpacity[blockID])||

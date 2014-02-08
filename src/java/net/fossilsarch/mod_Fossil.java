@@ -451,7 +451,7 @@ public class mod_Fossil {
         AncientJavelin= ((ItemJavelin) new ItemJavelin(ItemIDs[35],EnumToolMaterial.IRON).setUnlocalizedName("AncientJavelin")).setAncient(true).setCreativeTab(CreativeTabs.tabCombat).setTextureName("fossilsarch:AncientJavelin");
         Whip=new ItemWhip(ItemIDs[36]).setUnlocalizedName("FossilWhip").setCreativeTab(CreativeTabs.tabTools).setTextureName("fossilsarch:Whip");
         blockPermafrost = new BlockPermafrost(BlockIDs[14], "fossilsarch:Permafrost").setHardness(0.5F).setLightOpacity(3).setStepSound(Block.soundGrassFootstep).setUnlocalizedName("Permafrost").setCreativeTab(CreativeTabs.tabBlock).setTextureName("fossilsarch:Permafrost");
-        blockIcedStone = new BlockIcedStone(BlockIDs[15]).setHardness(1.5F).setResistance(10F).setStepSound(Block.soundStoneFootstep).setUnlocalizedName("IcedStone").setCreativeTab(CreativeTabs.tabBlock);
+        blockIcedStone = new BlockIcedStone(BlockIDs[15]).setHardness(1.5F).setResistance(10F).setStepSound(Block.soundStoneFootstep).setUnlocalizedName("IcedStone").setCreativeTab(CreativeTabs.tabBlock).setTickRandomly(true);
     }
     @SideOnly(Side.CLIENT)
     private void forgeTextureSetUp(){
