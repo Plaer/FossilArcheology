@@ -273,7 +273,6 @@ public class EntityRaptor extends EntityDinosaurce implements IHighIntellegent {
 		 * Level 1 AI seq.
 		 */
 		// HangleChestLearning();
-		HandleBreed();
 		field_25054_c = field_25048_b;
 		if (looksWithInterest) {
 			field_25048_b = field_25048_b + (1.0F - field_25048_b) * 0.4F;
@@ -678,26 +677,7 @@ public class EntityRaptor extends EntityDinosaurce implements IHighIntellegent {
 		}
 		return result;
 	}
-	/*
-	 * public void HandleBreed(){ if (this.age>3){ this.BreedTick--; if
-	 * (this.BreedTick==0){ int GroupAmount=0; List list =
-	 * worldObj.getEntitiesWithinAABBExcludingEntity(this,
-	 * boundingBox.expand(32D, 32D, 32D)); for (int i=0;i<list.size();i++){ if
-	 * (list.get(i) instanceof EntityRaptor) GroupAmount++; } if
-	 * (GroupAmount>50) GroupAmount=50; if (GroupAmount>80) return; if (new
-	 * Random().nextInt(100)<GroupAmount){ EntityDinoEgg entityegg=null; if
-	 * (this.isTamed()) entityegg = (EntityDinoEgg)new
-	 * EntityDinoEgg(worldObj,SelfType,(IDino)this); else entityegg =
-	 * (EntityDinoEgg)new EntityDinoEgg(worldObj,SelfType);
-	 * entityegg.setLocationAndAngles(this.posX+(new Random().nextInt(3)-1),
-	 * this.posY, this.posZ+(new Random().nextInt(3)-1),
-	 * worldObj.rand.nextFloat() * 360F, 0.0F); if(
-	 * worldObj.checkIfAABBIsClear(entityegg.boundingBox) &&
-	 * worldObj.getCollidingBoundingBoxes(entityegg,
-	 * entityegg.boundingBox).size() == 0)
-	 * worldObj.spawnEntityInWorld(entityegg); showHeartsOrSmokeFX(true); }
-	 * this.BreedTick=3000; } } }
-	 */
+
 	public void SetOrder(EnumOrderType input) {
 		this.OrderStatus = input;
 	}
