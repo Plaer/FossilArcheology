@@ -204,6 +204,10 @@ public class TileEntityDrum extends TileEntity
 			}
         } while(true);
 	}
+	
+	@Override
+	public boolean canUpdate() { return false; }
+	
     public byte note;
 
     public boolean previousRedstoneState;
