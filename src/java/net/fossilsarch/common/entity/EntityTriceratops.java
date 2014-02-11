@@ -612,26 +612,6 @@ public class EntityTriceratops extends EntityDinosaurce {
 
 	}
 
-	/*
-	 * public void HandleBreed(){ if (this.age>4){ this.BreedTick--; if
-	 * (this.BreedTick==0){ int GroupAmount=0; List list =
-	 * worldObj.getEntitiesWithinAABBExcludingEntity(this,
-	 * boundingBox.expand(32D, 32D, 32D)); for (int i=0;i<list.size();i++){ if
-	 * (list.get(i) instanceof EntityTriceratops) GroupAmount++; } if
-	 * (GroupAmount>50) GroupAmount=50; if (GroupAmount>80) return; if
-	 * (GroupAmount>50) GroupAmount=50; if (GroupAmount>80) return; if (new
-	 * Random().nextInt(100)<GroupAmount){ EntityDinoEgg entityegg=null;
-	 * entityegg = (EntityDinoEgg)new
-	 * EntityDinoEgg(worldObj,EnumDinoType.Triceratops);
-	 * entityegg.setLocationAndAngles(this.posX+(new Random().nextInt(3)-1),
-	 * this.posY, this.posZ+(new Random().nextInt(3)-1),
-	 * worldObj.rand.nextFloat() * 360F, 0.0F); if(
-	 * worldObj.checkIfAABBIsClear(entityegg.boundingBox) &&
-	 * worldObj.getCollidingBoundingBoxes(entityegg,
-	 * entityegg.boundingBox).size() == 0)
-	 * worldObj.spawnEntityInWorld(entityegg); showHeartsOrSmokeFX(true); }
-	 * this.BreedTick=3000; } } }
-	 */
 	public void SetOrder(EnumOrderType input) {
 		this.OrderStatus = input;
 	}
